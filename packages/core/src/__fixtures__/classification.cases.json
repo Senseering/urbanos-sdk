@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "description": "Datasource → category classification vectors. Ported from classifyDatasource() + appCompat.ts. Consumed by the Go gateway authz package and the SDK; both must agree.",
+  "cases": [
+    {
+      "id": "waste-fill-level-percent",
+      "input": {
+        "name": "Mülleimer Marktplatz",
+        "streams": [{ "name": "fill_level", "unit": "%" }]
+      },
+      "expected": { "category": "waste" }
+    },
+    {
+      "id": "parking-occupancy-bool",
+      "input": {
+        "name": "Parkplatz P1 Bay 12",
+        "streams": [{ "name": "occupied", "unit": "bool" }]
+      },
+      "expected": { "category": "parking" }
+    },
+    {
+      "id": "noise-laeq-db",
+      "input": {
+        "name": "Schallpegel Bahnhofstraße",
+        "streams": [{ "name": "LAeq", "unit": "dB" }]
+      },
+      "expected": { "category": "noise" }
+    },
+    {
+      "id": "generic-unknown-fallback",
+      "input": { "name": "Sensor XYZ", "streams": [{ "name": "value", "unit": "" }] },
+      "expected": { "category": "generic" }
+    }
+  ]
+}
