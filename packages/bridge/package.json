@@ -1,6 +1,6 @@
 {
   "name": "@senseering/urbanos-bridge",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Embed protocol v2 (host + app sides). Zero dependencies, no framework.",
   "license": "Apache-2.0",
   "type": "module",

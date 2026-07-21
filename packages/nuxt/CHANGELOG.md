@@ -1,5 +1,11 @@
 # @senseering/urbanos-nuxt
 
+## 0.1.2
+
+### Patch Changes
+
+- @senseering/urbanos-vue@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes
