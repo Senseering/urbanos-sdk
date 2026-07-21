@@ -1,6 +1,6 @@
 {
   "name": "@senseering/urbanos-vue",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Vue 3 composables and Uos* state components over the core client + bridge.",
   "license": "Apache-2.0",
   "type": "module",
