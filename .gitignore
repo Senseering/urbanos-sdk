@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.turbo/
+coverage/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# Local agent instructions, configuration, and generated artifacts
+/CLAUDE.md
+/AGENTS.md
+/.claude/
+/.codex/
+/graphify-out/
