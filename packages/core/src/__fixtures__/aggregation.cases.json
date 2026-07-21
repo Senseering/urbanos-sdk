@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "description": "Timeseries aggregation vectors mirroring datacore's transformations. The gateway (over datacore) and the SDK local demo engine must produce identical buckets.",
+  "cases": [
+    {
+      "id": "hourly-avg-gapfill-zero",
+      "query": { "aggregate": { "function": "avg", "bucket": "1h", "gapFill": "zero" } },
+      "input": {
+        "samples": [
+          { "t": "2026-01-01T00:10:00Z", "v": 10 },
+          { "t": "2026-01-01T00:50:00Z", "v": 20 },
+          { "t": "2026-01-01T02:00:00Z", "v": 5 }
+        ]
+      },
+      "expected": {
+        "buckets": [
+          { "t": "2026-01-01T00:00:00Z", "v": 15 },
+          { "t": "2026-01-01T01:00:00Z", "v": 0 },
+          { "t": "2026-01-01T02:00:00Z", "v": 5 }
+        ]
+      }
+    },
+    {
+      "id": "hourly-max-gapfill-last-value",
+      "query": { "aggregate": { "function": "max", "bucket": "1h", "gapFill": "last-value" } },
+      "input": {
+        "samples": [
+          { "t": "2026-01-01T00:05:00Z", "v": 7 },
+          { "t": "2026-01-01T00:40:00Z", "v": 12 },
+          { "t": "2026-01-01T02:15:00Z", "v": 3 }
+        ]
+      },
+      "expected": {
+        "buckets": [
+          { "t": "2026-01-01T00:00:00Z", "v": 12 },
+          { "t": "2026-01-01T01:00:00Z", "v": 12 },
+          { "t": "2026-01-01T02:00:00Z", "v": 3 }
+        ]
+      }
+    }
+  ]
+}

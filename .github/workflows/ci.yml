@@ -27,9 +27,10 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: pnpm format
       - run: pnpm lint
+      # Build first so cross-package types + the example resolve from dist.
+      - run: pnpm build
       - run: pnpm typecheck
       - run: pnpm test
-      - run: pnpm build
 
   changeset:
     # Every PR touching packages/** must ship a changeset.
