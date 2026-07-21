@@ -9,16 +9,22 @@ import type { Channel } from './channel';
 import {
   CONTEXT_CHANGED,
   HELLO,
+  NAVIGATE,
   PROTOCOL_VERSION,
+  READY,
+  RESIZE,
+  ROUTE_CHANGED,
   TOKEN_GET,
   TOKEN_REVOKED,
+  UI_TOAST,
   WELCOME,
   type BridgeContext,
   type Envelope,
+  type ToastRequest,
   type TokenResponse,
 } from './protocol';
 
-export const BRIDGE_VERSION = '0.1.0';
+export const BRIDGE_VERSION = '0.3.0';
 
 export * from './protocol';
 export * from './channel';
@@ -37,6 +43,12 @@ function envelope(kind: Envelope['kind'], type: string, extra?: Partial<Envelope
   return { urbanos: PROTOCOL_VERSION, id: extra?.id ?? newId(), kind, type, ...extra };
 }
 
+type Unsub = () => void;
+function subscribe<T>(set: Set<(v: T) => void>, cb: (v: T) => void): Unsub {
+  set.add(cb);
+  return () => set.delete(cb);
+}
+
 // ---------------- Host (shell) side ----------------
 
 export interface HostHandlers {
@@ -47,11 +59,26 @@ export interface HostHandlers {
 export interface Host {
   emitContext(ctx: BridgeContext): void;
   revokeToken(reason: string): void;
+  /** Deep-link the embedded app to a path. */
+  navigate(path: string): void;
+  /** The guest finished mounting and connecting. */
+  onReady(cb: () => void): Unsub;
+  /** The guest's internal route changed (mirror it into the shell URL). */
+  onRouteChanged(cb: (path: string) => void): Unsub;
+  /** The guest requested a content height (capability-gated by the host). */
+  onResize(cb: (height: number) => void): Unsub;
+  /** The guest asked the shell to show a toast. */
+  onToast(cb: (toast: ToastRequest) => void): Unsub;
   close(): void;
 }
 
 export function createHost(channel: Channel, handlers: HostHandlers): Host {
   let ctx = handlers.context;
+  const readyListeners = new Set<() => void>();
+  const routeListeners = new Set<(path: string) => void>();
+  const resizeListeners = new Set<(height: number) => void>();
+  const toastListeners = new Set<(toast: ToastRequest) => void>();
+
   const off = channel.onMessage((raw) => {
     if (!isEnvelope(raw)) return;
     const env = raw;
@@ -59,6 +86,25 @@ export function createHost(channel: Channel, handlers: HostHandlers): Host {
       channel.post(
         envelope('event', WELCOME, { payload: { version: PROTOCOL_VERSION, context: ctx } }),
       );
+      return;
+    }
+    if (env.type === READY) {
+      readyListeners.forEach((cb) => cb());
+      return;
+    }
+    if (env.type === ROUTE_CHANGED) {
+      const path = (env.payload as { path: string }).path;
+      routeListeners.forEach((cb) => cb(path));
+      return;
+    }
+    if (env.type === RESIZE) {
+      const height = (env.payload as { height: number }).height;
+      resizeListeners.forEach((cb) => cb(height));
+      return;
+    }
+    if (env.type === UI_TOAST) {
+      const toast = env.payload as ToastRequest;
+      toastListeners.forEach((cb) => cb(toast));
       return;
     }
     if (env.kind === 'req' && env.type === TOKEN_GET) {
@@ -83,6 +129,13 @@ export function createHost(channel: Channel, handlers: HostHandlers): Host {
     revokeToken(reason) {
       channel.post(envelope('event', TOKEN_REVOKED, { payload: { reason } }));
     },
+    navigate(path) {
+      channel.post(envelope('event', NAVIGATE, { payload: { path } }));
+    },
+    onReady: (cb) => subscribe(readyListeners, cb),
+    onRouteChanged: (cb) => subscribe(routeListeners, cb),
+    onResize: (cb) => subscribe(resizeListeners, cb),
+    onToast: (cb) => subscribe(toastListeners, cb),
     close() {
       off();
     },
@@ -94,8 +147,18 @@ export function createHost(channel: Channel, handlers: HostHandlers): Host {
 export interface AppBridge {
   readonly context: BridgeContext;
   getToken(): Promise<TokenResponse>;
-  onContextChanged(cb: (ctx: BridgeContext) => void): () => void;
-  onTokenRevoked(cb: (reason: string) => void): () => void;
+  onContextChanged(cb: (ctx: BridgeContext) => void): Unsub;
+  onTokenRevoked(cb: (reason: string) => void): Unsub;
+  /** Deep-links pushed by the host (mirror them into the app router). */
+  onNavigate(cb: (path: string) => void): Unsub;
+  /** Signal the app has mounted + connected. */
+  signalReady(): void;
+  /** Mirror the app's current route into the shell URL. */
+  notifyRoute(path: string): void;
+  /** Ask the host to size the iframe to `height` px (capability-gated). */
+  requestResize(height: number): void;
+  /** Ask the shell to show a toast. */
+  toast(toast: ToastRequest): void;
   close(): void;
 }
 
@@ -118,6 +181,7 @@ export function connectApp(
     >();
     const contextListeners = new Set<(c: BridgeContext) => void>();
     const revokeListeners = new Set<(r: string) => void>();
+    const navigateListeners = new Set<(p: string) => void>();
 
     const off = channel.onMessage((raw) => {
       if (!isEnvelope(raw)) return;
@@ -137,6 +201,11 @@ export function connectApp(
       if (env.type === TOKEN_REVOKED) {
         const reason = (env.payload as { reason: string }).reason;
         revokeListeners.forEach((cb) => cb(reason));
+        return;
+      }
+      if (env.type === NAVIGATE) {
+        const path = (env.payload as { path: string }).path;
+        navigateListeners.forEach((cb) => cb(path));
         return;
       }
       if (env.kind === 'res' && env.type === TOKEN_GET) {
@@ -170,13 +239,20 @@ export function connectApp(
             channel.post(envelope('req', TOKEN_GET, { id }));
           });
         },
-        onContextChanged(cb) {
-          contextListeners.add(cb);
-          return () => contextListeners.delete(cb);
+        onContextChanged: (cb) => subscribe(contextListeners, cb),
+        onTokenRevoked: (cb) => subscribe(revokeListeners, cb),
+        onNavigate: (cb) => subscribe(navigateListeners, cb),
+        signalReady() {
+          channel.post(envelope('event', READY));
         },
-        onTokenRevoked(cb) {
-          revokeListeners.add(cb);
-          return () => revokeListeners.delete(cb);
+        notifyRoute(path) {
+          channel.post(envelope('event', ROUTE_CHANGED, { payload: { path } }));
+        },
+        requestResize(height) {
+          channel.post(envelope('event', RESIZE, { payload: { height } }));
+        },
+        toast(toast) {
+          channel.post(envelope('event', UI_TOAST, { payload: toast }));
         },
         close() {
           off();
