@@ -1,6 +1,6 @@
 {
   "name": "@senseering/urbanos-core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Framework-agnostic urbanOS client: auth, timeseries query builder, demo transport.",
   "license": "Apache-2.0",
   "type": "module",
