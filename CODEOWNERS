@@ -1,0 +1,7 @@
+# Default owner for everything in the repo.
+*                       @Senseering/sdk-maintainers
+
+# Security-critical surfaces require maintainer review (see SECURITY.md).
+/packages/bridge/       @Senseering/sdk-maintainers
+/packages/core/src/auth/ @Senseering/sdk-maintainers
+/packages/manifest/     @Senseering/sdk-maintainers

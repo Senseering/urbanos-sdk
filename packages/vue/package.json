@@ -1,0 +1,43 @@
+{
+  "name": "@senseering/urbanos-vue",
+  "version": "0.0.0",
+  "description": "Vue 3 composables and Uos* state components over the core client + bridge.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Senseering/urbanos-sdk.git",
+    "directory": "packages/vue"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@senseering/urbanos-core": "workspace:*",
+    "@senseering/urbanos-bridge": "workspace:*",
+    "@senseering/urbanos-demo": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:"
+  }
+}

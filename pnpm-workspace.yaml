@@ -1,0 +1,17 @@
+packages:
+  - 'packages/*'
+  - 'create-urbanos-app'
+
+# Single source of truth for dependency versions across the workspace.
+# Reference in package.json as "catalog:".
+catalog:
+  typescript: ^5.7.3
+  eslint: ^9.18.0
+  '@eslint/js': ^9.18.0
+  typescript-eslint: ^8.20.0
+  prettier: ^3.4.2
+  vitest: ^2.1.8
+  '@types/node': ^22.10.5
+  '@changesets/cli': ^2.27.11
+  zod: ^3.24.1
+  vue: ^3.5.13
