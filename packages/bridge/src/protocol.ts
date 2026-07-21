@@ -29,9 +29,22 @@ export interface TokenResponse {
   tenantId: number;
 }
 
+/** A guest-requested toast, surfaced by the host's UI. */
+export interface ToastRequest {
+  title: string;
+  description?: string;
+  color?: string;
+}
+
 // Message type constants.
 export const HELLO = 'urbanos:hello';
 export const WELCOME = 'urbanos:welcome';
 export const TOKEN_GET = 'token.get';
 export const TOKEN_REVOKED = 'token.revoked';
 export const CONTEXT_CHANGED = 'context.changed';
+// Guest lifecycle + host-mediated UI (all events, fire-and-forget).
+export const READY = 'ready'; // guest → host: app mounted and connected
+export const NAVIGATE = 'navigate'; // host → guest: deep-link the app
+export const ROUTE_CHANGED = 'route.changed'; // guest → host: mirror app route into the shell URL
+export const RESIZE = 'resize'; // guest → host: request a content height (capability-gated)
+export const UI_TOAST = 'ui.toast'; // guest → host: show a toast in the shell chrome

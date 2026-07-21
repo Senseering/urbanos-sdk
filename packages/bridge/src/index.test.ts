@@ -54,4 +54,58 @@ describe('embed bridge v2', () => {
       /host did not answer/,
     );
   });
+
+  test('lifecycle + host-mediated UI messages flow both ways', async () => {
+    const [appCh, hostCh] = linkedChannels();
+    let ready = false;
+    let hostRoute = '';
+    let hostHeight = 0;
+    let hostToast = '';
+    const host = createHost(hostCh, {
+      context: ctx,
+      onTokenRequest: () =>
+        Promise.resolve<TokenResponse>({
+          accessToken: 't',
+          expiresAt: 1,
+          scopes: [],
+          tenantId: 42,
+        }),
+    });
+    host.onReady(() => {
+      ready = true;
+    });
+    host.onRouteChanged((p) => {
+      hostRoute = p;
+    });
+    host.onResize((h) => {
+      hostHeight = h;
+    });
+    host.onToast((t) => {
+      hostToast = t.title;
+    });
+
+    const app = await connectApp(appCh, { timeoutMs: 1000, helloIntervalMs: 20 });
+    let appPath = '';
+    app.onNavigate((p) => {
+      appPath = p;
+    });
+
+    // guest → host
+    app.signalReady();
+    app.notifyRoute('/analytics');
+    app.requestResize(640);
+    app.toast({ title: 'saved' });
+    // host → guest
+    host.navigate('/detail/7');
+    await new Promise((r) => setTimeout(r, 10));
+
+    expect(ready).toBe(true);
+    expect(hostRoute).toBe('/analytics');
+    expect(hostHeight).toBe(640);
+    expect(hostToast).toBe('saved');
+    expect(appPath).toBe('/detail/7');
+
+    app.close();
+    host.close();
+  });
 });
