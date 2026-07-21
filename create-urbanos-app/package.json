@@ -1,6 +1,6 @@
 {
   "name": "@senseering/create-urbanos-app",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "npm create scaffolder for new urbanOS apps.",
   "license": "Apache-2.0",
   "type": "module",

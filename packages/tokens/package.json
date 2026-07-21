@@ -1,6 +1,6 @@
 {
   "name": "@senseering/urbanos-tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Design tokens: CSS variables, Tailwind preset, dark-mode contract.",
   "license": "Apache-2.0",
   "type": "module",
