@@ -26,9 +26,10 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: pnpm format
-      - run: pnpm lint
-      # Build first so cross-package types + the example resolve from dist.
+      # Build first so cross-package types (and the example) resolve from dist
+      # for the type-aware lint, typecheck, and tests.
       - run: pnpm build
+      - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
 
