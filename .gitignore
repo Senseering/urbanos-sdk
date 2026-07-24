@@ -8,3 +8,13 @@ coverage/
 .env
 .env.*
 !.env.example
+
+# graphify: commit graph.json, graph.html, GRAPH_REPORT.md, manifest.json;
+# ignore local token log, extraction cache, and machine-specific state files
+graphify-out/cost.json
+graphify-out/cache/
+graphify-out/.graphify_*
+graphify-out/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
+
+# graphify PreToolUse hook config (machine-specific abs path — local only)
+.claude/settings.json
