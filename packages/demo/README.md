@@ -1,5 +1,5 @@
 # @senseering/urbanos-demo
 
-DemoProvider interface and seeded, deterministic data generators.
+`defineDemoDataset` + seeded, deterministic generators (`seededRng`, `dailyRhythm`) that feed core's `DemoTransport`.
 
-> Phase 0 skeleton. See [docs/v2-migration/04-sdk.md](https://github.com/Senseering/dm-frontend-pwa/blob/dev/docs/v2-migration/04-sdk.md).
+> Functional (partial). Design notes: [docs/v2-migration/04-sdk.md](https://github.com/Senseering/dm-frontend-pwa/blob/dev/docs/v2-migration/04-sdk.md).

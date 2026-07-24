@@ -30,10 +30,10 @@ urbanOS v2 is split across sibling repos — clone them next to each other under
 - urbanos-apps consumes the SDK as **versioned deps from GitHub Packages**
   (`@senseering/urbanos-core|bridge|demo|manifest`), exactly like a third party —
   never workspace-linked.
-- Data flows through an SDK `Transport` implemented in
-  `urbanos-apps/packages/app-kit/src/transport/` (Host / Proxy / Null / Demo). The
-  **gateway cutover** (urbanos-platform `/v1`) is a config-level swap of that
-  transport for the SDK's `HttpTransport` — no app rewrite.
+- Data flows through an SDK `Transport`: Host / Proxy / Null live in
+  `urbanos-apps/packages/app-kit/src/transport/`; the Demo transport comes from
+  `@senseering/urbanos-core`. The **gateway cutover** (urbanos-platform `/v1`) is a
+  config-level swap of that transport for the SDK's `HttpTransport` — no app rewrite.
 - **Conformance vectors** (Go↔TS parity for classify + aggregation) have their
   source of truth in `urbanos-platform/packages/conformance/fixtures`, hand-copied
   into `urbanos-sdk/packages/core/src/__fixtures__` until
@@ -49,14 +49,15 @@ urbanOS v2 is split across sibling repos — clone them next to each other under
 | `urbanos-bridge`   | **real** | Embed protocol v2 (host + app sides), zero deps.                                                                          |
 | `urbanos-demo`     | partial  | `defineDemoDataset` + seeded RNG (`seededRng`, `dailyRhythm`).                                                            |
 | `urbanos-manifest` | partial  | App manifest schema (zod) + `defineAppManifest()`.                                                                        |
-| `urbanos-vue`      | partial  | Vue 3 composables + `Uos*` state components.                                                                              |
+| `urbanos-vue`      | partial  | Vue 3 composables + plugin (`createUrbanOS`, `useUrbanOS`, `useAppState`); no `Uos*` components.                          |
 | `urbanos-nuxt`     | skeleton | Nuxt module wrapping the Vue bindings.                                                                                    |
 | `urbanos-tokens`   | skeleton | Design tokens (CSS vars, Tailwind preset).                                                                                |
 | `urbanos-cli`      | skeleton | `urbanos` CLI (mock gateway, host simulator).                                                                             |
 
 Also: `create-urbanos-app` (npm scaffolder), `examples/minimal-vanilla`.
-**The root README calls everything "Phase 0 skeletons" — that's stale; `core`
-and `bridge` are substantial real implementations. Trust the code.**
+**Only `nuxt`/`tokens`/`cli` are true skeletons; `core`/`bridge` are substantial
+implementations and `demo`/`manifest`/`vue` are functional partials. Trust the
+code over any "Phase 0" labels left in older docs.**
 
 ## Commands
 
