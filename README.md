@@ -12,10 +12,10 @@ Developer documentation is maintained in this repository.
 | -------------------------------- | ------------------------------------------------------------------------------- |
 | `@senseering/urbanos-core`       | Framework-agnostic client: auth, typed timeseries query builder, demo transport |
 | `@senseering/urbanos-bridge`     | Embed protocol v2 (host + app sides), zero deps                                 |
-| `@senseering/urbanos-demo`       | `DemoProvider` interface + seeded data generators                               |
+| `@senseering/urbanos-demo`       | `defineDemoDataset` + seeded generators (`seededRng`, `dailyRhythm`)            |
 | `@senseering/urbanos-manifest`   | App manifest schema (zod) + `defineAppManifest()`                               |
 | `@senseering/urbanos-tokens`     | Design tokens (CSS variables, Tailwind preset)                                  |
-| `@senseering/urbanos-vue`        | Vue 3 composables + `Uos*` state components                                     |
+| `@senseering/urbanos-vue`        | Vue 3 composables + plugin (`createUrbanOS`, `useUrbanOS`, `useAppState`)       |
 | `@senseering/urbanos-nuxt`       | Nuxt module wrapping the Vue bindings                                           |
 | `@senseering/urbanos-cli`        | `urbanos` CLI: mock gateway, host simulator, manifest tools                     |
 | `@senseering/create-urbanos-app` | `npm create` scaffolder                                                         |
@@ -55,6 +55,7 @@ create-urbanos-app/
 Shared lint/format/tsconfig presets live at the repo root (a single app of each tool),
 not in a `config/` package.
 
-These are **skeletons** (Phase 0 of the v2 migration): each package builds, lints, and has a
-smoke test, but the real implementation lands in Phase 1. The dependency direction is already
-enforced: `core` and `bridge` import no framework.
+Maturity varies by package: `core` and `bridge` are **substantial real implementations**;
+`demo`, `manifest`, and `vue` are **functional partials**; only `nuxt`, `tokens`, `cli` (and
+`create-urbanos-app`) are still **Phase 0 skeletons**. The dependency direction is enforced:
+`core` and `bridge` import no framework.

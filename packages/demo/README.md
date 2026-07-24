@@ -1,5 +1,5 @@
 # @senseering/urbanos-demo
 
-DemoProvider interface and seeded, deterministic data generators.
+`defineDemoDataset` + seeded, deterministic generators (`seededRng`, `dailyRhythm`) that feed core's `DemoTransport`.
 
 Developer documentation is maintained in this repository.
