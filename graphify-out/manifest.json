@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "packages/core/src/client/http-transport.ts": {
-    "mtime": 1784642799.2311454,
-    "ast_hash": "b8f139710308ebeb9660c710626f265a",
+    "mtime": 1785251019.4936671,
+    "ast_hash": "9a6b75412e4bd90ab26f7685c2d26a92",
     "semantic_hash": ""
   },
   "packages/core/src/client/transport.ts": {
@@ -200,13 +200,13 @@
     "semantic_hash": ""
   },
   "packages/core/src/errors/errors.ts": {
-    "mtime": 1784641753.532878,
-    "ast_hash": "ada638226a9a7bbc1f5b049fa89dda18",
+    "mtime": 1785250972.566709,
+    "ast_hash": "fef1485d9b977895f7959ed5ff5e5709",
     "semantic_hash": ""
   },
   "packages/core/src/index.ts": {
-    "mtime": 1784641703.0417953,
-    "ast_hash": "1e3399683adccc6e3bc9b0e1883c4463",
+    "mtime": 1785251019.494077,
+    "ast_hash": "33994f1bff68c5bf536765a6d4f5d87c",
     "semantic_hash": ""
   },
   "packages/core/src/timeseries/aggregate.test.ts": {
@@ -385,13 +385,13 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1784888690.3118262,
-    "ast_hash": "ccc7a25ce69de6bb654409306f07eaf0",
+    "mtime": 1784890926.6843946,
+    "ast_hash": "88b9625ef0507c64ffcc6fcb9a464927",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1784889312.4091802,
-    "ast_hash": "de55c264a79d8e658dc2eb88be9f5797",
+    "mtime": 1784890926.669475,
+    "ast_hash": "88b9625ef0507c64ffcc6fcb9a464927",
     "semantic_hash": ""
   },
   "CODE_OF_CONDUCT.md": {
@@ -405,8 +405,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1784634384.62765,
-    "ast_hash": "67a83742fb7b1ad7de1ed2ef1fc12f73",
+    "mtime": 1784891309.8722878,
+    "ast_hash": "22c1299e023a436e852711ba79deba4d",
     "semantic_hash": ""
   },
   "SECURITY.md": {
@@ -440,8 +440,8 @@
     "semantic_hash": ""
   },
   "packages/bridge/README.md": {
-    "mtime": 1784634311.172639,
-    "ast_hash": "bc3409031e954df2c208bca647da85d2",
+    "mtime": 1784891377.3597107,
+    "ast_hash": "19009c3aabb136e3bbd6c8efc301496a",
     "semantic_hash": ""
   },
   "packages/cli/CHANGELOG.md": {
@@ -460,8 +460,8 @@
     "semantic_hash": ""
   },
   "packages/core/README.md": {
-    "mtime": 1784634311.1715975,
-    "ast_hash": "d1acb5b28694c6a29994c34e76d689fc",
+    "mtime": 1784891368.1172726,
+    "ast_hash": "a5330f59053567b478a41518f530e1a5",
     "semantic_hash": ""
   },
   "packages/core/src/__fixtures__/README.md": {
@@ -475,8 +475,8 @@
     "semantic_hash": ""
   },
   "packages/demo/README.md": {
-    "mtime": 1784634311.1734111,
-    "ast_hash": "e16bb6ed91d6e2bc142db3279ed8f4de",
+    "mtime": 1784891386.6328678,
+    "ast_hash": "440ee008699ba6fd04895544ec482b04",
     "semantic_hash": ""
   },
   "packages/manifest/CHANGELOG.md": {
@@ -485,8 +485,8 @@
     "semantic_hash": ""
   },
   "packages/manifest/README.md": {
-    "mtime": 1784634311.1743667,
-    "ast_hash": "55cb6886e728b2bad374e1b4222fe689",
+    "mtime": 1784891404.643724,
+    "ast_hash": "0ccf9fa165f1716f9c2525df53d435d7",
     "semantic_hash": ""
   },
   "packages/nuxt/CHANGELOG.md": {
@@ -515,13 +515,58 @@
     "semantic_hash": ""
   },
   "packages/vue/README.md": {
-    "mtime": 1784634311.175485,
-    "ast_hash": "ce424689205b12999f43274aeb7ca79d",
+    "mtime": 1784891396.654112,
+    "ast_hash": "4e6768598b7cfe878682c74fbb0f83fe",
     "semantic_hash": ""
   },
   "pnpm-workspace.yaml": {
     "mtime": 1784642813.2605615,
     "ast_hash": "7a374755b5e5cc8f5dd6316e48545bc4",
+    "semantic_hash": ""
+  },
+  "packages/core/src/auth/env.ts": {
+    "mtime": 1785251267.8964086,
+    "ast_hash": "1d201b0184052eb52b31551176a512d2",
+    "semantic_hash": ""
+  },
+  "packages/core/src/auth/host-token-provider.ts": {
+    "mtime": 1785250952.863359,
+    "ast_hash": "5c776c04a81d50b74cef79421035b45b",
+    "semantic_hash": ""
+  },
+  "packages/core/src/auth/oauth-http.ts": {
+    "mtime": 1785251197.269158,
+    "ast_hash": "324a82a65e275b6afdbe16dc24429088",
+    "semantic_hash": ""
+  },
+  "packages/core/src/auth/pkce-token-provider.test.ts": {
+    "mtime": 1785251250.321387,
+    "ast_hash": "4202522fb1eacd71b57a02827e685cfa",
+    "semantic_hash": ""
+  },
+  "packages/core/src/auth/pkce-token-provider.ts": {
+    "mtime": 1785251033.7751207,
+    "ast_hash": "ddc6dbfd0fedcc21b27a80c68b8d4637",
+    "semantic_hash": ""
+  },
+  "packages/core/src/auth/pkce.test.ts": {
+    "mtime": 1785251197.3289685,
+    "ast_hash": "95f9f7589ba89b5dc81103a253001ec6",
+    "semantic_hash": ""
+  },
+  "packages/core/src/auth/pkce.ts": {
+    "mtime": 1785251249.8524384,
+    "ast_hash": "77559ebcd1433b4648f04ce77519532a",
+    "semantic_hash": ""
+  },
+  "packages/core/src/client/http-transport.test.ts": {
+    "mtime": 1785251249.852954,
+    "ast_hash": "20d4905c14a885b5629e69ca8c17d1f5",
+    "semantic_hash": ""
+  },
+  ".changeset/pkce-standalone-auth.md": {
+    "mtime": 1785251314.4771373,
+    "ast_hash": "4a9ad11b27fb81514b8d57e20397995c",
     "semantic_hash": ""
   }
 }

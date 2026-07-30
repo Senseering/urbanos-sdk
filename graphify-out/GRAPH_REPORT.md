@@ -1,16 +1,16 @@
-# Graph Report - urbanos-sdk  (2026-07-24)
+# Graph Report - urbanos-sdk  (2026-07-30)
 
 ## Corpus Check
-- 102 files · ~12,768 words
+- 111 files · ~19,324 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 761 nodes · 860 edges · 82 communities (67 shown, 15 thin omitted)
+- 851 nodes · 1038 edges · 78 communities (65 shown, 13 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c6182e62`
+- Built from commit: `6dbabdca`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,12 +33,10 @@
 - http-transport.ts
 - errors.ts
 - urbanOS SDK
-- query.ts
 - config.json
 - index.ts
 - CLAUDE.md — urbanos-sdk
 - classify.ts
-- HttpTransport
 - @senseering/urbanos-nuxt
 - @senseering/urbanos-vue
 - index.ts
@@ -48,8 +46,6 @@
 - @senseering/urbanos-bridge
 - tsconfig.build.json
 - tsconfig.build.json
-- demo-transport.ts
-- DemoTransport
 - tsconfig.build.json
 - tsconfig.build.json
 - tsconfig.build.json
@@ -57,7 +53,6 @@
 - tsconfig.build.json
 - tsconfig.build.json
 - index.ts
-- run
 - context.ts
 - tsconfig.json
 - tsconfig.json
@@ -93,33 +88,33 @@
 - README.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `compilerOptions` - 17 edges
-2. `Transport` - 15 edges
-3. `DemoTransport` - 12 edges
-4. `AppBridge` - 11 edges
-5. `scripts` - 10 edges
-6. `createHost()` - 10 edges
-7. `HttpTransport` - 10 edges
-8. `Host` - 9 edges
-9. `BridgeContext` - 8 edges
-10. `TimeseriesQueryBuilder` - 8 edges
+1. `PkceTokenProvider` - 19 edges
+2. `compilerOptions` - 17 edges
+3. `Transport` - 13 edges
+4. `DemoTransport` - 12 edges
+5. `HttpTransport` - 11 edges
+6. `AppBridge` - 11 edges
+7. `ClockLike` - 10 edges
+8. `scripts` - 10 edges
+9. `createHost()` - 10 edges
+10. `LocationLike` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `HttpTransportOptions` --references--> `TokenProvider`  [EXTRACTED]
-  packages/core/src/client/http-transport.ts → packages/core/src/auth/token-provider.ts
-- `DemoTransport` --implements--> `Transport`  [EXTRACTED]
-  packages/core/src/client/demo-transport.ts → packages/core/src/client/transport.ts
-- `HttpTransport` --implements--> `Transport`  [EXTRACTED]
-  packages/core/src/client/http-transport.ts → packages/core/src/client/transport.ts
-- `MockWindow` --inherits--> `WindowLike`  [EXTRACTED]
-  packages/bridge/src/channel.test.ts → packages/bridge/src/channel.ts
-- `HostHandlers` --references--> `BridgeContext`  [EXTRACTED]
-  packages/bridge/src/index.ts → packages/bridge/src/protocol.ts
+- `HostTokenProviderOptions` --references--> `ClockLike`  [EXTRACTED]
+  packages/core/src/auth/host-token-provider.ts → packages/core/src/auth/env.ts
+- `OAuthHttpOptions` --references--> `ClockLike`  [EXTRACTED]
+  packages/core/src/auth/oauth-http.ts → packages/core/src/auth/env.ts
+- `PkceTokenProvider` --references--> `ClockLike`  [EXTRACTED]
+  packages/core/src/auth/pkce-token-provider.ts → packages/core/src/auth/env.ts
+- `PkceTokenProviderOptions` --references--> `ClockLike`  [EXTRACTED]
+  packages/core/src/auth/pkce-token-provider.ts → packages/core/src/auth/env.ts
+- `PkceTokenProvider` --references--> `OAuthHttp`  [EXTRACTED]
+  packages/core/src/auth/pkce-token-provider.ts → packages/core/src/auth/oauth-http.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (82 total, 15 thin omitted)
+## Communities (78 total, 13 thin omitted)
 
 ### Community 0 - "index.ts"
 Cohesion: 0.07
@@ -166,8 +161,8 @@ Cohesion: 0.09
 Nodes (22): description, devDependencies, typescript, vitest, exports, files, import, license (+14 more)
 
 ### Community 11 - "Transport"
-Cohesion: 0.14
-Nodes (4): UrbanOSClient, DatasourceView, IngestPoint, Transport
+Cohesion: 0.06
+Nodes (32): buildDataset(), run(), RunResult, Category, dataset, UrbanOSClient, DemoDataset, DemoEntity (+24 more)
 
 ### Community 12 - "compilerOptions"
 Cohesion: 0.11
@@ -178,24 +173,20 @@ Cohesion: 0.12
 Nodes (16): dependencies, @senseering/urbanos-core, @senseering/urbanos-demo, description, devDependencies, tsx, typescript, vitest (+8 more)
 
 ### Community 14 - "transport.ts"
-Cohesion: 0.22
-Nodes (12): AggregateSpec, SeriesPoint, StreamView, AggFunc, aggregate(), apply(), Bucket, fillGaps() (+4 more)
+Cohesion: 0.07
+Nodes (35): RFC-4648, assign(), browserLocation(), CryptoLike, g(), globalCrypto(), globalSessionStorage(), GlobalWithCrypto (+27 more)
 
 ### Community 15 - "http-transport.ts"
-Cohesion: 0.21
-Nodes (5): AccessToken, StaticTokenProvider, TokenProvider, HttpTransportOptions, RawResult
+Cohesion: 0.25
+Nodes (3): AccessToken, StaticTokenProvider, TokenProvider
 
 ### Community 16 - "errors.ts"
-Cohesion: 0.22
-Nodes (6): AuthError, BridgeError, GatewayError, ScopeError, TenantError, UrbanOSError
+Cohesion: 0.06
+Nodes (20): ClockLike, HostTokenProvider, HostTokenProviderOptions, HostTokenSource, OAuthHttp, OAuthHttpOptions, TokenResponseBody, HttpTransport (+12 more)
 
 ### Community 17 - "urbanOS SDK"
 Cohesion: 0.18
 Nodes (9): Contributing to the urbanOS SDK, Rules of the road, Setup, Where things live, Consuming these packages, Developing, Layout, Packages (+1 more)
-
-### Community 18 - "query.ts"
-Cohesion: 0.27
-Nodes (6): QueryResult, TimeseriesQuery, parseDuration(), RangeSpec, TimeseriesQueryBuilder, toISO()
 
 ### Community 19 - "config.json"
 Cohesion: 0.20
@@ -249,10 +240,6 @@ Nodes (7): compilerOptions, noEmit, outDir, rootDir, exclude, extends, include
 Cohesion: 0.25
 Nodes (7): compilerOptions, noEmit, outDir, rootDir, exclude, extends, include
 
-### Community 33 - "demo-transport.ts"
-Cohesion: 0.32
-Nodes (5): Category, dataset, DemoDataset, DemoEntity, DemoStream
-
 ### Community 35 - "tsconfig.build.json"
 Cohesion: 0.25
 Nodes (7): compilerOptions, noEmit, outDir, rootDir, exclude, extends, include
@@ -280,10 +267,6 @@ Nodes (7): compilerOptions, noEmit, outDir, rootDir, exclude, extends, include
 ### Community 41 - "index.ts"
 Cohesion: 0.43
 Nodes (5): dailyRhythm(), DailyRhythmOptions, defineDemoDataset(), DefineDemoDatasetInput, seededRng()
-
-### Community 42 - "run"
-Cohesion: 0.53
-Nodes (3): buildDataset(), run(), RunResult
 
 ### Community 43 - "context.ts"
 Cohesion: 0.33
@@ -366,24 +349,24 @@ Cohesion: 0.50
 Nodes (3): 0.1.0, Minor Changes, @senseering/urbanos-tokens
 
 ## Knowledge Gaps
-- **402 isolated node(s):** `$schema`, `changelog`, `commit`, `fixed`, `linked` (+397 more)
+- **414 isolated node(s):** `GlobalWithCrypto`, `TokenResponseBody`, `Recorded`, `OK_TOKEN`, `RFC-6749` (+409 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Transport` connect `Transport` to `demo-transport.ts`, `DemoTransport`, `transport.ts`, `http-transport.ts`, `query.ts`, `HttpTransport`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **Why does `DemoTransport` connect `DemoTransport` to `demo-transport.ts`, `Transport`, `HttpTransport`?**
+- **Why does `PkceTokenProvider` connect `transport.ts` to `errors.ts`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
+- **Why does `AuthError` connect `errors.ts` to `transport.ts`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `run()` connect `run` to `Transport`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **What connects `$schema`, `changelog`, `commit` to the rest of the system?**
-  _402 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `GlobalWithCrypto`, `TokenResponseBody`, `Recorded` to the rest of the system?**
+  _414 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `index.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.06848357791754019 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
 - **Should `scripts` be split into smaller, more focused modules?**
   _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
+- **Should `package.json` be split into smaller, more focused modules?**
+  _Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected._
