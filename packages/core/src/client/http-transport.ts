@@ -1,6 +1,6 @@
 /** HttpTransport talks to the gateway /v1 REST API, attaching the scoped app
  * token from a TokenProvider. */
-import type { TokenProvider } from '../auth/token-provider';
+import type { AccessToken, TokenProvider } from '../auth/token-provider';
 import { AuthError, GatewayError } from '../errors/errors';
 import type {
   DatasourceView,
@@ -15,6 +15,11 @@ export interface HttpTransportOptions {
   baseUrl: string;
   tokens: TokenProvider;
   fetchImpl?: typeof fetch;
+  /**
+   * Retry once with a refreshed token after a 401. Default true.
+   * Set false to opt out (e.g. when the caller drives re-auth itself).
+   */
+  retryOnUnauthorized?: boolean;
 }
 
 interface RawResult {
@@ -31,16 +36,42 @@ export class HttpTransport implements Transport {
     this.fetchImpl = opts.fetchImpl ?? fetch;
   }
 
+  /**
+   * One authenticated fetch, with a single refresh-on-401 retry.
+   *
+   * Both request paths route through here so `getStorage()` stops being the odd
+   * one out — before this it bypassed `req()` entirely and surfaced a 401 as a
+   * GatewayError instead of an AuthError.
+   *
+   * Exactly ONE retry, ever. The identical-token guard makes a provider that
+   * cannot actually refresh (StaticTokenProvider, whose refresh() is a no-op)
+   * cost one no-op call and zero extra fetches.
+   */
+  private async authedFetch(
+    path: string,
+    init?: { method?: string; body?: unknown },
+  ): Promise<Response> {
+    const send = (tok: AccessToken): Promise<Response> =>
+      this.fetchImpl(this.opts.baseUrl + path, {
+        method: init?.method ?? 'GET',
+        headers: {
+          Authorization: `Bearer ${tok.accessToken}`,
+          ...(init?.body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        },
+        body: init?.body !== undefined ? JSON.stringify(init.body) : undefined,
+      });
+
+    const first = await this.opts.tokens.getToken();
+    const res = await send(first);
+    if (res.status !== 401 || this.opts.retryOnUnauthorized === false) return res;
+
+    const next = await this.opts.tokens.refresh();
+    if (next.accessToken === first.accessToken) return res;
+    return send(next);
+  }
+
   private async req<T>(method: string, path: string, body?: unknown): Promise<T> {
-    const tok = await this.opts.tokens.getToken();
-    const res = await this.fetchImpl(this.opts.baseUrl + path, {
-      method,
-      headers: {
-        Authorization: `Bearer ${tok.accessToken}`,
-        ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
-      },
-      body: body !== undefined ? JSON.stringify(body) : undefined,
-    });
+    const res = await this.authedFetch(path, { method, body });
     if (res.status === 401) throw new AuthError();
     if (!res.ok) throw new GatewayError(`gateway responded ${res.status}`, res.status);
     return (await res.json()) as T;
@@ -86,11 +117,10 @@ export class HttpTransport implements Transport {
   }
 
   async getStorage(key: string): Promise<unknown> {
-    const tok = await this.opts.tokens.getToken();
-    const res = await this.fetchImpl(`${this.opts.baseUrl}/v1/storage/${encodeURIComponent(key)}`, {
-      headers: { Authorization: `Bearer ${tok.accessToken}` },
-    });
+    const res = await this.authedFetch(`/v1/storage/${encodeURIComponent(key)}`);
+    // 404 first: "no value stored" is a normal result here, not an error.
     if (res.status === 404) return undefined;
+    if (res.status === 401) throw new AuthError();
     if (!res.ok) throw new GatewayError(`gateway responded ${res.status}`, res.status);
     const r = (await res.json()) as { value: unknown };
     return r.value;
