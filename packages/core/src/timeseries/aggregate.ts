@@ -1,8 +1,8 @@
 /**
- * The timeseries aggregation engine. It implements datacore's transformation
+ * The timeseries aggregation engine. It implements the platform's transformation
  * semantics (bucket aggregation + gap-fill) so that demo mode produces the same
- * results as the gateway. This is the TS half of a Go↔TS pair pinned by the
- * shared conformance vectors (see the gateway's internal/timeseries).
+ * results as the gateway. Parity is pinned by the conformance vectors in
+ * `src/__fixtures__`.
  */
 
 export interface Sample {

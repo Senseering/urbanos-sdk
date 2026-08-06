@@ -1,5 +1,5 @@
 /** Embed protocol v2 message types. The host delivers a scoped app token and
- * context; the user session never crosses the bridge. See docs/v2-migration/04-sdk.md §2. */
+ * context; the user session never crosses the bridge. See docs/embedding.md. */
 
 export const PROTOCOL_VERSION = 2;
 

@@ -1,6 +1,6 @@
 /** UrbanOSClient is the app-facing entry point over any Transport. */
 import { TimeseriesQueryBuilder } from '../timeseries/query';
-import type { DatasourceView, ElementView, IngestPoint, Transport } from './transport';
+import type { DatasourceView, ElementView, Transport } from './transport';
 
 export class UrbanOSClient {
   readonly storage: {
@@ -26,9 +26,5 @@ export class UrbanOSClient {
   /** Begin a typed timeseries query for one stream. */
   timeseries(streamId: number): TimeseriesQueryBuilder {
     return new TimeseriesQueryBuilder(this.transport, streamId);
-  }
-
-  ingest(points: IngestPoint[]): Promise<{ accepted: number }> {
-    return this.transport.ingest(points);
   }
 }

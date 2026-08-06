@@ -2,10 +2,10 @@
  * PkceTokenProvider — OAuth 2.1 authorization-code + PKCE for STANDALONE apps.
  *
  * The flow is shell-mediated by design. The gateway's `POST /oauth/authorize`
- * requires the user's Supabase session as `subject_token`, which a third party
- * must never see, so the browser is redirected to the UDP shell's consent screen
- * instead. The shell holds the session, calls the gateway, and 302s back here
- * with a code.
+ * requires the user's platform session as `subject_token`, which a third party
+ * must never see, so the browser is redirected to the urbanOS shell's consent
+ * screen instead. The shell holds the session, calls the gateway, and 302s back
+ * here with a code.
  *
  *   app → shell /oauth/authorize?… → (consent) → app /callback?code&state
  *   app → gateway POST /oauth/token {code, code_verifier} → tokens
@@ -39,9 +39,9 @@ interface PendingTx {
 }
 
 export interface PkceTokenProviderOptions {
-  /** Gateway origin, e.g. "https://api.udp.city". No trailing slash. */
+  /** Gateway origin, e.g. "https://urbanos-gateway.udp.city". No trailing slash. */
   gatewayUrl: string;
-  /** UDP shell origin hosting the consent screen, e.g. "https://udp.city". */
+  /** urbanOS shell origin hosting the consent screen, e.g. "https://urbanos.udp.city". */
   shellUrl: string;
   /** The gateway client id (`uos_c_…`) — NOT the reverse-DNS manifest id. */
   clientId: string;

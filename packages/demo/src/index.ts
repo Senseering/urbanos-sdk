@@ -3,8 +3,8 @@
  *
  * Deterministic, seeded data generators plus defineDemoDataset(), which builds a
  * DemoDataset the core client's DemoTransport consumes. Because demo reads run
- * through the same aggregation engine as production, ?demo=true behaves
- * identically to real mode. See docs/v2-migration/04-sdk.md §4.
+ * through the same aggregation engine as production, demo mode behaves
+ * identically to real mode. See docs/demo-mode.md for the guide.
  */
 import type { DemoDataset, DemoEntity } from '@senseering/urbanos-core';
 

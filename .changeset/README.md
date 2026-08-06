@@ -8,9 +8,9 @@ pnpm changeset
 ```
 
 Pick the affected packages, choose a semver bump, and write a human-readable summary. CI
-fails a PR that touches `packages/**` without a changeset. Releases are cut by the
-`release` workflow, which runs `changeset version` + `changeset publish` to the private
-`@senseering` GitHub Packages registry.
+fails a PR that touches `packages/**` without a changeset — comment-only edits count.
+Releases are cut by the `release` workflow, which runs `changeset version` +
+`changeset publish` to the `@senseering` scope on GitHub Packages.
 
-Note: `access` is `restricted` while the SDK is private. It flips to `public` when the
-packages move to the `@urbanos` npm scope.
+Every exported type is a published contract. Changing one is a **major** bump, and the
+changeset summary should say what consumers need to do.

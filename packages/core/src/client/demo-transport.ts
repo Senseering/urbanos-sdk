@@ -1,13 +1,12 @@
 /** DemoTransport answers reads from a deterministic in-memory dataset. Crucially,
  * aggregation runs through the SAME local engine the conformance vectors pin, so
- * ?demo=true behaves exactly like the gateway. This is what lets one app codebase
+ * demo mode behaves exactly like the gateway. This is what lets one app codebase
  * serve real and demo modes with no branching. */
 import { aggregate, parseBucket } from '../timeseries/aggregate';
 import type { Category } from '../classify/classify';
 import type {
   DatasourceView,
   ElementView,
-  IngestPoint,
   QueryResult,
   Transport,
   TimeseriesQuery,
@@ -96,13 +95,6 @@ export class DemoTransport implements Transport {
       };
     });
     return Promise.resolve(results);
-  }
-
-  ingest(points: IngestPoint[]): Promise<{ accepted: number }> {
-    // Demo writes are accepted but have no side effects.
-    return Promise.resolve({
-      accepted: points.filter((p) => this.streamExists(p.streamId)).length,
-    });
   }
 
   getStorage(key: string): Promise<unknown> {

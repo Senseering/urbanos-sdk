@@ -1,8 +1,8 @@
 /**
- * Datasource → category classification. This is the TS twin of the gateway's Go
- * classifier (internal/classify); the identical keyword ruleset is pinned by the
- * shared conformance vectors. Apps mostly receive the server-computed category,
- * but the SDK ships this so demo mode classifies identically.
+ * Datasource → category classification. This is the local twin of the gateway's
+ * classifier; the identical keyword ruleset is pinned by the conformance vectors
+ * in `src/__fixtures__`. Apps mostly receive the server-computed category, but
+ * the SDK ships this so demo mode classifies identically.
  */
 
 export interface Stream {

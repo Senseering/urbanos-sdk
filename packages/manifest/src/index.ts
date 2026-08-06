@@ -1,10 +1,10 @@
 /**
  * @senseering/urbanos-manifest
  *
- * The app manifest: one declarative file per app that drives the store listing,
- * the consent screen (scopes + reasons), and installation — replacing the ~8
- * manual edit sites of the old catalog. Authored as TS via defineAppManifest,
- * validated with zod, compiled to JSON at publish. See docs/v2-migration/04-sdk.md §5.
+ * The app manifest: one declarative file per app describing the store listing,
+ * the scopes it needs (with localized consent reasons), how it embeds, and
+ * whether it offers a demo. Authored as TS via defineAppManifest, validated with
+ * zod, compiled to JSON at publish. See docs/publishing.md for the field guide.
  */
 import { z } from 'zod';
 
