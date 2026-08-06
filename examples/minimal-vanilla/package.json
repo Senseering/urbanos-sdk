@@ -1,6 +1,6 @@
 {
   "name": "@urbanos-examples/minimal-vanilla",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "Smallest possible urbanOS app: build a demo dataset and query it through the SDK client — fully offline.",
   "type": "module",

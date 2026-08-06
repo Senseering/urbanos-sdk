@@ -1,6 +1,6 @@
 {
   "name": "@datamatters-gmbh/urbanos-vue",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Vue 3 plugin and composables over the urbanOS core client: createUrbanOS, useUrbanOS, useAppState.",
   "keywords": [
     "urbanos",

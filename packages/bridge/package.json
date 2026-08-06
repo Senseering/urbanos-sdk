@@ -1,6 +1,6 @@
 {
   "name": "@datamatters-gmbh/urbanos-bridge",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Embed protocol v2 (host + app sides). Zero dependencies, no framework.",
   "keywords": [
     "urbanos",
