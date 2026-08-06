@@ -80,10 +80,10 @@ importers:
 
   examples/minimal-vanilla:
     dependencies:
-      '@senseering/urbanos-core':
+      '@datamatters-gmbh/urbanos-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@senseering/urbanos-demo':
+      '@datamatters-gmbh/urbanos-demo':
         specifier: workspace:*
         version: link:../../packages/demo
     devDependencies:
@@ -108,7 +108,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@senseering/urbanos-manifest':
+      '@datamatters-gmbh/urbanos-manifest':
         specifier: workspace:*
         version: link:../manifest
     devDependencies:
@@ -130,7 +130,7 @@ importers:
 
   packages/demo:
     dependencies:
-      '@senseering/urbanos-core':
+      '@datamatters-gmbh/urbanos-core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -156,7 +156,7 @@ importers:
 
   packages/nuxt:
     dependencies:
-      '@senseering/urbanos-vue':
+      '@datamatters-gmbh/urbanos-vue':
         specifier: workspace:*
         version: link:../vue
     devDependencies:
@@ -178,13 +178,13 @@ importers:
 
   packages/vue:
     dependencies:
-      '@senseering/urbanos-bridge':
+      '@datamatters-gmbh/urbanos-bridge':
         specifier: workspace:*
         version: link:../bridge
-      '@senseering/urbanos-core':
+      '@datamatters-gmbh/urbanos-core':
         specifier: workspace:*
         version: link:../core
-      '@senseering/urbanos-demo':
+      '@datamatters-gmbh/urbanos-demo':
         specifier: workspace:*
         version: link:../demo
     devDependencies:

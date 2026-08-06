@@ -1,5 +1,5 @@
 /**
- * @senseering/urbanos-tokens
+ * @datamatters-gmbh/urbanos-tokens
  *
  * Design tokens: CSS variables, Tailwind preset, dark-mode contract.
  *

@@ -28,7 +28,7 @@ That's the guarantee: a chart that looks right in demo looks right in production
 A `DemoDataset` is three things: a tenant, some entities, and a `sample()` function.
 
 ```ts
-import { defineDemoDataset, dailyRhythm, seededRng } from '@senseering/urbanos-demo';
+import { defineDemoDataset, dailyRhythm, seededRng } from '@datamatters-gmbh/urbanos-demo';
 
 const rng = seededRng(1337);
 
@@ -59,7 +59,7 @@ produces a gap, which is how you exercise your gap-filling and empty states.
 > Always pass `rng: seededRng(n)` when you use `noise`, or your demo will differ on
 > every reload.
 
-You don't need `@senseering/urbanos-demo` at all. Any object with the right shape
+You don't need `@datamatters-gmbh/urbanos-demo` at all. Any object with the right shape
 works:
 
 ```ts
@@ -181,7 +181,7 @@ error handling gets exercised in demo too.
 Because it's deterministic, `DemoTransport` makes a better test fixture than a mock:
 
 ```ts
-import { DemoTransport, UrbanOSClient } from '@senseering/urbanos-core';
+import { DemoTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 
 it('averages hourly noise', async () => {
   const client = new UrbanOSClient(

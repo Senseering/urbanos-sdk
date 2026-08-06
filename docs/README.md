@@ -40,17 +40,17 @@ looks right in production.
 
 ## Packages at a glance
 
-| Package                          | Status   | What it gives you                           |
-| -------------------------------- | -------- | ------------------------------------------- |
-| `@senseering/urbanos-core`       | stable   | The client, transports, auth, query builder |
-| `@senseering/urbanos-bridge`     | stable   | Embed protocol v2 (iframe host ↔ app)       |
-| `@senseering/urbanos-demo`       | usable   | Seeded generators for demo datasets         |
-| `@senseering/urbanos-manifest`   | usable   | App manifest schema + validation            |
-| `@senseering/urbanos-vue`        | usable   | Vue 3 plugin + composables                  |
-| `@senseering/urbanos-nuxt`       | skeleton | Not implemented yet                         |
-| `@senseering/urbanos-tokens`     | skeleton | Not implemented yet                         |
-| `@senseering/urbanos-cli`        | skeleton | Not implemented yet — no commands           |
-| `@senseering/create-urbanos-app` | skeleton | Not implemented yet — no templates          |
+| Package                                | Status   | What it gives you                           |
+| -------------------------------------- | -------- | ------------------------------------------- |
+| `@datamatters-gmbh/urbanos-core`       | stable   | The client, transports, auth, query builder |
+| `@datamatters-gmbh/urbanos-bridge`     | stable   | Embed protocol v2 (iframe host ↔ app)       |
+| `@datamatters-gmbh/urbanos-demo`       | usable   | Seeded generators for demo datasets         |
+| `@datamatters-gmbh/urbanos-manifest`   | usable   | App manifest schema + validation            |
+| `@datamatters-gmbh/urbanos-vue`        | usable   | Vue 3 plugin + composables                  |
+| `@datamatters-gmbh/urbanos-nuxt`       | skeleton | Not implemented yet                         |
+| `@datamatters-gmbh/urbanos-tokens`     | skeleton | Not implemented yet                         |
+| `@datamatters-gmbh/urbanos-cli`        | skeleton | Not implemented yet — no commands           |
+| `@datamatters-gmbh/create-urbanos-app` | skeleton | Not implemented yet — no templates          |
 
 We flag skeletons honestly so you don't build a plan around something that isn't
 there. See [API reference](api-reference.md) for exactly what each package exports.

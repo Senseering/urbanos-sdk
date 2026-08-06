@@ -5,8 +5,8 @@ Guidance for Claude Code working in **this repo**. Overrides the generic
 
 ## What this is
 
-The **`@senseering/*` TypeScript SDK** — a pnpm monorepo (Node ≥22, ESM,
-versions pinned via the pnpm **catalog**) published to **GitHub Packages**. It is
+The **`@datamatters-gmbh/*` TypeScript SDK** — a pnpm monorepo (Node ≥22, ESM,
+versions pinned via the pnpm **catalog**) published to **public npm**. It is
 the one integration surface for the urbanOS platform: the `Transport` data
 contract, `UrbanOSClient`, the embed bridge (protocol v2), deterministic demo
 datasets, and the app manifest schema. Framework-agnostic core; thin Vue/Nuxt
@@ -32,7 +32,7 @@ developer reads:
 
 When you change a public API, update the matching page in the same PR.
 
-## Workspace layout (packages/*, scope `@senseering/*`)
+## Workspace layout (packages/*, scope `@datamatters-gmbh/*`)
 
 | Package            | State    | Purpose                                                                                                                   |
 | ------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -64,8 +64,10 @@ pnpm release                             # pnpm build && changeset publish
   plus a PR-only **changeset** job (`changeset status --since=origin/main`) that
   fails a `packages/**` PR with no changeset.
 - Release (`.github/workflows/release.yml`, changesets): push to `main` opens a
-  "Version Packages" PR; merging it publishes to GitHub Packages
-  (`@senseering` scope). Auth env: `NODE_AUTH_TOKEN`.
+  "Version Packages" PR; merging it publishes to **public npm**
+  (`@datamatters-gmbh` scope) with provenance. Auth: `secrets.NPM_TOKEN` →
+  `NODE_AUTH_TOKEN`. CI also packs every package and asserts tarball contents
+  (no `.map` files, README + LICENSE present) — npm versions are immutable.
 
 ## Hard rules (learned the hard way)
 

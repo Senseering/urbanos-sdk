@@ -1,4 +1,4 @@
-# @senseering/urbanos-manifest
+# @datamatters-gmbh/urbanos-manifest
 
 The app manifest schema (zod) plus `defineAppManifest()` — one declarative file per
 app describing the store listing, the scopes it needs with localized consent reasons,
@@ -7,14 +7,14 @@ how it embeds, and whether it offers a demo.
 ## Install
 
 ```bash
-pnpm add @senseering/urbanos-manifest
+pnpm add @datamatters-gmbh/urbanos-manifest
 ```
 
 ## Use
 
 ```ts
 // urbanos.app.ts
-import { defineAppManifest } from '@senseering/urbanos-manifest';
+import { defineAppManifest } from '@datamatters-gmbh/urbanos-manifest';
 
 export default defineAppManifest({
   manifestVersion: 1,
@@ -41,5 +41,5 @@ export default defineAppManifest({
 
 ## Docs
 
-- [Publishing](../../docs/publishing.md) — full field reference + store checklist
-- [API reference](../../docs/api-reference.md#senseeringurbanos-manifest)
+- [Publishing](https://github.com/Senseering/urbanos-sdk/blob/main/docs/publishing.md) — full field reference + store checklist
+- [API reference](https://github.com/Senseering/urbanos-sdk/blob/main/docs/api-reference.md#datamatters-gmbhurbanos-manifest)

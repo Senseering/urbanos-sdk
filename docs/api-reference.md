@@ -6,14 +6,14 @@ Every public export, by package. For guided explanations see the other pages in
 **All packages are ESM-only** (no CommonJS build) and use **named exports** — there
 are no default exports. Types need `import type`.
 
-- [@senseering/urbanos-core](#senseeringurbanos-core)
-- [@senseering/urbanos-bridge](#senseeringurbanos-bridge)
-- [@senseering/urbanos-demo](#senseeringurbanos-demo)
-- [@senseering/urbanos-manifest](#senseeringurbanos-manifest)
-- [@senseering/urbanos-vue](#senseeringurbanos-vue)
+- [@datamatters-gmbh/urbanos-core](#datamatters-gmbhurbanos-core)
+- [@datamatters-gmbh/urbanos-bridge](#datamatters-gmbhurbanos-bridge)
+- [@datamatters-gmbh/urbanos-demo](#datamatters-gmbhurbanos-demo)
+- [@datamatters-gmbh/urbanos-manifest](#datamatters-gmbhurbanos-manifest)
+- [@datamatters-gmbh/urbanos-vue](#datamatters-gmbhurbanos-vue)
 - [Not yet implemented](#not-yet-implemented)
 
-## @senseering/urbanos-core
+## @datamatters-gmbh/urbanos-core
 
 ### Client
 
@@ -350,7 +350,7 @@ class BridgeError extends UrbanOSError {
 const CORE_VERSION: string;
 ```
 
-## @senseering/urbanos-bridge
+## @datamatters-gmbh/urbanos-bridge
 
 ```ts
 const PROTOCOL_VERSION = 2;
@@ -455,7 +455,7 @@ interface Host {
 }
 ```
 
-## @senseering/urbanos-demo
+## @datamatters-gmbh/urbanos-demo
 
 ```ts
 const DEMO_VERSION: string;
@@ -482,7 +482,7 @@ function defineDemoDataset(input: DefineDemoDatasetInput): DemoDataset;
 
 `DemoDataset`, `DemoEntity`, `DemoStream` are re-exported types from core.
 
-## @senseering/urbanos-manifest
+## @datamatters-gmbh/urbanos-manifest
 
 ```ts
 const MANIFEST_VERSION: string;
@@ -499,7 +499,7 @@ function validateAppManifest(
 
 Field-by-field reference: [Publishing](publishing.md#field-reference).
 
-## @senseering/urbanos-vue
+## @datamatters-gmbh/urbanos-vue
 
 ```ts
 const VUE_BINDINGS_VERSION: string;
@@ -534,12 +534,12 @@ runs its loader immediately.
 
 These packages exist and publish, but export only a version constant:
 
-| Package                          | Exports                             |
-| -------------------------------- | ----------------------------------- |
-| `@senseering/urbanos-nuxt`       | `NUXT_MODULE_VERSION`               |
-| `@senseering/urbanos-tokens`     | `TOKENS_VERSION`                    |
-| `@senseering/urbanos-cli`        | `CLI_VERSION` — no commands         |
-| `@senseering/create-urbanos-app` | `SCAFFOLDER_VERSION` — no templates |
+| Package                                | Exports                             |
+| -------------------------------------- | ----------------------------------- |
+| `@datamatters-gmbh/urbanos-nuxt`       | `NUXT_MODULE_VERSION`               |
+| `@datamatters-gmbh/urbanos-tokens`     | `TOKENS_VERSION`                    |
+| `@datamatters-gmbh/urbanos-cli`        | `CLI_VERSION` — no commands         |
+| `@datamatters-gmbh/create-urbanos-app` | `SCAFFOLDER_VERSION` — no templates |
 
 Workarounds: wire the Vue plugin manually on Nuxt; read theme values from the bridge
 context; validate manifests with `validateAppManifest()`; copy

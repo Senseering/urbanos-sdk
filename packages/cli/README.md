@@ -1,4 +1,4 @@
-# @senseering/urbanos-cli
+# @datamatters-gmbh/urbanos-cli
 
 The planned `urbanos` CLI: mock gateway, host simulator, manifest validate/publish.
 
@@ -11,7 +11,7 @@ The planned `urbanos` CLI: mock gateway, host simulator, manifest validate/publi
 **Validating a manifest:**
 
 ```ts
-import { validateAppManifest } from '@senseering/urbanos-manifest';
+import { validateAppManifest } from '@datamatters-gmbh/urbanos-manifest';
 
 const result = validateAppManifest(JSON.parse(raw));
 if (!result.ok) {
@@ -21,12 +21,12 @@ if (!result.ok) {
 ```
 
 **Running without a gateway:** use `DemoTransport` from
-`@senseering/urbanos-core` — see [demo mode](../../docs/demo-mode.md).
+`@datamatters-gmbh/urbanos-core` — see [demo mode](https://github.com/Senseering/urbanos-sdk/blob/main/docs/demo-mode.md).
 
 **Testing the embed bridge:** `linkedChannels()` from
-`@senseering/urbanos-bridge` gives you a connected host/app pair in-process, no
-iframe needed — see [embedding](../../docs/embedding.md#protocol-reference).
+`@datamatters-gmbh/urbanos-bridge` gives you a connected host/app pair in-process, no
+iframe needed — see [embedding](https://github.com/Senseering/urbanos-sdk/blob/main/docs/embedding.md#protocol-reference).
 
 ## Docs
 
-[Documentation index](../../docs/README.md)
+[Documentation index](https://github.com/Senseering/urbanos-sdk/blob/main/docs/README.md)

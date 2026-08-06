@@ -1,16 +1,31 @@
 {
-  "name": "@senseering/urbanos-nuxt",
+  "name": "@datamatters-gmbh/urbanos-nuxt",
   "version": "0.1.2",
   "description": "Nuxt module wrapping the Vue bindings (plugin wiring, SSR safety, auto-imports).",
+  "keywords": [
+    "urbanos",
+    "smart-city",
+    "sdk",
+    "nuxt",
+    "module"
+  ],
   "license": "Apache-2.0",
-  "type": "module",
+  "author": "dataMatters GmbH",
+  "homepage": "https://github.com/Senseering/urbanos-sdk/tree/main/packages/nuxt#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Senseering/urbanos-sdk.git",
+    "url": "git+https://github.com/Senseering/urbanos-sdk.git",
     "directory": "packages/nuxt"
   },
+  "bugs": {
+    "url": "https://github.com/Senseering/urbanos-sdk/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,7 +43,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@senseering/urbanos-vue": "workspace:*"
+    "@datamatters-gmbh/urbanos-vue": "workspace:*"
   },
   "devDependencies": {
     "typescript": "catalog:",

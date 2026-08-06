@@ -1,16 +1,32 @@
 {
-  "name": "@senseering/urbanos-tokens",
+  "name": "@datamatters-gmbh/urbanos-tokens",
   "version": "0.1.0",
   "description": "Design tokens: CSS variables, Tailwind preset, dark-mode contract.",
+  "keywords": [
+    "urbanos",
+    "smart-city",
+    "sdk",
+    "design-tokens",
+    "css",
+    "tailwind"
+  ],
   "license": "Apache-2.0",
-  "type": "module",
+  "author": "dataMatters GmbH",
+  "homepage": "https://github.com/Senseering/urbanos-sdk/tree/main/packages/tokens#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Senseering/urbanos-sdk.git",
+    "url": "git+https://github.com/Senseering/urbanos-sdk.git",
     "directory": "packages/tokens"
   },
+  "bugs": {
+    "url": "https://github.com/Senseering/urbanos-sdk/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

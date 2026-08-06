@@ -3,8 +3,8 @@
  * it through the SDK client — no gateway, no network, no auth. The exact same
  * client code, pointed at an HttpTransport, would run against the real gateway.
  */
-import { DemoTransport, UrbanOSClient, type DemoDataset } from '@senseering/urbanos-core';
-import { dailyRhythm, defineDemoDataset, seededRng } from '@senseering/urbanos-demo';
+import { DemoTransport, UrbanOSClient, type DemoDataset } from '@datamatters-gmbh/urbanos-core';
+import { dailyRhythm, defineDemoDataset, seededRng } from '@datamatters-gmbh/urbanos-demo';
 
 export function buildDataset(): DemoDataset {
   const rng = seededRng(1337);

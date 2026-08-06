@@ -1,4 +1,4 @@
-# @senseering/urbanos-core
+# @datamatters-gmbh/urbanos-core
 
 ## 0.1.0
 

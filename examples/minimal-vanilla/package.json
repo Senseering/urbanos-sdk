@@ -10,8 +10,8 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@senseering/urbanos-core": "workspace:*",
-    "@senseering/urbanos-demo": "workspace:*"
+    "@datamatters-gmbh/urbanos-core": "workspace:*",
+    "@datamatters-gmbh/urbanos-demo": "workspace:*"
   },
   "devDependencies": {
     "tsx": "catalog:",

@@ -1,12 +1,12 @@
 /**
- * @senseering/urbanos-demo
+ * @datamatters-gmbh/urbanos-demo
  *
  * Deterministic, seeded data generators plus defineDemoDataset(), which builds a
  * DemoDataset the core client's DemoTransport consumes. Because demo reads run
  * through the same aggregation engine as production, demo mode behaves
  * identically to real mode. See docs/demo-mode.md for the guide.
  */
-import type { DemoDataset, DemoEntity } from '@senseering/urbanos-core';
+import type { DemoDataset, DemoEntity } from '@datamatters-gmbh/urbanos-core';
 
 export const DEMO_VERSION = '0.1.0';
 

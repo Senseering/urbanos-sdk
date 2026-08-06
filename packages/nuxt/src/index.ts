@@ -1,5 +1,5 @@
 /**
- * @senseering/urbanos-nuxt
+ * @datamatters-gmbh/urbanos-nuxt
  *
  * Nuxt module wrapping the Vue bindings (plugin wiring, SSR safety, auto-imports).
  *

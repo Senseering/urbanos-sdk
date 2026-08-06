@@ -3,9 +3,9 @@
 Thanks for helping build the urbanOS SDK. This repo is the public contract third-party app
 developers depend on, so we hold it to a high bar.
 
-> **Status:** open source under Apache-2.0. Packages are published to **GitHub Packages**
-> under the `@senseering` scope. Contributions are made under the **Developer Certificate
-> of Origin** — sign your commits with `git commit -s`.
+> **Status:** open source under Apache-2.0. Packages are published to **public npm**
+> under the `@datamatters-gmbh` scope. Contributions are made under the **Developer
+> Certificate of Origin** — sign your commits with `git commit -s`.
 
 ## Setup
 
@@ -16,12 +16,8 @@ pnpm build
 pnpm test
 ```
 
-Requires Node >= 22 and pnpm 10 (pinned via `packageManager`).
-
-> **Heads up:** GitHub Packages requires authentication to _install_, even for public
-> packages. `pnpm install` therefore needs a GitHub token with `read:packages` exported as
-> `NODE_AUTH_TOKEN` (`write:packages` for releases). See
-> [docs/getting-started.md](docs/getting-started.md#installing-the-packages).
+Requires Node >= 22 and pnpm 10 (pinned via `packageManager`). No registry
+authentication is needed — everything resolves from public npm.
 
 ## Rules of the road
 
@@ -31,6 +27,9 @@ Requires Node >= 22 and pnpm 10 (pinned via `packageManager`).
 - **The bridge protocol and auth paths require a maintainer review** (see `CODEOWNERS`).
 - **Framework boundaries are real:** `core` and `bridge` must not import any framework.
   `vue` may depend on them; `nuxt` wraps `vue`.
+- **Published tarballs are immutable.** CI packs every package and asserts the contents
+  (no source maps, README + LICENSE present). Fix a packaging bug before the release,
+  never after — an npm version can't be replaced.
 - Conventional-commit messages, please.
 
 ## Where things live

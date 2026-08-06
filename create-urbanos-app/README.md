@@ -1,4 +1,4 @@
-# @senseering/create-urbanos-app
+# @datamatters-gmbh/create-urbanos-app
 
 The planned `npm create` scaffolder for new urbanOS apps.
 
@@ -7,7 +7,7 @@ The planned `npm create` scaffolder for new urbanOS apps.
 
 ## What to use instead
 
-Copy [`examples/minimal-vanilla`](../examples/minimal-vanilla) — a complete working
+Copy [`examples/minimal-vanilla`](https://github.com/Senseering/urbanos-sdk/blob/main/examples/minimal-vanilla) — a complete working
 app that builds a deterministic demo dataset and queries it through the client, with
 no gateway, network, or auth:
 
@@ -15,9 +15,9 @@ no gateway, network, or auth:
 cp -r examples/minimal-vanilla ../my-urbanos-app
 ```
 
-Then follow [getting started](../docs/getting-started.md) to add your own dataset and,
+Then follow [getting started](https://github.com/Senseering/urbanos-sdk/blob/main/docs/getting-started.md) to add your own dataset and,
 when you're ready, swap in `HttpTransport` for live data.
 
 ## Docs
 
-[Documentation index](../docs/README.md)
+[Documentation index](https://github.com/Senseering/urbanos-sdk/blob/main/docs/README.md)

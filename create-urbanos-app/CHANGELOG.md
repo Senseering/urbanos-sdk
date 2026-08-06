@@ -1,4 +1,4 @@
-# @senseering/create-urbanos-app
+# @datamatters-gmbh/create-urbanos-app
 
 ## 0.1.0
 

@@ -1,16 +1,31 @@
 {
-  "name": "@senseering/create-urbanos-app",
+  "name": "@datamatters-gmbh/create-urbanos-app",
   "version": "0.1.0",
   "description": "npm create scaffolder for new urbanOS apps.",
+  "keywords": [
+    "urbanos",
+    "smart-city",
+    "sdk",
+    "scaffold",
+    "create"
+  ],
   "license": "Apache-2.0",
-  "type": "module",
+  "author": "dataMatters GmbH",
+  "homepage": "https://github.com/Senseering/urbanos-sdk/tree/main/create-urbanos-app#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Senseering/urbanos-sdk.git",
+    "url": "git+https://github.com/Senseering/urbanos-sdk.git",
     "directory": "create-urbanos-app"
   },
+  "bugs": {
+    "url": "https://github.com/Senseering/urbanos-sdk/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "bin": {
     "create-urbanos-app": "./dist/index.js"

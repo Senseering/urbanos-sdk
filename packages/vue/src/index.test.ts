@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { createApp } from 'vue';
-import type { UrbanOSClient, UrbanOSContext } from '@senseering/urbanos-core';
+import type { UrbanOSClient, UrbanOSContext } from '@datamatters-gmbh/urbanos-core';
 import { createUrbanOS, useAppState, useUrbanOS, type UrbanOS } from './index';
 
 const tick = (): Promise<void> => new Promise((r) => setTimeout(r, 0));

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * @senseering/create-urbanos-app
+ * @datamatters-gmbh/create-urbanos-app
  *
  * npm create scaffolder for new urbanOS apps.
  *

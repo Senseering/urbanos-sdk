@@ -1,4 +1,4 @@
-# @senseering/urbanos-cli
+# @datamatters-gmbh/urbanos-cli
 
 ## 0.1.0
 
@@ -11,4 +11,4 @@
 ### Patch Changes
 
 - Updated dependencies
-  - @senseering/urbanos-manifest@0.1.0
+  - @datamatters-gmbh/urbanos-manifest@0.1.0

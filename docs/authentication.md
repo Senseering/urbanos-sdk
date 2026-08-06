@@ -145,7 +145,7 @@ the user's platform session — which a third party must never see.
 ### Setup
 
 ```ts
-import { PkceTokenProvider } from '@senseering/urbanos-core';
+import { PkceTokenProvider } from '@datamatters-gmbh/urbanos-core';
 
 const auth = new PkceTokenProvider({
   gatewayUrl: 'https://urbanos-gateway.udp.city',
@@ -171,7 +171,7 @@ const auth = new PkceTokenProvider({
 ### Wiring it up
 
 ```ts
-import { AuthError, HttpTransport, UrbanOSClient } from '@senseering/urbanos-core';
+import { AuthError, HttpTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 
 // At boot: returns null when this isn't the callback URL, so call it unconditionally.
 await auth.completeAuthorization();
@@ -233,8 +233,8 @@ When the shell hosts your app in an iframe, it mints tokens for you. You never r
 consent flow.
 
 ```ts
-import { connectApp, windowChannel } from '@senseering/urbanos-bridge';
-import { HostTokenProvider, HttpTransport, UrbanOSClient } from '@senseering/urbanos-core';
+import { connectApp, windowChannel } from '@datamatters-gmbh/urbanos-bridge';
+import { HostTokenProvider, HttpTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 
 const bridge = await connectApp(
   windowChannel({ target: window.parent, targetOrigin: 'https://urbanos.udp.city' }),
@@ -288,7 +288,7 @@ are returned alongside it precisely so you never have to parse it.
 ### Static tokens (tests, scripts)
 
 ```ts
-import { StaticTokenProvider } from '@senseering/urbanos-core';
+import { StaticTokenProvider } from '@datamatters-gmbh/urbanos-core';
 
 const tokens = new StaticTokenProvider({
   accessToken: 'tok',

@@ -1,16 +1,32 @@
 {
-  "name": "@senseering/urbanos-bridge",
+  "name": "@datamatters-gmbh/urbanos-bridge",
   "version": "0.3.0",
   "description": "Embed protocol v2 (host + app sides). Zero dependencies, no framework.",
+  "keywords": [
+    "urbanos",
+    "smart-city",
+    "sdk",
+    "iframe",
+    "postmessage",
+    "embed"
+  ],
   "license": "Apache-2.0",
-  "type": "module",
+  "author": "dataMatters GmbH",
+  "homepage": "https://github.com/Senseering/urbanos-sdk/tree/main/packages/bridge#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Senseering/urbanos-sdk.git",
+    "url": "git+https://github.com/Senseering/urbanos-sdk.git",
     "directory": "packages/bridge"
   },
+  "bugs": {
+    "url": "https://github.com/Senseering/urbanos-sdk/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

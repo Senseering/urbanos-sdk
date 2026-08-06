@@ -1,4 +1,4 @@
-# @senseering/urbanos-bridge
+# @datamatters-gmbh/urbanos-bridge
 
 Embed protocol v2 — the duplex channel between the urbanOS shell (host) and an app
 running in an iframe (guest). Carries context and a scoped app token; the user's
@@ -9,7 +9,7 @@ Zero dependencies. ESM only.
 ## Install
 
 ```bash
-pnpm add @senseering/urbanos-bridge
+pnpm add @datamatters-gmbh/urbanos-bridge
 ```
 
 ## Use
@@ -17,7 +17,7 @@ pnpm add @senseering/urbanos-bridge
 App side:
 
 ```ts
-import { connectApp, windowChannel } from '@senseering/urbanos-bridge';
+import { connectApp, windowChannel } from '@datamatters-gmbh/urbanos-bridge';
 
 const bridge = await connectApp(
   windowChannel({ target: window.parent, targetOrigin: 'https://urbanos.udp.city' }),
@@ -33,7 +33,7 @@ bridge.signalReady();
 Host side:
 
 ```ts
-import { createHost, windowChannel } from '@senseering/urbanos-bridge';
+import { createHost, windowChannel } from '@datamatters-gmbh/urbanos-bridge';
 
 const host = createHost(windowChannel({ target: iframe.contentWindow, targetOrigin: appOrigin }), {
   context,
@@ -41,10 +41,10 @@ const host = createHost(windowChannel({ target: iframe.contentWindow, targetOrig
 });
 ```
 
-Pair it with `HostTokenProvider` from `@senseering/urbanos-core` to get an
+Pair it with `HostTokenProvider` from `@datamatters-gmbh/urbanos-core` to get an
 authenticated client.
 
 ## Docs
 
-- [Embedding](../../docs/embedding.md) — handshake, messages, lifecycle
-- [API reference](../../docs/api-reference.md#senseeringurbanos-bridge)
+- [Embedding](https://github.com/Senseering/urbanos-sdk/blob/main/docs/embedding.md) — handshake, messages, lifecycle
+- [API reference](https://github.com/Senseering/urbanos-sdk/blob/main/docs/api-reference.md#datamatters-gmbhurbanos-bridge)

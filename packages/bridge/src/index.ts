@@ -1,5 +1,5 @@
 /**
- * @senseering/urbanos-bridge
+ * @datamatters-gmbh/urbanos-bridge
  *
  * Embed protocol v2: a host (the urbanOS shell) and a guest app exchange a
  * scoped app token + context over a duplex channel. The user session never

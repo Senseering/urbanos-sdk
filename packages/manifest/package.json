@@ -1,16 +1,32 @@
 {
-  "name": "@senseering/urbanos-manifest",
+  "name": "@datamatters-gmbh/urbanos-manifest",
   "version": "0.1.0",
   "description": "App manifest schema (zod) and defineAppManifest().",
+  "keywords": [
+    "urbanos",
+    "smart-city",
+    "sdk",
+    "manifest",
+    "zod",
+    "schema"
+  ],
   "license": "Apache-2.0",
-  "type": "module",
+  "author": "dataMatters GmbH",
+  "homepage": "https://github.com/Senseering/urbanos-sdk/tree/main/packages/manifest#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Senseering/urbanos-sdk.git",
+    "url": "git+https://github.com/Senseering/urbanos-sdk.git",
     "directory": "packages/manifest"
   },
+  "bugs": {
+    "url": "https://github.com/Senseering/urbanos-sdk/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

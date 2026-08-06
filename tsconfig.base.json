@@ -12,8 +12,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+    // No .map files: they would ship in the published tarball (files: ["dist"])
+    // while pointing at ../src/*.ts, which is not packed — dead weight that
+    // resolves to nothing. Read the source on GitHub instead.
+    "declarationMap": false,
+    "sourceMap": false,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true

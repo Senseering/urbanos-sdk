@@ -1,5 +1,5 @@
 /**
- * @senseering/urbanos-core
+ * @datamatters-gmbh/urbanos-core
  *
  * Framework-agnostic urbanOS client: classification + aggregation engines (kept
  * in lockstep with the gateway via conformance vectors), the typed timeseries

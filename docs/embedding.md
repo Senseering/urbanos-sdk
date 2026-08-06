@@ -19,7 +19,7 @@ you a token. The user's platform session never crosses it.
 ## Connecting
 
 ```ts
-import { connectApp, windowChannel } from '@senseering/urbanos-bridge';
+import { connectApp, windowChannel } from '@datamatters-gmbh/urbanos-bridge';
 
 const bridge = await connectApp(
   windowChannel({
@@ -82,7 +82,7 @@ next to the shell.
 one: `'toast'`.** Check before using an optional feature:
 
 ```ts
-import { hasCapability } from '@senseering/urbanos-core';
+import { hasCapability } from '@datamatters-gmbh/urbanos-core';
 
 if (hasCapability(bridge.context, 'toast')) {
   bridge.toast({ title: 'Saved' });
@@ -94,7 +94,7 @@ if (hasCapability(bridge.context, 'toast')) {
 Pass the bridge straight to `HostTokenProvider`:
 
 ```ts
-import { HostTokenProvider, HttpTransport, UrbanOSClient } from '@senseering/urbanos-core';
+import { HostTokenProvider, HttpTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 
 const client = new UrbanOSClient(
   new HttpTransport({
@@ -158,14 +158,14 @@ One codebase can run embedded and standalone. Try the bridge; fall back if there
 host.
 
 ```ts
-import { connectApp, windowChannel } from '@senseering/urbanos-bridge';
+import { connectApp, windowChannel } from '@datamatters-gmbh/urbanos-bridge';
 import {
   DemoTransport,
   HostTokenProvider,
   HttpTransport,
   PkceTokenProvider,
   UrbanOSClient,
-} from '@senseering/urbanos-core';
+} from '@datamatters-gmbh/urbanos-core';
 
 async function createClient() {
   const embedded = window.parent !== window;
@@ -202,7 +202,7 @@ async function createClient() {
 If you're building the host side:
 
 ```ts
-import { createHost, windowChannel } from '@senseering/urbanos-bridge';
+import { createHost, windowChannel } from '@datamatters-gmbh/urbanos-bridge';
 
 const host = createHost(windowChannel({ target: iframe.contentWindow, targetOrigin: appOrigin }), {
   context: buildContext(),
@@ -260,7 +260,7 @@ interface Envelope {
 For testing without iframes, `linkedChannels()` returns a connected in-memory pair:
 
 ```ts
-import { connectApp, createHost, linkedChannels } from '@senseering/urbanos-bridge';
+import { connectApp, createHost, linkedChannels } from '@datamatters-gmbh/urbanos-bridge';
 
 const [hostChannel, appChannel] = linkedChannels();
 const host = createHost(hostChannel, { context, onTokenRequest });

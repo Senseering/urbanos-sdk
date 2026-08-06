@@ -17,7 +17,7 @@ and `HttpTransport`.
 and no `createClient()` helper.
 
 ```ts
-import { UrbanOSClient } from '@senseering/urbanos-core';
+import { UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 
 const client = new UrbanOSClient(transport);
 ```
@@ -87,7 +87,7 @@ parking  noise  waste  garden  water  energy  weather  occupancy  ble  building 
 The SDK exports them, plus the classifier the gateway uses:
 
 ```ts
-import { CATEGORIES, classify } from '@senseering/urbanos-core';
+import { CATEGORIES, classify } from '@datamatters-gmbh/urbanos-core';
 
 classify({ name: 'Schallpegel Dom', streams: [{ name: 'LAeq', unit: 'dB' }] });
 // → 'noise'
@@ -152,7 +152,7 @@ your requested range. Empty buckets are filled, not dropped: with no `gapFill` (
 ### Using the aggregation engine directly
 
 ```ts
-import { aggregate, parseBucket } from '@senseering/urbanos-core';
+import { aggregate, parseBucket } from '@datamatters-gmbh/urbanos-core';
 
 const buckets = aggregate(samples, parseBucket('1h'), 'avg', 'zero');
 ```
@@ -184,7 +184,7 @@ Two different failure modes, and mixing them up is the most common mistake.
 ### Request-level failures throw
 
 ```ts
-import { AuthError, GatewayError } from '@senseering/urbanos-core';
+import { AuthError, GatewayError } from '@datamatters-gmbh/urbanos-core';
 
 try {
   await client.datasources();

@@ -1,4 +1,4 @@
-# @senseering/urbanos-nuxt
+# @datamatters-gmbh/urbanos-nuxt
 
 The planned Nuxt module wrapping the Vue bindings (plugin wiring, SSR safety,
 auto-imports).
@@ -9,12 +9,12 @@ auto-imports).
 
 ## What to use instead
 
-Wire `@senseering/urbanos-vue` manually from a client-side Nuxt plugin:
+Wire `@datamatters-gmbh/urbanos-vue` manually from a client-side Nuxt plugin:
 
 ```ts
 // plugins/urbanos.client.ts
-import { createUrbanOS } from '@senseering/urbanos-vue';
-import { DemoTransport, UrbanOSClient } from '@senseering/urbanos-core';
+import { createUrbanOS } from '@datamatters-gmbh/urbanos-vue';
+import { DemoTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const client = new UrbanOSClient(new DemoTransport(dataset));
@@ -27,5 +27,5 @@ run during SSR.
 
 ## Docs
 
-- [Getting started](../../docs/getting-started.md#using-vue)
-- [Documentation index](../../docs/README.md)
+- [Getting started](https://github.com/Senseering/urbanos-sdk/blob/main/docs/getting-started.md#using-vue)
+- [Documentation index](https://github.com/Senseering/urbanos-sdk/blob/main/docs/README.md)
