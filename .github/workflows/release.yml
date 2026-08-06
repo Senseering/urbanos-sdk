@@ -9,8 +9,10 @@ concurrency: release-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
-  # Required for npm provenance: mints the OIDC token npm uses to attest that
-  # this tarball was built by this workflow from this commit.
+  # Kept for npm provenance, which is currently OFF: npm can only attest a
+  # tarball to a PUBLIC source repository, and this one is private. When the
+  # repo is opened up, set NPM_CONFIG_PROVENANCE: 'true' on the publish step
+  # below and every release gains a signed link to the commit that built it.
   id-token: write
 
 jobs:
@@ -44,4 +46,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: 'true'
