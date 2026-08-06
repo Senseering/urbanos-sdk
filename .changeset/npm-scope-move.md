@@ -29,10 +29,6 @@ from your `.npmrc`. No API changed as part of the move. The `@senseering/*`
 packages on GitHub Packages stay published at their last version but receive no
 further releases.
 
-Releases now publish with [npm provenance](https://docs.npmjs.com/generating-provenance-statements),
-so each version is cryptographically attested to this repository and the workflow
-run that built it.
-
 Published tarballs no longer contain `.js.map` / `.d.ts.map` files. They were dead
 weight: `files` only packs `dist`, so the maps pointed at `../src/*.ts` paths that
 were never in the tarball and resolved to nothing. Source is on GitHub. Every

@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1045 nodes · 1293 edges · 87 communities (83 shown, 4 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.65)
+- 1045 nodes · 1247 edges · 88 communities (84 shown, 4 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0f707617`
+- Built from commit: `c20241bd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -34,6 +34,7 @@
 - env.ts
 - config.json
 - index.ts
+- http-transport.ts
 - classify.ts
 - Authentication
 - @senseering/urbanos-nuxt
@@ -95,14 +96,14 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `PkceTokenProvider` - 21 edges
-2. `AccessToken` - 17 edges
-3. `compilerOptions` - 17 edges
-4. `Transport` - 14 edges
-5. `createHost()` - 11 edges
-6. `AppBridge` - 11 edges
-7. `TokenProvider` - 11 edges
-8. `DemoTransport` - 11 edges
-9. `HttpTransport` - 11 edges
+2. `compilerOptions` - 17 edges
+3. `Transport` - 14 edges
+4. `AccessToken` - 12 edges
+5. `DemoTransport` - 11 edges
+6. `HttpTransport` - 11 edges
+7. `@datamatters-gmbh/urbanos-core` - 10 edges
+8. `AppBridge` - 10 edges
+9. `ClockLike` - 10 edges
 10. `scripts` - 10 edges
 
 ## Surprising Connections (you probably didn't know these)
@@ -110,20 +111,20 @@
   packages/core/src/auth/pkce-token-provider.test.ts → packages/core/src/auth/pkce.ts
 - `PkceTokenProvider` --references--> `CryptoLike`  [EXTRACTED]
   packages/core/src/auth/pkce-token-provider.ts → packages/core/src/auth/env.ts
+- `PkceTokenProviderOptions` --references--> `CryptoLike`  [EXTRACTED]
+  packages/core/src/auth/pkce-token-provider.ts → packages/core/src/auth/env.ts
 - `PkceTokenProvider` --references--> `StorageLike`  [EXTRACTED]
   packages/core/src/auth/pkce-token-provider.ts → packages/core/src/auth/env.ts
-- `PkceTokenProviderOptions` --references--> `StorageLike`  [EXTRACTED]
-  packages/core/src/auth/pkce-token-provider.ts → packages/core/src/auth/env.ts
-- `PkceTokenProviderOptions` --references--> `LocationLike`  [EXTRACTED]
+- `PkceTokenProvider` --references--> `LocationLike`  [EXTRACTED]
   packages/core/src/auth/pkce-token-provider.ts → packages/core/src/auth/env.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (87 total, 4 thin omitted)
+## Communities (88 total, 4 thin omitted)
 
 ### Community 0 - "index.ts"
-Cohesion: 0.07
+Cohesion: 0.06
 Nodes (25): Channel, globalWindow(), linkedChannels(), MessageEventLike, ctx, harness(), MockWindow, windowChannel() (+17 more)
 
 ### Community 1 - "package.json"
@@ -168,7 +169,7 @@ Nodes (29): author, bugs, url, description, devDependencies, typescript, vitest,
 
 ### Community 11 - "Transport"
 Cohesion: 0.05
-Nodes (32): buildDataset(), run(), RunResult, Category, dataset, UrbanOSClient, DemoDataset, DemoEntity (+24 more)
+Nodes (36): CATEGORIES, Category, classify(), classifyText(), Datasource, hasAny(), Stream, ClsCase (+28 more)
 
 ### Community 12 - "compilerOptions"
 Cohesion: 0.11
@@ -178,17 +179,13 @@ Nodes (18): compilerOptions, declaration, declarationMap, esModuleInterop, force
 Cohesion: 0.12
 Nodes (16): dependencies, @datamatters-gmbh/urbanos-core, @datamatters-gmbh/urbanos-demo, description, devDependencies, tsx, typescript, vitest (+8 more)
 
-### Community 14 - "transport.ts"
-Cohesion: 0.20
-Nodes (7): ClockLike, HostTokenProvider, HostTokenProviderOptions, HostTokenSource, OAuthHttp, OAuthHttpOptions, AccessToken
-
 ### Community 15 - "http-transport.ts"
 Cohesion: 0.20
 Nodes (11): memoryStorage(), seededCrypto(), authed(), fakeLocation(), jwtWithEl(), makeProvider(), OK_TOKEN, primed() (+3 more)
 
 ### Community 16 - "env.ts"
-Cohesion: 0.21
-Nodes (8): assign(), browserLocation(), g(), globalCrypto(), globalSessionStorage(), GlobalWithCrypto, replaceState(), StorageLike
+Cohesion: 0.11
+Nodes (13): assign(), browserLocation(), ClockLike, g(), globalCrypto(), globalSessionStorage(), GlobalWithCrypto, LocationLike (+5 more)
 
 ### Community 19 - "config.json"
 Cohesion: 0.20
@@ -198,9 +195,13 @@ Nodes (9): access, baseBranch, changelog, commit, fixed, ignore, linked, $schema
 Cohesion: 0.24
 Nodes (8): AppManifest, AppManifestInput, appManifestSchema, defineAppManifest(), localized, scopeRequest, valid, validateAppManifest()
 
+### Community 21 - "http-transport.ts"
+Cohesion: 0.18
+Nodes (7): StaticTokenProvider, TokenProvider, HttpTransportOptions, RawResult, Call, rotatingProvider(), token()
+
 ### Community 22 - "classify.ts"
-Cohesion: 0.31
-Nodes (7): CATEGORIES, classify(), classifyText(), Datasource, hasAny(), Stream, ClsCase
+Cohesion: 0.53
+Nodes (3): buildDataset(), run(), RunResult
 
 ### Community 23 - "Authentication"
 Cohesion: 0.10
@@ -247,8 +248,8 @@ Cohesion: 0.11
 Nodes (19): API reference, App side, Auth, Channels, Classification, Client, Constants, Context (+11 more)
 
 ### Community 34 - "oauth-http.ts"
-Cohesion: 0.10
-Nodes (15): TokenResponseBody, StaticTokenProvider, TokenProvider, HttpTransportOptions, RawResult, Call, rotatingProvider(), token() (+7 more)
+Cohesion: 0.18
+Nodes (8): TokenResponseBody, AuthError, BridgeError, ConsentError, GatewayError, ScopeError, TenantError, UrbanOSError
 
 ### Community 35 - "tsconfig.build.json"
 Cohesion: 0.25
@@ -279,8 +280,8 @@ Cohesion: 0.43
 Nodes (5): dailyRhythm(), DailyRhythmOptions, defineDemoDataset(), DefineDemoDatasetInput, seededRng()
 
 ### Community 42 - "pkce.ts"
-Cohesion: 0.23
-Nodes (14): RFC-4648, CryptoLike, base64UrlDecode(), base64UrlEncode(), createCodeChallenge(), createCodeVerifier(), createState(), readElementClaim() (+6 more)
+Cohesion: 0.25
+Nodes (13): RFC-4648, CryptoLike, base64UrlDecode(), base64UrlEncode(), createCodeChallenge(), createCodeVerifier(), createState(), readElementClaim() (+5 more)
 
 ### Community 43 - "context.ts"
 Cohesion: 0.33
@@ -410,29 +411,33 @@ Nodes (11): Capabilities, Connecting, Embedding, Getting a token, Hosting an app
 Cohesion: 0.20
 Nodes (10): Checklist, Demo, Field reference, Optional, Publishing to the store, Required, Scopes and reasons, Screens (+2 more)
 
+### Community 87 - "PkceTokenProvider"
+Cohesion: 0.27
+Nodes (3): OAuthHttp, PkceTokenProvider, AccessToken
+
 ### Community 91 - "@senseering/urbanos-cli"
 Cohesion: 0.50
 Nodes (3): @datamatters-gmbh/urbanos-cli, Docs, What to use instead
 
 ## Knowledge Gaps
-- **552 isolated node(s):** `$schema`, `changelog`, `commit`, `fixed`, `linked` (+547 more)
+- **554 isolated node(s):** `Changesets`, `$schema`, `changelog`, `commit`, `fixed` (+549 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `createHost()` connect `index.ts` to `transport.ts`?**
-  _High betweenness centrality (0.028) - this node is a cross-community bridge._
-- **Why does `AccessToken` connect `transport.ts` to `oauth-http.ts`, `pkce.ts`, `PkceTokenProvider`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `PkceTokenProvider` connect `PkceTokenProvider` to `oauth-http.ts`, `pkce.ts`, `transport.ts`, `http-transport.ts`, `env.ts`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **Are the 2 inferred relationships involving `createHost()` (e.g. with `.toast()` and `.token()`) actually correct?**
-  _`createHost()` has 2 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `$schema`, `changelog`, `commit` to the rest of the system?**
-  _552 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `StorageLike` connect `env.ts` to `pkce.ts`, `PkceTokenProvider`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
+- **Why does `Transport` connect `Transport` to `http-transport.ts`?**
+  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+- **Why does `API reference` connect `@senseering/urbanos-core` to `README.md`?**
+  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+- **What connects `Changesets`, `$schema`, `changelog` to the rest of the system?**
+  _554 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `index.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.06848357791754019 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05520614954577219 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._
+- **Should `scripts` be split into smaller, more focused modules?**
+  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._

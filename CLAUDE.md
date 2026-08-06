@@ -65,9 +65,12 @@ pnpm release                             # pnpm build && changeset publish
   fails a `packages/**` PR with no changeset.
 - Release (`.github/workflows/release.yml`, changesets): push to `main` opens a
   "Version Packages" PR; merging it publishes to **public npm**
-  (`@datamatters-gmbh` scope) with provenance. Auth: `secrets.NPM_TOKEN` →
-  `NODE_AUTH_TOKEN`. CI also packs every package and asserts tarball contents
-  (no `.map` files, README + LICENSE present) — npm versions are immutable.
+  (`@datamatters-gmbh` scope). Auth: `secrets.NPM_TOKEN` → `NODE_AUTH_TOKEN`.
+  CI also packs every package and asserts tarball contents (no `.map` files,
+  README + LICENSE present) — npm versions are immutable.
+- **npm provenance is off until this repo is public.** npm only attests tarballs
+  built from a public source repo. `id-token: write` is already in place; flip
+  `NPM_CONFIG_PROVENANCE: 'true'` in `release.yml` when the repo opens up.
 
 ## Hard rules (learned the hard way)
 
