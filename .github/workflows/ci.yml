@@ -13,18 +13,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: pnpm
-          # SDK packages resolve from GitHub Packages under @senseering.
-          registry-url: https://npm.pkg.github.com
-          scope: '@senseering'
+      # No registry auth: every dependency resolves from public npm.
       - run: pnpm install --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: pnpm format
       # Build first so cross-package types (and the example) resolve from dist
       # for the type-aware lint, typecheck, and tests.
@@ -38,15 +34,51 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: pnpm changeset status --since=origin/main
+
+  package:
+    # Pack every publishable package and assert the tarball contents, so a
+    # broken `files`/exports config fails here rather than after publishing —
+    # npm versions are immutable, so a bad tarball cannot be replaced.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Pack all packages
+        run: pnpm -r --filter "./packages/*" --filter "./create-urbanos-app" exec pnpm pack --pack-destination /tmp/tarballs
+      - name: No source maps may ship
+        run: |
+          found=$(for t in /tmp/tarballs/*.tgz; do tar -tzf "$t" | grep '\.map$' || true; done)
+          if [ -n "$found" ]; then echo "::error::source maps found in tarball:"; echo "$found"; exit 1; fi
+          echo "OK: no .map files in any tarball"
+      - name: Every package ships a README and a LICENSE
+        run: |
+          fail=0
+          for t in /tmp/tarballs/*.tgz; do
+            list=$(tar -tzf "$t")
+            for want in README.md LICENSE; do
+              echo "$list" | grep -qx "package/$want" || { echo "::error::$(basename "$t") is missing $want"; fail=1; }
+            done
+          done
+          [ "$fail" -eq 0 ] && echo "OK: all tarballs carry README.md + LICENSE"
+          exit $fail
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tarballs
+          path: /tmp/tarballs/*.tgz
+          retention-days: 7

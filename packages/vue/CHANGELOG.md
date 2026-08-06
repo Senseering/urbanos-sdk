@@ -1,18 +1,18 @@
-# @senseering/urbanos-vue
+# @datamatters-gmbh/urbanos-vue
 
 ## 0.1.2
 
 ### Patch Changes
 
 - Updated dependencies [01d6f81]
-  - @senseering/urbanos-bridge@0.3.0
+  - @datamatters-gmbh/urbanos-bridge@0.3.0
 
 ## 0.1.1
 
 ### Patch Changes
 
 - Updated dependencies [738ab77]
-  - @senseering/urbanos-bridge@0.2.0
+  - @datamatters-gmbh/urbanos-bridge@0.2.0
 
 ## 0.1.0
 
@@ -25,6 +25,6 @@
 ### Patch Changes
 
 - Updated dependencies
-  - @senseering/urbanos-core@0.1.0
-  - @senseering/urbanos-bridge@0.1.0
-  - @senseering/urbanos-demo@0.1.0
+  - @datamatters-gmbh/urbanos-core@0.1.0
+  - @datamatters-gmbh/urbanos-bridge@0.1.0
+  - @datamatters-gmbh/urbanos-demo@0.1.0

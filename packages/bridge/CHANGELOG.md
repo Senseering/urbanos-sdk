@@ -1,4 +1,4 @@
-# @senseering/urbanos-bridge
+# @datamatters-gmbh/urbanos-bridge
 
 ## 0.3.0
 

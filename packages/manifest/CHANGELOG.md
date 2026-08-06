@@ -1,4 +1,4 @@
-# @senseering/urbanos-manifest
+# @datamatters-gmbh/urbanos-manifest
 
 ## 0.1.0
 

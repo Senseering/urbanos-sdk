@@ -1,5 +1,5 @@
 ---
-'@senseering/urbanos-core': minor
+'@datamatters-gmbh/urbanos-core': minor
 ---
 
 Add interactive OAuth for standalone third-party apps.

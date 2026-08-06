@@ -13,12 +13,12 @@ remediation timeline, and credit reporters who wish to be named.
 This SDK sits on the trust boundary of the urbanOS platform. The following are explicitly
 in scope and reviewed with extra care:
 
-- **The embed bridge** (`@senseering/urbanos-bridge`): message validation, origin checks,
+- **The embed bridge** (`@datamatters-gmbh/urbanos-bridge`): message validation, origin checks,
   the `MessageChannel` handshake, and anything touching how a host and a guest app exchange
   data.
-- **Token handling** (`@senseering/urbanos-core` auth): how scoped app tokens are stored,
+- **Token handling** (`@datamatters-gmbh/urbanos-core` auth): how scoped app tokens are stored,
   refreshed, and never leaked; ensuring the user session never crosses the bridge.
-- **The manifest schema** (`@senseering/urbanos-manifest`): scope/permission declarations
+- **The manifest schema** (`@datamatters-gmbh/urbanos-manifest`): scope/permission declarations
   that drive consent.
 
 ## Out of scope

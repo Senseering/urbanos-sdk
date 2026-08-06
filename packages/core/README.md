@@ -1,4 +1,4 @@
-# @senseering/urbanos-core
+# @datamatters-gmbh/urbanos-core
 
 The framework-agnostic urbanOS client: the `Transport` contract, `UrbanOSClient`,
 HTTP and demo transports, OAuth token providers, the timeseries query builder, and
@@ -9,16 +9,15 @@ Zero runtime dependencies. ESM only.
 ## Install
 
 ```bash
-pnpm add @senseering/urbanos-core
+pnpm add @datamatters-gmbh/urbanos-core
 ```
 
-Requires an `.npmrc` pointing `@senseering` at GitHub Packages — see
-[getting started](../../docs/getting-started.md#installing-the-packages).
+Public npm — no registry config or token needed.
 
 ## Use
 
 ```ts
-import { HttpTransport, UrbanOSClient, PkceTokenProvider } from '@senseering/urbanos-core';
+import { HttpTransport, UrbanOSClient, PkceTokenProvider } from '@datamatters-gmbh/urbanos-core';
 
 const auth = new PkceTokenProvider({
   gatewayUrl: 'https://urbanos-gateway.udp.city',
@@ -43,6 +42,6 @@ Swap `HttpTransport` for `DemoTransport` to run offline — nothing else changes
 
 ## Docs
 
-- [Querying data](../../docs/querying-data.md) — the client API
-- [Authentication](../../docs/authentication.md) — scopes, PKCE, embedded tokens
-- [API reference](../../docs/api-reference.md#senseeringurbanos-core) — every export
+- [Querying data](https://github.com/Senseering/urbanos-sdk/blob/main/docs/querying-data.md) — the client API
+- [Authentication](https://github.com/Senseering/urbanos-sdk/blob/main/docs/authentication.md) — scopes, PKCE, embedded tokens
+- [API reference](https://github.com/Senseering/urbanos-sdk/blob/main/docs/api-reference.md#datamatters-gmbhurbanos-core) — every export

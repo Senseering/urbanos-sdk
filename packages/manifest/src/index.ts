@@ -1,5 +1,5 @@
 /**
- * @senseering/urbanos-manifest
+ * @datamatters-gmbh/urbanos-manifest
  *
  * The app manifest: one declarative file per app describing the store listing,
  * the scopes it needs (with localized consent reasons), how it embeds, and

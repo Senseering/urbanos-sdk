@@ -20,7 +20,7 @@ permissions it needs and why, how it embeds, and whether it offers a demo.
 
 ```ts
 // urbanos.app.ts
-import { defineAppManifest } from '@senseering/urbanos-manifest';
+import { defineAppManifest } from '@datamatters-gmbh/urbanos-manifest';
 
 export default defineAppManifest({
   manifestVersion: 1,
@@ -172,7 +172,7 @@ See [Demo mode](demo-mode.md).
 is what you want in a build:
 
 ```ts
-import { defineAppManifest } from '@senseering/urbanos-manifest';
+import { defineAppManifest } from '@datamatters-gmbh/urbanos-manifest';
 
 export default defineAppManifest({/* … */}); // throws ZodError if wrong
 ```
@@ -180,7 +180,7 @@ export default defineAppManifest({/* … */}); // throws ZodError if wrong
 For structured errors instead of a throw:
 
 ```ts
-import { validateAppManifest } from '@senseering/urbanos-manifest';
+import { validateAppManifest } from '@datamatters-gmbh/urbanos-manifest';
 
 const result = validateAppManifest(JSON.parse(raw));
 

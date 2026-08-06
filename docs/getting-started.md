@@ -19,44 +19,26 @@ access.
 
 ## Installing the packages
 
-The packages are published to **GitHub Packages** under the `@senseering` scope.
-
-> **You need a GitHub token to install.** Unlike npmjs.com, GitHub Packages requires
-> authentication to _download_ packages — this applies even to public ones. There is
-> no anonymous install.
-
-**1.** Create a [GitHub personal access token](https://github.com/settings/tokens)
-with the **`read:packages`** scope.
-
-**2.** Add an `.npmrc` next to your project's `package.json`:
-
-```ini
-@senseering:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
-```
-
-**3.** Export the token and install:
+The packages are on **public npm** under the `@datamatters-gmbh` scope. No registry
+config, no token, no account:
 
 ```bash
-export NODE_AUTH_TOKEN=ghp_yourtokenhere
-pnpm add @senseering/urbanos-core @senseering/urbanos-demo
+pnpm add @datamatters-gmbh/urbanos-core @datamatters-gmbh/urbanos-demo
 ```
 
-<details>
-<summary>Keeping the token out of your project</summary>
-
-Put the auth line in your **user-level** `~/.npmrc` instead, so it never lands in a
-repo:
-
-```ini
-//npm.pkg.github.com/:_authToken=ghp_yourtokenhere
+```bash
+npm  install @datamatters-gmbh/urbanos-core @datamatters-gmbh/urbanos-demo
+yarn add     @datamatters-gmbh/urbanos-core @datamatters-gmbh/urbanos-demo
 ```
 
-Your project `.npmrc` then only needs the registry line. In CI, use
-`actions/setup-node` with `registry-url: https://npm.pkg.github.com` and set
-`NODE_AUTH_TOKEN` from a secret.
+Add the others as you need them — `urbanos-bridge` to embed in the shell,
+`urbanos-manifest` to publish, `urbanos-vue` for Vue bindings.
 
-</details>
+> **Moving from GitHub Packages?** Releases up to core 0.1.0 were published to
+> GitHub Packages under the `@senseering` scope. Everything from core 0.2.0 is on
+> npm under `@datamatters-gmbh`. Drop the `@senseering:registry` line and the
+> `read:packages` token from your `.npmrc` — neither is needed any more — and
+> rename your imports. Nothing else about the API changed in the move.
 
 ## Your first app (offline)
 
@@ -65,8 +47,8 @@ dataset, hand it to `DemoTransport`, and the client behaves exactly as it will
 against real data.
 
 ```ts
-import { DemoTransport, UrbanOSClient, type DemoDataset } from '@senseering/urbanos-core';
-import { dailyRhythm, defineDemoDataset, seededRng } from '@senseering/urbanos-demo';
+import { DemoTransport, UrbanOSClient, type DemoDataset } from '@datamatters-gmbh/urbanos-core';
+import { dailyRhythm, defineDemoDataset, seededRng } from '@datamatters-gmbh/urbanos-demo';
 
 // 1. Describe the world your app sees.
 const rng = seededRng(1337);
@@ -138,7 +120,7 @@ See [Demo mode](demo-mode.md) for building realistic datasets.
 Swap the transport. Nothing else in your app changes.
 
 ```ts
-import { HttpTransport, UrbanOSClient, PkceTokenProvider } from '@senseering/urbanos-core';
+import { HttpTransport, UrbanOSClient, PkceTokenProvider } from '@datamatters-gmbh/urbanos-core';
 
 const auth = new PkceTokenProvider({
   gatewayUrl: 'https://urbanos-gateway.udp.city',
@@ -170,14 +152,14 @@ redirect-URI matching, CORS origin allowlisting) fail in confusing ways if misse
 
 ## Using Vue
 
-`@senseering/urbanos-vue` provides a plugin and composables. Note it takes an
+`@datamatters-gmbh/urbanos-vue` provides a plugin and composables. Note it takes an
 **already-constructed** client — it does not build one for you.
 
 ```ts
 // main.ts
 import { createApp } from 'vue';
-import { createUrbanOS } from '@senseering/urbanos-vue';
-import { DemoTransport, UrbanOSClient } from '@senseering/urbanos-core';
+import { createUrbanOS } from '@datamatters-gmbh/urbanos-vue';
+import { DemoTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 import App from './App.vue';
 
 const client = new UrbanOSClient(new DemoTransport(dataset));
@@ -205,7 +187,7 @@ the loader **immediately** — it is not lazy.
 
 ```vue
 <script setup lang="ts">
-import { useAppState, useUrbanOS } from '@senseering/urbanos-vue';
+import { useAppState, useUrbanOS } from '@datamatters-gmbh/urbanos-vue';
 
 const { client } = useUrbanOS();
 

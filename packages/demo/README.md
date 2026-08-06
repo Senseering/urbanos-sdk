@@ -1,7 +1,7 @@
-# @senseering/urbanos-demo
+# @datamatters-gmbh/urbanos-demo
 
 Deterministic, seeded data generators plus `defineDemoDataset()` — builds the
-`DemoDataset` that `DemoTransport` (in `@senseering/urbanos-core`) consumes.
+`DemoDataset` that `DemoTransport` (in `@datamatters-gmbh/urbanos-core`) consumes.
 
 Because demo reads run through the same aggregation engine as production, demo mode
 behaves identically to real mode.
@@ -9,14 +9,14 @@ behaves identically to real mode.
 ## Install
 
 ```bash
-pnpm add @senseering/urbanos-demo @senseering/urbanos-core
+pnpm add @datamatters-gmbh/urbanos-demo @datamatters-gmbh/urbanos-core
 ```
 
 ## Use
 
 ```ts
-import { dailyRhythm, defineDemoDataset, seededRng } from '@senseering/urbanos-demo';
-import { DemoTransport, UrbanOSClient } from '@senseering/urbanos-core';
+import { dailyRhythm, defineDemoDataset, seededRng } from '@datamatters-gmbh/urbanos-demo';
+import { DemoTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 
 const rng = seededRng(1337);
 
@@ -45,5 +45,5 @@ Determinism comes from the `rng` you pass into generators — always seed it.
 
 ## Docs
 
-- [Demo mode](../../docs/demo-mode.md) — datasets, generators, resolution
-- [API reference](../../docs/api-reference.md#senseeringurbanos-demo)
+- [Demo mode](https://github.com/Senseering/urbanos-sdk/blob/main/docs/demo-mode.md) — datasets, generators, resolution
+- [API reference](https://github.com/Senseering/urbanos-sdk/blob/main/docs/api-reference.md#datamatters-gmbhurbanos-demo)

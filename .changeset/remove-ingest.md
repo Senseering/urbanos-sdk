@@ -1,5 +1,5 @@
 ---
-'@senseering/urbanos-core': minor
+'@datamatters-gmbh/urbanos-core': minor
 ---
 
 **Breaking:** remove `ingest()` and the `IngestPoint` type.

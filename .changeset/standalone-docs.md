@@ -1,13 +1,13 @@
 ---
-'@senseering/create-urbanos-app': patch
-'@senseering/urbanos-manifest': patch
-'@senseering/urbanos-bridge': patch
-'@senseering/urbanos-tokens': patch
-'@senseering/urbanos-core': patch
-'@senseering/urbanos-demo': patch
-'@senseering/urbanos-nuxt': patch
-'@senseering/urbanos-cli': patch
-'@senseering/urbanos-vue': patch
+'@datamatters-gmbh/create-urbanos-app': patch
+'@datamatters-gmbh/urbanos-manifest': patch
+'@datamatters-gmbh/urbanos-bridge': patch
+'@datamatters-gmbh/urbanos-tokens': patch
+'@datamatters-gmbh/urbanos-core': patch
+'@datamatters-gmbh/urbanos-demo': patch
+'@datamatters-gmbh/urbanos-nuxt': patch
+'@datamatters-gmbh/urbanos-cli': patch
+'@datamatters-gmbh/urbanos-vue': patch
 ---
 
 Documentation: add a full developer guide under `docs/` (getting started,

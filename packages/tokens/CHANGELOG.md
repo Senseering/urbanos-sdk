@@ -1,4 +1,4 @@
-# @senseering/urbanos-tokens
+# @datamatters-gmbh/urbanos-tokens
 
 ## 0.1.0
 

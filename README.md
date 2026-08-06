@@ -9,20 +9,11 @@ demo mode.
 
 ## Install
 
-Packages are published to GitHub Packages under the `@senseering` scope. GitHub
-Packages requires a token to install, even for public packages — create a
-[PAT](https://github.com/settings/tokens) with `read:packages`, then:
-
-```ini
-# .npmrc
-@senseering:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
-```
-
 ```bash
-export NODE_AUTH_TOKEN=ghp_yourtokenhere
-pnpm add @senseering/urbanos-core @senseering/urbanos-demo
+pnpm add @datamatters-gmbh/urbanos-core @datamatters-gmbh/urbanos-demo
 ```
+
+Public npm — no registry config and no token. Node ≥ 22, ESM only.
 
 Full setup: [docs/getting-started.md](docs/getting-started.md).
 
@@ -31,8 +22,8 @@ Full setup: [docs/getting-started.md](docs/getting-started.md).
 No credentials needed — demo mode runs offline:
 
 ```ts
-import { DemoTransport, UrbanOSClient } from '@senseering/urbanos-core';
-import { dailyRhythm, defineDemoDataset } from '@senseering/urbanos-demo';
+import { DemoTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
+import { dailyRhythm, defineDemoDataset } from '@datamatters-gmbh/urbanos-demo';
 
 const client = new UrbanOSClient(
   new DemoTransport(
@@ -77,17 +68,17 @@ Going live is a one-line swap to `HttpTransport` — your app code doesn't chang
 
 ## Packages
 
-| Package                          | Status   | What it is                                                                      |
-| -------------------------------- | -------- | ------------------------------------------------------------------------------- |
-| `@senseering/urbanos-core`       | stable   | Framework-agnostic client: auth, typed timeseries query builder, demo transport |
-| `@senseering/urbanos-bridge`     | stable   | Embed protocol v2 (host + app sides), zero deps                                 |
-| `@senseering/urbanos-demo`       | usable   | `defineDemoDataset` + seeded generators (`seededRng`, `dailyRhythm`)            |
-| `@senseering/urbanos-manifest`   | usable   | App manifest schema (zod) + `defineAppManifest()`                               |
-| `@senseering/urbanos-vue`        | usable   | Vue 3 composables + plugin (`createUrbanOS`, `useUrbanOS`, `useAppState`)       |
-| `@senseering/urbanos-tokens`     | skeleton | Design tokens — not implemented yet                                             |
-| `@senseering/urbanos-nuxt`       | skeleton | Nuxt module — not implemented yet                                               |
-| `@senseering/urbanos-cli`        | skeleton | `urbanos` CLI — no commands yet                                                 |
-| `@senseering/create-urbanos-app` | skeleton | Scaffolder — no templates yet                                                   |
+| Package                                | Status   | What it is                                                                      |
+| -------------------------------------- | -------- | ------------------------------------------------------------------------------- |
+| `@datamatters-gmbh/urbanos-core`       | stable   | Framework-agnostic client: auth, typed timeseries query builder, demo transport |
+| `@datamatters-gmbh/urbanos-bridge`     | stable   | Embed protocol v2 (host + app sides), zero deps                                 |
+| `@datamatters-gmbh/urbanos-demo`       | usable   | `defineDemoDataset` + seeded generators (`seededRng`, `dailyRhythm`)            |
+| `@datamatters-gmbh/urbanos-manifest`   | usable   | App manifest schema (zod) + `defineAppManifest()`                               |
+| `@datamatters-gmbh/urbanos-vue`        | usable   | Vue 3 composables + plugin (`createUrbanOS`, `useUrbanOS`, `useAppState`)       |
+| `@datamatters-gmbh/urbanos-tokens`     | skeleton | Design tokens — not implemented yet                                             |
+| `@datamatters-gmbh/urbanos-nuxt`       | skeleton | Nuxt module — not implemented yet                                               |
+| `@datamatters-gmbh/urbanos-cli`        | skeleton | `urbanos` CLI — no commands yet                                                 |
+| `@datamatters-gmbh/create-urbanos-app` | skeleton | Scaffolder — no templates yet                                                   |
 
 `core` and `bridge` are substantial implementations; `demo`, `manifest`, and `vue`
 are functional partials. The four skeletons export a version constant and nothing

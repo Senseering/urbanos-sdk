@@ -3,7 +3,7 @@
  * so embedded and standalone apps satisfy ONE interface and `HttpTransport`
  * neither knows nor cares which mode it is in.
  *
- * Core must not import `@senseering/urbanos-bridge` (CONTRIBUTING.md: core and
+ * Core must not import `@datamatters-gmbh/urbanos-bridge` (CONTRIBUTING.md: core and
  * bridge both carry zero dependencies). The source is therefore declared
  * STRUCTURALLY — the same technique channel.ts uses for the DOM. `AppBridge`
  * satisfies HostTokenSource without an import because bridge's `TokenResponse`
@@ -17,7 +17,7 @@ import { AuthError } from '../errors/errors';
 import type { AccessToken, TokenProvider } from './token-provider';
 import type { ClockLike } from './env';
 
-/** Structurally satisfied by `AppBridge` from @senseering/urbanos-bridge. */
+/** Structurally satisfied by `AppBridge` from @datamatters-gmbh/urbanos-bridge. */
 export interface HostTokenSource {
   getToken(): Promise<AccessToken>;
   onTokenRevoked?(cb: (reason: string) => void): () => void;

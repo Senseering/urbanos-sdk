@@ -1,7 +1,7 @@
 /**
  * Injection seams for the browser APIs the PKCE flow needs.
  *
- * `@senseering/urbanos-core` has zero runtime dependencies and touches no
+ * `@datamatters-gmbh/urbanos-core` has zero runtime dependencies and touches no
  * platform API except an injectable `fetch` — a hard rule (CONTRIBUTING.md).
  * PKCE needs SHA-256, random bytes, persistence across a full-page redirect, and
  * navigation, none of which exist in Node's default test environment.

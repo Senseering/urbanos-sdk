@@ -1,16 +1,16 @@
-# @senseering/urbanos-nuxt
+# @datamatters-gmbh/urbanos-nuxt
 
 ## 0.1.2
 
 ### Patch Changes
 
-- @senseering/urbanos-vue@0.1.2
+- @datamatters-gmbh/urbanos-vue@0.1.2
 
 ## 0.1.1
 
 ### Patch Changes
 
-- @senseering/urbanos-vue@0.1.1
+- @datamatters-gmbh/urbanos-vue@0.1.1
 
 ## 0.1.0
 
@@ -23,4 +23,4 @@
 ### Patch Changes
 
 - Updated dependencies
-  - @senseering/urbanos-vue@0.1.0
+  - @datamatters-gmbh/urbanos-vue@0.1.0

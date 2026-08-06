@@ -1,4 +1,4 @@
-# @senseering/urbanos-tokens
+# @datamatters-gmbh/urbanos-tokens
 
 The planned design tokens: CSS variables, Tailwind preset, dark-mode contract.
 
@@ -24,5 +24,5 @@ next to the shell.
 
 ## Docs
 
-- [Embedding](../../docs/embedding.md#the-context)
-- [Documentation index](../../docs/README.md)
+- [Embedding](https://github.com/Senseering/urbanos-sdk/blob/main/docs/embedding.md#the-context)
+- [Documentation index](https://github.com/Senseering/urbanos-sdk/blob/main/docs/README.md)

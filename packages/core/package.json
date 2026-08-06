@@ -1,16 +1,33 @@
 {
-  "name": "@senseering/urbanos-core",
+  "name": "@datamatters-gmbh/urbanos-core",
   "version": "0.1.0",
   "description": "Framework-agnostic urbanOS client: auth, timeseries query builder, demo transport.",
+  "keywords": [
+    "urbanos",
+    "smart-city",
+    "sdk",
+    "client",
+    "timeseries",
+    "oauth",
+    "pkce"
+  ],
   "license": "Apache-2.0",
-  "type": "module",
+  "author": "dataMatters GmbH",
+  "homepage": "https://github.com/Senseering/urbanos-sdk/tree/main/packages/core#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Senseering/urbanos-sdk.git",
+    "url": "git+https://github.com/Senseering/urbanos-sdk.git",
     "directory": "packages/core"
   },
+  "bugs": {
+    "url": "https://github.com/Senseering/urbanos-sdk/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

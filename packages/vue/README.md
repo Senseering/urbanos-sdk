@@ -1,4 +1,4 @@
-# @senseering/urbanos-vue
+# @datamatters-gmbh/urbanos-vue
 
 Vue 3 bindings over the core client: a plugin that provides the client and context,
 `useUrbanOS()` to consume them, and `useAppState()` — the
@@ -9,7 +9,7 @@ loading / ready / empty / error contract every app screen routes through.
 ## Install
 
 ```bash
-pnpm add @senseering/urbanos-vue @senseering/urbanos-core vue
+pnpm add @datamatters-gmbh/urbanos-vue @datamatters-gmbh/urbanos-core vue
 ```
 
 ## Use
@@ -17,8 +17,8 @@ pnpm add @senseering/urbanos-vue @senseering/urbanos-core vue
 ```ts
 // main.ts
 import { createApp } from 'vue';
-import { createUrbanOS } from '@senseering/urbanos-vue';
-import { DemoTransport, UrbanOSClient } from '@senseering/urbanos-core';
+import { createUrbanOS } from '@datamatters-gmbh/urbanos-vue';
+import { DemoTransport, UrbanOSClient } from '@datamatters-gmbh/urbanos-core';
 
 const client = new UrbanOSClient(new DemoTransport(dataset));
 
@@ -27,7 +27,7 @@ createApp(App).use(createUrbanOS({ client, context })).mount('#app');
 
 ```vue
 <script setup lang="ts">
-import { useAppState, useUrbanOS } from '@senseering/urbanos-vue';
+import { useAppState, useUrbanOS } from '@datamatters-gmbh/urbanos-vue';
 
 const { client } = useUrbanOS();
 
@@ -43,5 +43,5 @@ build one for you. `useAppState` runs its loader immediately.
 
 ## Docs
 
-- [Getting started](../../docs/getting-started.md#using-vue) — full wiring
-- [API reference](../../docs/api-reference.md#senseeringurbanos-vue)
+- [Getting started](https://github.com/Senseering/urbanos-sdk/blob/main/docs/getting-started.md#using-vue) — full wiring
+- [API reference](https://github.com/Senseering/urbanos-sdk/blob/main/docs/api-reference.md#datamatters-gmbhurbanos-vue)
