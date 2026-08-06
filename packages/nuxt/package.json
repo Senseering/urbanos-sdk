@@ -1,6 +1,6 @@
 {
   "name": "@datamatters-gmbh/urbanos-nuxt",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Nuxt module wrapping the Vue bindings (plugin wiring, SSR safety, auto-imports).",
   "keywords": [
     "urbanos",
