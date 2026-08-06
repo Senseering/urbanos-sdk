@@ -4,7 +4,7 @@
  * Vue 3 bindings over the core client: a plugin that provides the client +
  * context, useUrbanOS() to consume them, and useAppState() — the standard
  * loading | ready | empty | error contract every app screen routes through.
- * See docs/v2-migration/04-sdk.md and 05-app-template.md.
+ * See docs/getting-started.md for the wiring.
  */
 import { type App, type InjectionKey, type Ref, inject, ref, shallowRef } from 'vue';
 import type { UrbanOSClient, UrbanOSContext } from '@senseering/urbanos-core';

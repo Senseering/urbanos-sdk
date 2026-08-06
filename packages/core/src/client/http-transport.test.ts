@@ -67,14 +67,14 @@ describe('HttpTransport auth headers', () => {
   });
 
   test('sets Content-Type when a body is present', async () => {
-    const f = recordingFetch([{ body: { accepted: 1 } }]);
+    const f = recordingFetch([{ body: { key: 'prefs' } }]);
     const t = new HttpTransport({
       baseUrl: 'https://api.udp.city',
       tokens: new StaticTokenProvider(token('tok-a')),
       fetchImpl: f.impl,
     });
 
-    await t.ingest([{ streamId: 11, t: '2026-01-01T00:00:00Z', v: 1 }]);
+    await t.putStorage('prefs', { theme: 'dark' });
     expect(f.calls[0]!.contentType).toBe('application/json');
   });
 });

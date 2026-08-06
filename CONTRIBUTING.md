@@ -3,9 +3,8 @@
 Thanks for helping build the urbanOS SDK. This repo is the public contract third-party app
 developers depend on, so we hold it to a high bar.
 
-> **Status:** the SDK is currently published **privately** to GitHub Packages under the
-> `@senseering` scope while it incubates. It is intended to become open source (Apache-2.0)
-> under the `@urbanos` npm scope. Contributions are made under the **Developer Certificate
+> **Status:** open source under Apache-2.0. Packages are published to **GitHub Packages**
+> under the `@senseering` scope. Contributions are made under the **Developer Certificate
 > of Origin** — sign your commits with `git commit -s`.
 
 ## Setup
@@ -17,9 +16,12 @@ pnpm build
 pnpm test
 ```
 
-Requires Node >= 22 and pnpm 10 (pinned via `packageManager`). To install/publish packages
-you need a GitHub token with `read:packages` (and `write:packages` for releases) exported as
-`NODE_AUTH_TOKEN`.
+Requires Node >= 22 and pnpm 10 (pinned via `packageManager`).
+
+> **Heads up:** GitHub Packages requires authentication to _install_, even for public
+> packages. `pnpm install` therefore needs a GitHub token with `read:packages` exported as
+> `NODE_AUTH_TOKEN` (`write:packages` for releases). See
+> [docs/getting-started.md](docs/getting-started.md#installing-the-packages).
 
 ## Rules of the road
 
@@ -33,5 +35,8 @@ you need a GitHub token with `read:packages` (and `write:packages` for releases)
 
 ## Where things live
 
-See [the architecture docs](https://github.com/Senseering/dm-frontend-pwa/tree/dev/docs/v2-migration)
-(`04-sdk.md` is the SDK design). Each package has its own `README.md`.
+[`docs/`](docs/) is the developer-facing documentation — start at
+[docs/README.md](docs/README.md). Each package also has its own `README.md`, and
+[CLAUDE.md](CLAUDE.md) records the repo's working rules.
+
+**When you change a public API, update the matching `docs/` page in the same PR.**

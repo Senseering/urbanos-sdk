@@ -6,40 +6,31 @@ Guidance for Claude Code working in **this repo**. Overrides the generic
 ## What this is
 
 The **`@senseering/*` TypeScript SDK** — a pnpm monorepo (Node ≥22, ESM,
-versions pinned via the pnpm **catalog**) published to **private GitHub
-Packages**. It is the one integration surface for the whole platform: the
-`Transport` data contract, `UrbanOSClient`, the embed bridge (protocol v2),
-deterministic demo datasets, and the app manifest schema. Framework-agnostic
-core; thin Vue/Nuxt bindings on top.
+versions pinned via the pnpm **catalog**) published to **GitHub Packages**. It is
+the one integration surface for the urbanOS platform: the `Transport` data
+contract, `UrbanOSClient`, the embed bridge (protocol v2), deterministic demo
+datasets, and the app manifest schema. Framework-agnostic core; thin Vue/Nuxt
+bindings on top.
 
-## The urbanOS ecosystem
+This repo is **self-contained**. Everything needed to understand, build, and
+document the SDK lives here. Do not add references to other repositories.
 
-urbanOS v2 is split across sibling repos — clone them next to each other under
-`../`. This repo is one of them.
+## Where the docs live
 
-| Repo                   | What it is                                                                                                                                                                                       |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **urbanos-apps**       | The UDP shell + all first-party app SPAs on the `@udp/*` layers. The SDK's main consumer.                                                                                                        |
-| **urbanos-sdk**        | This repo — the `@senseering/*` TypeScript SDK (private GitHub Packages): the `Transport` contract, `UrbanOSClient`, the embed bridge, demo datasets, app manifest. The one integration surface. |
-| **urbanos-platform**   | The Go API gateway (`/v1` OAuth 2.1 + timeseries/storage/catalog) + the Supabase DB migrations (`packages/db`) + the shared conformance vectors (`packages/conformance`).                        |
-| **dM-urbanOS-website** | Nuxt 4 brand/marketing site (`../dM-urbanOS-website*` — the clone may carry a suffix). Every app gets a landing page here.                                                                       |
-| **dm-frontend-pwa**    | The v1 monorepo — **READ-ONLY reference** for the visual 1:1 rebuild. Never modify.                                                                                                              |
+`docs/` is the developer-facing documentation — the same pages a third-party app
+developer reads:
 
-**How they connect:**
+| Page                      | Covers                                                        |
+| ------------------------- | ------------------------------------------------------------- |
+| `docs/getting-started.md` | Install, demo-mode hello world, swapping to live data         |
+| `docs/authentication.md`  | Client registration, scopes, PKCE, embedded tokens, CORS      |
+| `docs/querying-data.md`   | `element`, `datasources`, timeseries builder, storage, errors |
+| `docs/demo-mode.md`       | `defineDemoDataset`, seeded generators, demo↔prod parity      |
+| `docs/embedding.md`       | Embed protocol v2 (app side + host side)                      |
+| `docs/publishing.md`      | App manifest reference + store checklist                      |
+| `docs/api-reference.md`   | Export index per package                                      |
 
-- urbanos-apps consumes the SDK as **versioned deps from GitHub Packages**
-  (`@senseering/urbanos-core|bridge|demo|manifest`), exactly like a third party —
-  never workspace-linked.
-- Data flows through an SDK `Transport`: Host / Proxy / Null live in
-  `urbanos-apps/packages/app-kit/src/transport/`; the Demo transport comes from
-  `@senseering/urbanos-core`. The **gateway cutover** (urbanos-platform `/v1`) is a
-  config-level swap of that transport for the SDK's `HttpTransport` — no app rewrite.
-- **Conformance vectors** (Go↔TS parity for classify + aggregation) have their
-  source of truth in `urbanos-platform/packages/conformance/fixtures`, hand-copied
-  into `urbanos-sdk/packages/core/src/__fixtures__` until
-  `@senseering/urbanos-conformance` is published. Change one side, change both.
-- App DB schemas + migrations live in `urbanos-platform/packages/db`; schema docs
-  (tbls) in `urbanos-platform/docs/database`.
+When you change a public API, update the matching page in the same PR.
 
 ## Workspace layout (packages/*, scope `@senseering/*`)
 
@@ -55,9 +46,10 @@ urbanOS v2 is split across sibling repos — clone them next to each other under
 | `urbanos-cli`      | skeleton | `urbanos` CLI (mock gateway, host simulator).                                                                             |
 
 Also: `create-urbanos-app` (npm scaffolder), `examples/minimal-vanilla`.
-**Only `nuxt`/`tokens`/`cli` are true skeletons; `core`/`bridge` are substantial
-implementations and `demo`/`manifest`/`vue` are functional partials. Trust the
-code over any "Phase 0" labels left in older docs.**
+**`nuxt`/`tokens`/`cli`/`create-urbanos-app` are true skeletons — one exported
+constant each, no commands and no templates. `core`/`bridge` are substantial
+implementations; `demo`/`manifest`/`vue` are functional partials. Trust the code
+over any "Phase 0" labels left in older docs.**
 
 ## Commands
 
@@ -73,40 +65,43 @@ pnpm release                             # pnpm build && changeset publish
   fails a `packages/**` PR with no changeset.
 - Release (`.github/workflows/release.yml`, changesets): push to `main` opens a
   "Version Packages" PR; merging it publishes to GitHub Packages
-  (`@senseering` scope, `access: restricted`). Auth env: `NODE_AUTH_TOKEN`.
+  (`@senseering` scope). Auth env: `NODE_AUTH_TOKEN`.
 
 ## Hard rules (learned the hard way)
 
 - **Branch:** `main`. Every PR that changes `packages/**` **must** include a
-  changeset (`pnpm changeset`) or CI fails.
+  changeset (`pnpm changeset`) or CI fails. Comment-only edits count.
 - **`Transport` is THE contract** (`packages/core/src/client/transport.ts`):
-  `getElement`, `listDatasources`, `queryTimeseries`, `ingest`, get/putStorage.
-  Its DTOs mirror the gateway `/v1` surface. Changing them **ripples into
-  urbanos-apps transports** — check `../urbanos-apps/packages/app-kit/src/transport/`
-  before touching DTOs.
+  `getElement`, `listDatasources`, `queryTimeseries`, get/putStorage.
+  Its DTOs mirror the gateway `/v1` surface. **These types are published — every
+  change is a breaking change for consumers** and needs a major changeset plus a
+  migration note.
 - **The bridge is not a data proxy.** The user session never crosses the bridge;
   the host mints a scoped app token + delivers context. Only `token.get` is
   req/res.
-- **Conformance vectors are hand-synced copies.** Source of truth lives in
-  urbanos-platform; the copies under `packages/core/src/__fixtures__` pin Go↔TS
-  parity. Breaking either file breaks demo↔prod equivalence.
+- **Conformance vectors pin demo↔prod parity.** The fixtures under
+  `packages/core/src/__fixtures__` are run by this SDK's classification and
+  aggregation engines and by the platform gateway. When both pass, demo mode
+  behaves like production. Changing a vector without changing both engines
+  breaks that guarantee — see `packages/core/src/__fixtures__/README.md`.
 - **Demo == prod semantics:** `DemoTransport` uses the same aggregation engine as
-  the gateway so `?demo=true` matches real mode. Keep it deterministic (seeded).
+  the gateway so demo mode matches real mode. Keep it deterministic (seeded).
+- **The SDK is read-only over platform data.** There is no timeseries write path:
+  the gateway exposes no ingest endpoint and `data:write:*` is ungrantable at
+  every client tier. `ingest()` was removed in core 0.2.0. The only write surface
+  an app has is `putStorage`.
 
-## Platform standards (subset — canonical list lives in `urbanos-apps/CLAUDE.md`)
-
-The full 13 platform standards are maintained in **urbanos-apps/CLAUDE.md**.
-Those that bind SDK work here:
+## Platform standards
 
 - **Everything tested** — co-located `*.test.ts`; conformance vectors + bridge
   handshake covered; CI green.
 - **Code is English** — identifiers/comments/files in English; the SDK carries no
   UI strings.
-- **New standards → CLAUDE.md** — decide a standard, record it in urbanos-apps
-  (canonical) and reflect the relevant bit here; re-sync AGENTS.md.
 - **Consumer awareness** — the SDK is a published dependency; treat every
-  exported type as a contract. Breaking changes need a major changeset and a note
-  for the urbanos-apps transports.
+  exported type as a contract. Breaking changes need a major changeset and a
+  note in the affected `docs/` page.
+- **New standards → CLAUDE.md** — decide a standard, record it here, and re-sync
+  `AGENTS.md` (the two files are byte-identical).
 
 ## graphify
 

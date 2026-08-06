@@ -44,12 +44,6 @@ export interface QueryResult {
   points: SeriesPoint[];
 }
 
-export interface IngestPoint {
-  streamId: number;
-  t: string;
-  v: number;
-}
-
 export interface ElementView {
   id: number;
   name: string;
@@ -59,7 +53,6 @@ export interface Transport {
   getElement(): Promise<ElementView>;
   listDatasources(opts?: { category?: string }): Promise<DatasourceView[]>;
   queryTimeseries(queries: TimeseriesQuery[]): Promise<QueryResult[]>;
-  ingest(points: IngestPoint[]): Promise<{ accepted: number }>;
   getStorage(key: string): Promise<unknown>;
   putStorage(key: string, value: unknown): Promise<void>;
 }

@@ -6,9 +6,9 @@ Add interactive OAuth for standalone third-party apps.
 
 `PkceTokenProvider` implements the authorization-code + PKCE (S256) flow against
 the gateway, with rotating refresh tokens. The consent step is shell-mediated by
-design: the gateway's `POST /oauth/authorize` requires the user's Supabase
+design: the gateway's `POST /oauth/authorize` requires the user's platform
 session as `subject_token`, which a third party must never see, so the browser is
-redirected to the UDP shell's consent screen instead.
+redirected to the urbanOS shell's consent screen instead.
 
 `HostTokenProvider` adapts the embed bridge to the same `TokenProvider`
 interface, so embedded and standalone apps are interchangeable from
@@ -30,8 +30,7 @@ Also:
   `code` is dup-proof where `instanceof` is not — consumers pin exact versions,
   so a transitive duplicate copy of the package would break `instanceof` checks.
 - First tests for `HttpTransport` and the auth module, including the RFC 7636
-  Appendix B known-answer vector, which pins Go↔TS PKCE parity with the
-  gateway's `pkceS256`.
+  Appendix B known-answer vector, which pins PKCE parity with the gateway.
 
 Refresh coalescing is a correctness requirement, not an optimisation: the gateway
 revokes an entire rotation family when a refresh token is reused, so concurrent

@@ -16,7 +16,7 @@ export default tseslint.config(
       },
     },
     rules: {
-      // The v2 standard (docs/v2-migration/06-standards.md): no escape hatch.
+      // Platform standard: no escape hatch.
       '@typescript-eslint/no-explicit-any': 'error',
       // Pragmatic relaxations of a few strictTypeChecked rules that fight
       // ordinary, safe patterns (asserted array access after a length check,

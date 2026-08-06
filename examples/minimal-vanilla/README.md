@@ -8,6 +8,12 @@ pnpm --filter @urbanos-examples/minimal-vanilla build
 pnpm --filter @urbanos-examples/minimal-vanilla start
 ```
 
+It defines two datasources (a car park and a noise sensor), then reads the element,
+filters datasources by category, and runs an hourly-average timeseries query.
+
 The same `UrbanOSClient` code, given an `HttpTransport` instead of a
 `DemoTransport`, runs against the real gateway. That's the point: one codebase,
-two modes. See [docs/v2-migration/04-sdk.md](https://github.com/Senseering/dm-frontend-pwa/blob/dev/docs/v2-migration/04-sdk.md).
+two modes.
+
+This is also the best starting point for a new app — copy the directory and replace
+the dataset. See [getting started](../../docs/getting-started.md).

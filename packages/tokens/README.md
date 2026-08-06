@@ -1,5 +1,28 @@
 # @senseering/urbanos-tokens
 
-Design tokens: CSS variables, Tailwind preset, dark-mode contract.
+The planned design tokens: CSS variables, Tailwind preset, dark-mode contract.
 
-> Phase 0 skeleton. See [docs/v2-migration/04-sdk.md](https://github.com/Senseering/dm-frontend-pwa/blob/dev/docs/v2-migration/04-sdk.md).
+> **Not implemented yet.** This package publishes so the build pipeline is exercised
+> end to end, but it exports only a version constant — no token values, no CSS, no
+> Tailwind preset.
+
+## What to use instead
+
+Read theme values from the bridge context and apply them yourself:
+
+```ts
+const { mode, primaryColor } = bridge.context.theme;
+
+document.documentElement.dataset.theme = mode; // 'light' | 'dark'
+document.documentElement.style.setProperty('--primary', primaryColor);
+
+bridge.onContextChanged((ctx) => applyTheme(ctx.theme));
+```
+
+Following the host's theme matters — an embedded app that ignores it looks broken
+next to the shell.
+
+## Docs
+
+- [Embedding](../../docs/embedding.md#the-context)
+- [Documentation index](../../docs/README.md)

@@ -2,7 +2,7 @@
  * @senseering/urbanos-core
  *
  * Framework-agnostic urbanOS client: classification + aggregation engines (kept
- * in lockstep with the Go gateway via conformance vectors), the typed timeseries
+ * in lockstep with the gateway via conformance vectors), the typed timeseries
  * query builder, the client with HTTP + demo transports, auth token providers,
  * runtime context, and the error taxonomy.
  */

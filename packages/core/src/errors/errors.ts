@@ -5,9 +5,9 @@ export class UrbanOSError extends Error {
    * A stable, dup-proof discriminator.
    *
    * `instanceof` silently fails across two copies of a package, and consumers
-   * pin exact versions (urbanos-apps pins @senseering/urbanos-core), so a
-   * transitive duplicate would break every check. Branch on `code` when that
-   * matters; `instanceof` remains fine within one copy.
+   * pin exact versions, so a transitive duplicate would break every check.
+   * Branch on `code` when that matters; `instanceof` remains fine within one
+   * copy.
    */
   readonly code: string;
 

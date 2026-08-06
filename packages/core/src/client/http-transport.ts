@@ -5,7 +5,6 @@ import { AuthError, GatewayError } from '../errors/errors';
 import type {
   DatasourceView,
   ElementView,
-  IngestPoint,
   QueryResult,
   TimeseriesQuery,
   Transport,
@@ -109,11 +108,6 @@ export class HttpTransport implements Transport {
       error: x.error,
       points: x.points ?? [],
     }));
-  }
-
-  ingest(points: IngestPoint[]): Promise<{ accepted: number }> {
-    const body = { points: points.map((p) => ({ stream_id: p.streamId, t: p.t, v: p.v })) };
-    return this.req<{ accepted: number }>('POST', '/v1/timeseries/ingest', body);
   }
 
   async getStorage(key: string): Promise<unknown> {

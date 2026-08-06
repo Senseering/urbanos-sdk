@@ -1,9 +1,10 @@
 /**
  * @senseering/urbanos-bridge
  *
- * Embed protocol v2: a host (the UDP shell) and a guest app exchange a scoped
- * app token + context over a duplex channel. The user session never crosses the
- * bridge. Zero dependencies, framework-agnostic. See docs/v2-migration/04-sdk.md §2.
+ * Embed protocol v2: a host (the urbanOS shell) and a guest app exchange a
+ * scoped app token + context over a duplex channel. The user session never
+ * crosses the bridge. Zero dependencies, framework-agnostic.
+ * See docs/embedding.md for the developer-facing guide.
  */
 import type { Channel } from './channel';
 import {

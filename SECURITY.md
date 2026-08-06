@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Email **security@datamatters.io** with details and, if possible, a reproduction. Please do
+Email **mail@datamatters.io** with details and, if possible, a reproduction. Please do
 **not** open a public issue for security reports.
 
 We follow **90-day coordinated disclosure**: we acknowledge within 3 business days, agree a
@@ -23,6 +23,6 @@ in scope and reviewed with extra care:
 
 ## Out of scope
 
-- The gateway and platform services (report those the same way, but they live in
-  `urbanos-platform`).
+- The urbanOS gateway and the platform services behind it. Report those to the same
+  address — they are maintained separately from this SDK.
 - Third-party apps built with the SDK.
