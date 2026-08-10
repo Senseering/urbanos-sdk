@@ -12,6 +12,17 @@ export interface Envelope {
   error?: { code: string; message: string };
 }
 
+/**
+ * The active mandate (a sub-tenant grouping WITHIN the element/tenant). Optional
+ * and additive: hosts that predate mandates omit it entirely, and it may change
+ * through CONTEXT_CHANGED when the user switches mandate in the shell.
+ */
+export interface MandateContext {
+  id: number;
+  name: string;
+  role: 'admin' | 'manager' | 'member';
+}
+
 export interface BridgeContext {
   mode: 'embedded';
   tenant: { id: number; name: string };
@@ -20,6 +31,8 @@ export interface BridgeContext {
   demo: boolean;
   user: { id: string; displayName: string; appRole: 'admin' | 'member' };
   capabilities: string[];
+  /** Present only when a mandate is active; absent at instance level. */
+  mandate?: MandateContext;
 }
 
 export interface TokenResponse {

@@ -87,3 +87,25 @@ export function readElementClaim(accessToken: string): number {
     return 0;
   }
 }
+
+/**
+ * Read the `mid` (mandate) claim from an access token's payload — a sub-tenant
+ * grouping within the element. Mirrors {@link readElementClaim}: a DECODE, NOT a
+ * verification; it only populates the client-side `AccessToken.mandateId` hint.
+ * NEVER gate anything on the result.
+ *
+ * Returns undefined when the claim is absent, zero (instance-level / no
+ * mandate), non-numeric, or the token is unparseable.
+ */
+export function readMandateClaim(accessToken: string): number | undefined {
+  const parts = accessToken.split('.');
+  if (parts.length < 2) return undefined;
+  try {
+    const json = new TextDecoder().decode(base64UrlDecode(parts[1]!));
+    const payload = JSON.parse(json) as { mid?: unknown };
+    if (typeof payload.mid !== 'number' || !Number.isFinite(payload.mid)) return undefined;
+    return payload.mid === 0 ? undefined : payload.mid;
+  } catch {
+    return undefined;
+  }
+}

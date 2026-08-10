@@ -5,6 +5,11 @@ export interface AccessToken {
   expiresAt: number; // epoch ms
   scopes: string[];
   tenantId: number;
+  /**
+   * The active mandate (a sub-tenant grouping within the element/tenant), when
+   * one is scoped into the token. Undefined at instance level (no mandate).
+   */
+  mandateId?: number;
 }
 
 export interface TokenProvider {
