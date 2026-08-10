@@ -1,5 +1,14 @@
 # @datamatters-gmbh/urbanos-vue
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @datamatters-gmbh/urbanos-core@0.3.0
+  - @datamatters-gmbh/urbanos-bridge@0.5.0
+  - @datamatters-gmbh/urbanos-demo@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

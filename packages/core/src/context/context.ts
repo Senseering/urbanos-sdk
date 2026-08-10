@@ -13,6 +13,13 @@ export interface UserContext {
   appRole: 'admin' | 'member';
 }
 
+/** The active mandate — a sub-tenant grouping within the element/tenant. */
+export interface MandateContext {
+  id: number;
+  name: string;
+  role: 'admin' | 'manager' | 'member';
+}
+
 export interface UrbanOSContext {
   mode: Mode;
   tenant: { id: number; name: string };
@@ -21,6 +28,8 @@ export interface UrbanOSContext {
   demo: boolean;
   user: UserContext;
   capabilities: string[];
+  /** Present only when a mandate is active; absent at instance level. */
+  mandate?: MandateContext;
 }
 
 /** Feature/scope/capability predicate over the context. */

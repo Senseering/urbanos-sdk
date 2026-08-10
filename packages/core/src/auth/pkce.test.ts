@@ -6,6 +6,7 @@ import {
   createCodeVerifier,
   createState,
   readElementClaim,
+  readMandateClaim,
 } from './pkce';
 import type { CryptoLike } from './env';
 
@@ -80,5 +81,28 @@ describe('readElementClaim', () => {
     expect(readElementClaim('not-a-jwt')).toBe(0);
     expect(readElementClaim('a.!!!not-base64!!!.c')).toBe(0);
     expect(readElementClaim('')).toBe(0);
+  });
+});
+
+describe('readMandateClaim', () => {
+  function jwt(payload: Record<string, unknown>): string {
+    const b = (o: unknown) => base64UrlEncode(new TextEncoder().encode(JSON.stringify(o)));
+    return `${b({ alg: 'ES256' })}.${b(payload)}.signature`;
+  }
+
+  test('reads the mid claim', () => {
+    expect(readMandateClaim(jwt({ el: 42, mid: 7 }))).toBe(7);
+  });
+
+  test('treats 0 (instance-level) as undefined', () => {
+    expect(readMandateClaim(jwt({ el: 42, mid: 0 }))).toBeUndefined();
+  });
+
+  test('returns undefined for a missing, non-numeric or malformed claim', () => {
+    expect(readMandateClaim(jwt({ el: 42 }))).toBeUndefined();
+    expect(readMandateClaim(jwt({ mid: 'seven' }))).toBeUndefined();
+    expect(readMandateClaim('not-a-jwt')).toBeUndefined();
+    expect(readMandateClaim('a.!!!not-base64!!!.c')).toBeUndefined();
+    expect(readMandateClaim('')).toBeUndefined();
   });
 });

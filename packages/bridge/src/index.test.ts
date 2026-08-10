@@ -48,6 +48,61 @@ describe('embed bridge v2', () => {
     host.close();
   });
 
+  test('delivers an optional mandate and lets it change through CONTEXT_CHANGED', async () => {
+    const [appCh, hostCh] = linkedChannels();
+    const withMandate: BridgeContext = {
+      ...ctx,
+      mandate: { id: 7, name: 'Stadtwerke', role: 'manager' },
+    };
+    const host = createHost(hostCh, {
+      context: withMandate,
+      onTokenRequest: () =>
+        Promise.resolve<TokenResponse>({
+          accessToken: 't',
+          expiresAt: 1,
+          scopes: [],
+          tenantId: 42,
+        }),
+    });
+
+    const app = await connectApp(appCh, { timeoutMs: 1000, helloIntervalMs: 20 });
+    expect(app.context.mandate).toEqual({ id: 7, name: 'Stadtwerke', role: 'manager' });
+
+    let changed: BridgeContext | undefined;
+    app.onContextChanged((c) => {
+      changed = c;
+    });
+    // Mandate switch in the shell → a different mandate.
+    host.emitContext({ ...ctx, mandate: { id: 9, name: 'Verkehr', role: 'member' } });
+    await new Promise((r) => setTimeout(r, 10));
+    expect(changed?.mandate).toEqual({ id: 9, name: 'Verkehr', role: 'member' });
+
+    app.close();
+    host.close();
+  });
+
+  test('remains backward-compatible with a host that omits mandate', async () => {
+    const [appCh, hostCh] = linkedChannels();
+    // `ctx` has no `mandate` field — an old host.
+    const host = createHost(hostCh, {
+      context: ctx,
+      onTokenRequest: () =>
+        Promise.resolve<TokenResponse>({
+          accessToken: 't',
+          expiresAt: 1,
+          scopes: [],
+          tenantId: 42,
+        }),
+    });
+
+    const app = await connectApp(appCh, { timeoutMs: 1000, helloIntervalMs: 20 });
+    expect(app.context.mandate).toBeUndefined();
+    expect(app.context.tenant.name).toBe('Demo-Stadt Köln');
+
+    app.close();
+    host.close();
+  });
+
   test('rejects when no host answers', async () => {
     const [appCh] = linkedChannels(); // host side never wired
     await expect(connectApp(appCh, { timeoutMs: 60, helloIntervalMs: 15 })).rejects.toThrow(

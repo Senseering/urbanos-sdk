@@ -2,7 +2,7 @@
 import { AuthError, ConsentError, GatewayError } from '../errors/errors';
 import type { AccessToken } from './token-provider';
 import type { ClockLike } from './env';
-import { readElementClaim } from './pkce';
+import { readElementClaim, readMandateClaim } from './pkce';
 
 /** The gateway's token response (api/oauth.go tokenOut). */
 export interface TokenResponseBody {
@@ -15,6 +15,8 @@ export interface TokenResponseBody {
   refresh_token?: string;
   /** Added by the gateway so standalone apps have a tenant source. */
   element_id?: number;
+  /** The active mandate baked into the token, when scoped. 0/absent = none. */
+  mandate_id?: number;
 }
 
 export interface OAuthHttpOptions {
@@ -57,6 +59,9 @@ export class OAuthHttp {
       // Prefer the explicit field; fall back to decoding the token's `el` claim
       // for gateways that predate it.
       tenantId: json.element_id ?? readElementClaim(json.access_token),
+      // Same pattern for the mandate: explicit field first, else decode `mid`.
+      // Absent in both → undefined (instance-level / no mandate).
+      mandateId: json.mandate_id ?? readMandateClaim(json.access_token),
     };
   }
 

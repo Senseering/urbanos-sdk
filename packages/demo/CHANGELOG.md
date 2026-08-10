@@ -1,5 +1,12 @@
 # @datamatters-gmbh/urbanos-demo
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @datamatters-gmbh/urbanos-core@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

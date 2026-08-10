@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { UrbanOSClient } from './client';
 import { DemoTransport, type DemoDataset } from './demo-transport';
+import { StaticTokenProvider } from '../auth/token-provider';
 
 // A tiny deterministic dataset: one parking sensor whose value is the hour of day.
 const dataset: DemoDataset = {
@@ -54,5 +55,32 @@ describe('UrbanOSClient over DemoTransport', () => {
     const client = new UrbanOSClient(new DemoTransport(dataset));
     await client.storage.put('prefs', { theme: 'dark' });
     expect(await client.storage.get('prefs')).toEqual({ theme: 'dark' });
+  });
+
+  test('mandateId() surfaces the token mandate when a provider is wired', async () => {
+    const tokens = new StaticTokenProvider({
+      accessToken: 'scoped-jwt',
+      expiresAt: Date.now() + 900_000,
+      scopes: ['element:read'],
+      tenantId: 42,
+      mandateId: 7,
+    });
+    const client = new UrbanOSClient(new DemoTransport(dataset), { tokens });
+    expect(await client.mandateId()).toBe(7);
+  });
+
+  test('mandateId() is undefined without a provider or without a token mandate', async () => {
+    const noProvider = new UrbanOSClient(new DemoTransport(dataset));
+    expect(await noProvider.mandateId()).toBeUndefined();
+
+    const noMandate = new UrbanOSClient(new DemoTransport(dataset), {
+      tokens: new StaticTokenProvider({
+        accessToken: 'scoped-jwt',
+        expiresAt: Date.now() + 900_000,
+        scopes: [],
+        tenantId: 42,
+      }),
+    });
+    expect(await noMandate.mandateId()).toBeUndefined();
   });
 });

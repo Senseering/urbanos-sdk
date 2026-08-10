@@ -1,5 +1,26 @@
 # @datamatters-gmbh/urbanos-bridge
 
+## 0.5.0
+
+### Minor Changes
+
+- Add mandate context (AccessToken.mandateId, BridgeContext.mandate, UrbanOSClient.mandateId())
+
+  Mandates are a sub-tenant grouping within an element. The gateway bakes the
+  active mandate into the app access token (JWT `mid` claim and an optional
+  `mandate_id` in the token response), and the embed host delivers it over the
+  bridge context.
+
+  - `AccessToken.mandateId?: number` — mapped from `mandate_id`, falling back to
+    decoding the token's `mid` claim (new `readMandateClaim`); undefined at
+    instance level.
+  - `BridgeContext.mandate?: { id; name; role }` — optional and additive; old
+    hosts that omit it still validate, and it may change through `context.changed`
+    on a mandate switch. `UrbanOSContext` gains the matching optional field.
+  - `UrbanOSClient.mandateId(): Promise<number | undefined>` — reads the active
+    mandate from an optionally-wired `TokenProvider` (`new UrbanOSClient(transport,
+{ tokens })`). Existing single-argument construction is unchanged.
+
 ## 0.4.0
 
 ### Minor Changes
