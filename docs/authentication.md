@@ -214,7 +214,9 @@ params intact.
 
 ### Where tokens are stored
 
-- **PKCE transaction** → `sessionStorage`, valid 10 minutes.
+- **PKCE transaction** → `sessionStorage`, valid 10 minutes. Concurrent flows are
+  stored separately, keyed by `state`, so a second tab or a retried sign-in does not
+  invalidate one already in flight. Up to 10 are kept; expired ones are pruned.
 - **Access token** → memory only, always.
 - **Refresh token** → memory by default.
 

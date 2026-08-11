@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { PkceTokenProvider } from './pkce-token-provider';
-import { memoryStorage, type LocationLike } from './env';
+import { memoryStorage, type CryptoLike, type LocationLike } from './env';
 import { seededCrypto } from './pkce.test';
 import { base64UrlEncode } from './pkce';
 import { AuthError } from '../errors/errors';
@@ -21,6 +21,24 @@ function fakeLocation(initial: string): LocationLike & { assigned: string[]; cur
     },
   };
   return f;
+}
+
+/**
+ * seededCrypto walks a byte counter by 37 (mod 256) and each authorization draws
+ * 64 bytes — a verifier and a state — so it repeats every FOUR flows. Harmless
+ * for a single round trip, fatal for any test that needs many distinct states.
+ * This one keys off a monotonic counter instead.
+ */
+function uniqueCrypto(): CryptoLike {
+  let n = 0;
+  return {
+    getRandomValues<T extends Uint8Array>(array: T): T {
+      n++;
+      for (let i = 0; i < array.length; i++) array[i] = (n * 31 + i * 7) & 0xff;
+      return array;
+    },
+    subtle: (globalThis.crypto as unknown as CryptoLike).subtle,
+  };
 }
 
 function manualClock(start = 1_700_000_000_000) {
@@ -87,6 +105,7 @@ function makeProvider(
     clock?: () => number;
     storage?: ReturnType<typeof memoryStorage>;
     elementId?: number;
+    crypto?: CryptoLike;
   } = {},
 ) {
   const location = opts.location ?? fakeLocation('https://app.example.com/callback');
@@ -98,7 +117,7 @@ function makeProvider(
     redirectUri: 'https://app.example.com/callback',
     scopes: ['profile:read', 'element:read'],
     elementId: opts.elementId,
-    crypto: seededCrypto(),
+    crypto: opts.crypto ?? seededCrypto(),
     storage,
     location,
     clock: opts.clock,
@@ -124,11 +143,66 @@ describe('beginAuthorization', () => {
     expect(url.searchParams.get('state')).toBeTruthy();
     expect(url.searchParams.get('scope')).toBe('profile:read element:read');
 
-    // The verifier + state are persisted for the return leg.
-    const tx = JSON.parse(storage.getItem('urbanos.pkce.tx')!) as Record<string, string>;
-    expect(tx.verifier).toBeTruthy();
-    expect(tx.state).toBe(url.searchParams.get('state'));
-    expect(tx.redirectUri).toBe('https://app.example.com/callback');
+    // The verifier + state are persisted for the return leg, keyed by state.
+    const state = url.searchParams.get('state')!;
+    const map = JSON.parse(storage.getItem('urbanos.pkce.tx')!) as Record<
+      string,
+      Record<string, string>
+    >;
+    expect(Object.keys(map)).toEqual([state]);
+    expect(map[state]!.verifier).toBeTruthy();
+    expect(map[state]!.state).toBe(state);
+    expect(map[state]!.redirectUri).toBe('https://app.example.com/callback');
+  });
+
+  test('a second flow does not invalidate the first', async () => {
+    const { provider, location, storage } = makeProvider();
+    void provider.beginAuthorization();
+    const first = new URL(await waitForRedirect(location)).searchParams.get('state')!;
+
+    location.assigned.length = 0;
+    void provider.beginAuthorization();
+    const second = new URL(await waitForRedirect(location)).searchParams.get('state')!;
+
+    expect(second).not.toBe(first);
+    const map = JSON.parse(storage.getItem('urbanos.pkce.tx')!) as Record<string, unknown>;
+    expect(Object.keys(map).sort()).toEqual([first, second].sort());
+  });
+
+  test('drops transactions older than the code TTL', async () => {
+    const clock = manualClock();
+    const { provider, location, storage } = makeProvider({ clock: clock.now });
+    void provider.beginAuthorization();
+    const stale = new URL(await waitForRedirect(location)).searchParams.get('state')!;
+
+    clock.advance(11 * 60_000);
+    location.assigned.length = 0;
+    void provider.beginAuthorization();
+    const fresh = new URL(await waitForRedirect(location)).searchParams.get('state')!;
+
+    const map = JSON.parse(storage.getItem('urbanos.pkce.tx')!) as Record<string, unknown>;
+    expect(Object.keys(map)).toEqual([fresh]);
+    expect(map[stale]).toBeUndefined();
+  });
+
+  test('bounds pending transactions instead of growing storage without limit', async () => {
+    const clock = manualClock();
+    const { provider, location, storage } = makeProvider({
+      clock: clock.now,
+      crypto: uniqueCrypto(),
+    });
+    const states: string[] = [];
+    for (let i = 0; i < 14; i++) {
+      location.assigned.length = 0;
+      void provider.beginAuthorization();
+      states.push(new URL(await waitForRedirect(location)).searchParams.get('state')!);
+      clock.advance(1_000);
+    }
+
+    const map = JSON.parse(storage.getItem('urbanos.pkce.tx')!) as Record<string, unknown>;
+    expect(Object.keys(map)).toHaveLength(10);
+    expect(map[states[13]!]).toBeTruthy(); // newest kept
+    expect(map[states[0]!]).toBeUndefined(); // oldest evicted
   });
 });
 
@@ -202,6 +276,44 @@ describe('completeAuthorization', () => {
     location.current = url; // simulate a stray second invocation
 
     await expect(provider.completeAuthorization()).rejects.toBeInstanceOf(AuthError);
+    expect(f.calls).toHaveLength(1);
+  });
+
+  // The regression this file exists to prevent. A single-slot store discarded the
+  // first flow the moment a second one started, so a user with two tabs — or one
+  // who simply retried — got `pkce: state mismatch` on a perfectly valid callback.
+  test('an earlier flow still completes after a later one starts', async () => {
+    const f = fakeFetch([{ body: OK_TOKEN }]);
+    const { provider, location, storage } = makeProvider({ fetch: f.impl });
+
+    void provider.beginAuthorization();
+    const first = new URL(await waitForRedirect(location)).searchParams.get('state')!;
+    location.assigned.length = 0;
+    void provider.beginAuthorization();
+    const second = new URL(await waitForRedirect(location)).searchParams.get('state')!;
+
+    // The callback that lands belongs to the FIRST flow.
+    location.current = `https://app.example.com/callback?code=abc&state=${encodeURIComponent(first)}`;
+    await expect(provider.completeAuthorization()).resolves.toBeTruthy();
+    expect(f.calls).toHaveLength(1);
+
+    // Completing one flow must not sabotage the other.
+    const map = JSON.parse(storage.getItem('urbanos.pkce.tx')!) as Record<string, unknown>;
+    expect(Object.keys(map)).toEqual([second]);
+  });
+
+  test('migrates a pre-0.3.1 single-transaction value rather than dropping it', async () => {
+    const f = fakeFetch([{ body: OK_TOKEN }]);
+    const { provider, location, storage } = makeProvider({ fetch: f.impl });
+    void provider.beginAuthorization();
+    const state = new URL(await waitForRedirect(location)).searchParams.get('state')!;
+
+    // Rewrite storage in the old shape — what an upgrade mid-redirect leaves behind.
+    const map = JSON.parse(storage.getItem('urbanos.pkce.tx')!) as Record<string, unknown>;
+    storage.setItem('urbanos.pkce.tx', JSON.stringify(map[state]));
+
+    location.current = `https://app.example.com/callback?code=abc&state=${encodeURIComponent(state)}`;
+    await expect(provider.completeAuthorization()).resolves.toBeTruthy();
     expect(f.calls).toHaveLength(1);
   });
 
