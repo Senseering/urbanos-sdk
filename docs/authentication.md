@@ -46,7 +46,6 @@ At registration you set:
 | **Client type**  | `public` for browser apps (**immutable after creation**) |
 | **Redirect URI** | Where the user lands after consent                       |
 | **Scopes**       | What the app may request                                 |
-| **Origins**      | Which browser origins may call the gateway               |
 
 > The client id is **not** your manifest id. `uos_c_…` is the OAuth client;
 > `io.acme.air-quality` is the store identifier. They're different things.
@@ -64,9 +63,19 @@ fragment; max 2048 chars. Custom schemes are allowed only for `public` clients.
 
 ### 4. Your origin is allowlisted for CORS
 
-The gateway builds its CORS allowlist from each client's registered origins and
-**echoes only exact matches — never `*`**. If your app's origin isn't registered,
-every request fails at preflight, before any of your code runs.
+The gateway derives its CORS allowlist from your client's **redirect URIs** —
+the origin of each one is allowed automatically. There is no separate origins
+field to fill in: register `https://app.example.com/callback` as a redirect URI
+and `https://app.example.com` may call the gateway.
+
+It **echoes only exact matches — never `*`**. A blocked preflight is a bare 204
+with no CORS headers, which the browser reports as an opaque network error, so
+an origin that is not on the list looks like the gateway being down rather than
+like a configuration problem. If you see that, check the origin of your
+registered redirect URIs first.
+
+Only `http`/`https` redirect URIs yield an origin. A custom-scheme mobile
+redirect (`myapp://callback`) has no browser origin and does not need one.
 
 Register `https://app.example.com` **and** your dev origin (e.g.
 `http://localhost:5173`).
@@ -306,7 +315,7 @@ const tokens = new StaticTokenProvider({
 
 | Symptom                                  | Cause                                                                 |
 | ---------------------------------------- | --------------------------------------------------------------------- |
-| CORS error before any request            | Your origin isn't in the client's allowed origins                     |
+| CORS error before any request            | No registered redirect URI has your app's origin                      |
 | `403 app_not_installed`                  | The app isn't installed in that organisation                          |
 | Consent screen shows a redirect mismatch | `redirectUri` differs byte-for-byte from the registered one           |
 | `AuthError` on every call                | `completeAuthorization()` never ran, or the user isn't signed in      |
