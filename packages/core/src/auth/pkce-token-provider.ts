@@ -29,6 +29,12 @@ const TX_KEY = 'urbanos.pkce.tx';
 const REFRESH_KEY = 'urbanos.pkce.refresh';
 /** Matches the gateway's 10-minute authorization-code TTL. */
 const TX_MAX_AGE_MS = 10 * 60_000;
+/**
+ * Ceiling on concurrently pending authorizations. Only a caller that starts
+ * flows without ever redirecting can reach it; the oldest is then evicted so a
+ * runaway loop cannot grow sessionStorage without bound.
+ */
+const MAX_PENDING_TX = 10;
 
 interface PendingTx {
   verifier: string;
@@ -37,6 +43,25 @@ interface PendingTx {
   elementId?: number;
   createdAt: number;
 }
+
+/**
+ * Every pending authorization, keyed by its `state`.
+ *
+ * Until 0.3.1 this slot held ONE transaction, so every beginAuthorization()
+ * overwrote the previous one. Any second start orphaned the first — two tabs, a
+ * double-clicked sign-in button, a retry after a failure — and when that older
+ * callback came back it died on the CSRF gate with `pkce: state mismatch`,
+ * blaming the integrator for something the SDK had discarded.
+ *
+ * Keyed storage lets concurrent flows coexist. The gate itself is unchanged: a
+ * state is still only accepted if it is one WE minted, and it is still consumed
+ * exactly once.
+ *
+ * One slot rather than one key per state because StorageLike is deliberately
+ * getItem/setItem/removeItem only — it cannot enumerate, so per-state keys could
+ * never be pruned or cleared on logout.
+ */
+type PendingTxMap = Record<string, PendingTx>;
 
 export interface PkceTokenProviderOptions {
   /** Gateway origin, e.g. "https://urbanos-gateway.udp.city". No trailing slash. */
@@ -121,8 +146,59 @@ export class PkceTokenProvider implements TokenProvider {
   }
 
   /**
+   * Read the pending transactions.
+   *
+   * A pre-0.3.1 value is a bare PendingTx rather than a map. It is migrated in
+   * place instead of discarded, so a redirect already in flight when the app
+   * upgrades still completes rather than failing the state gate.
+   */
+  private readTxMap(): PendingTxMap {
+    const raw = this.storage.getItem(TX_KEY);
+    if (!raw) return {};
+    try {
+      const parsed = JSON.parse(raw) as PendingTxMap | PendingTx | null;
+      if (!parsed || typeof parsed !== 'object') return {};
+      if (typeof (parsed as PendingTx).state === 'string') {
+        const legacy = parsed as PendingTx;
+        return { [legacy.state]: legacy };
+      }
+      return parsed as PendingTxMap;
+    } catch {
+      return {};
+    }
+  }
+
+  /** Persist, removing the slot entirely once nothing is pending. */
+  private writeTxMap(map: PendingTxMap): void {
+    if (!Object.keys(map).length) {
+      this.storage.removeItem(TX_KEY);
+      return;
+    }
+    this.storage.setItem(TX_KEY, JSON.stringify(map));
+  }
+
+  /**
+   * Drop expired transactions, then the oldest beyond the ceiling.
+   *
+   * Called on write rather than on a timer: a flow that is never completed would
+   * otherwise sit in sessionStorage until the tab closes, and expiry is already
+   * the rule completeAuthorization enforces.
+   */
+  private prune(map: PendingTxMap): PendingTxMap {
+    const now = this.clock();
+    return Object.fromEntries(
+      Object.entries(map)
+        .filter(([, tx]) => now - tx.createdAt <= TX_MAX_AGE_MS)
+        .sort((a, b) => b[1].createdAt - a[1].createdAt)
+        .slice(0, MAX_PENDING_TX),
+    );
+  }
+
+  /**
    * Start the flow: mint verifier + state, persist them, navigate to the shell.
    * Never resolves — the page is going away.
+   *
+   * Starting a second flow no longer invalidates a first one still in flight.
    */
   async beginAuthorization(): Promise<never> {
     const verifier = createCodeVerifier(this.crypto);
@@ -136,7 +212,11 @@ export class PkceTokenProvider implements TokenProvider {
       elementId: this.opts.elementId,
       createdAt: this.clock(),
     };
-    this.storage.setItem(TX_KEY, JSON.stringify(tx));
+    const pending = this.readTxMap();
+    pending[state] = tx;
+    // Prune AFTER inserting: this transaction is the newest, so it can never be
+    // the one evicted.
+    this.writeTxMap(this.prune(pending));
 
     const url = new URL('/oauth/authorize', this.opts.shellUrl);
     url.searchParams.set('client_id', this.opts.clientId);
@@ -168,26 +248,27 @@ export class PkceTokenProvider implements TokenProvider {
     const state = current.searchParams.get('state');
     if (!code && !error) return null;
 
-    // Load AND DELETE the transaction before any await. Doing this synchronously
-    // makes a double mount (React StrictMode, a stray second call) impossible to
-    // turn into two code exchanges: the second call finds no tx and fails the
-    // state check without ever touching the network.
-    const raw = this.storage.getItem(TX_KEY);
-    this.storage.removeItem(TX_KEY);
+    // Load AND DELETE this state's transaction before any await. Doing it
+    // synchronously makes a double mount (React StrictMode, a stray second call)
+    // impossible to turn into two code exchanges: the second call finds nothing
+    // under that state and fails the check below without touching the network.
+    //
+    // Only THIS state is consumed. Another tab's pending flow is left alone —
+    // completing one authorization must not sabotage a concurrent one.
+    const pending = this.readTxMap();
+    const tx = state ? (pending[state] ?? null) : null;
+    if (tx && state) {
+      this.writeTxMap(Object.fromEntries(Object.entries(pending).filter(([s]) => s !== state)));
+    }
 
     if (error) {
       this.scrubUrl(current);
       throw new AuthError(current.searchParams.get('error_description') ?? error);
     }
 
-    let tx: PendingTx | null = null;
-    try {
-      tx = raw ? (JSON.parse(raw) as PendingTx) : null;
-    } catch {
-      tx = null;
-    }
-
-    // CSRF gate. A mismatch must emit NO network request at all.
+    // CSRF gate. A mismatch must emit NO network request at all. The state
+    // equality is redundant after a keyed lookup and kept deliberately: it is
+    // the one check standing between corrupted storage and a code exchange.
     if (!tx || !state || state !== tx.state) {
       this.scrubUrl(current);
       throw new AuthError('pkce: state mismatch');
