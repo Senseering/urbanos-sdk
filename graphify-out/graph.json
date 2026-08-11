@@ -4,16 +4,6 @@
   "graph": {},
   "nodes": [
     {
-      "label": "pkce-concurrent-flows.md",
-      "file_type": "document",
-      "source_file": ".changeset/pkce-concurrent-flows.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "changeset_pkce_concurrent_flows",
-      "community": 17,
-      "norm_label": "pkce-concurrent-flows.md"
-    },
-    {
       "label": "authentication.md",
       "file_type": "document",
       "source_file": "docs/authentication.md",
@@ -77,7 +67,7 @@
       "label": "3. Your redirect URI matches exactly",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L54",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "docs_authentication_3_your_redirect_uri_matches_exactly",
       "community": 23,
@@ -87,7 +77,7 @@
       "label": "4. Your origin is allowlisted for CORS",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L65",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "docs_authentication_4_your_origin_is_allowlisted_for_cors",
       "community": 23,
@@ -97,7 +87,7 @@
       "label": "And one more: the app must be installed",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L77",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "docs_authentication_and_one_more_the_app_must_be_installed",
       "community": 23,
@@ -107,7 +97,7 @@
       "label": "Scopes",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L84",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "docs_authentication_scopes",
       "community": 23,
@@ -117,7 +107,7 @@
       "label": "Available scopes",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L89",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "docs_authentication_available_scopes",
       "community": 23,
@@ -127,7 +117,7 @@
       "label": "What you cannot have",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L109",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "docs_authentication_what_you_cannot_have",
       "community": 23,
@@ -137,7 +127,7 @@
       "label": "The unverified-client cap",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L117",
+      "source_location": "L126",
       "_origin": "ast",
       "id": "docs_authentication_the_unverified_client_cap",
       "community": 23,
@@ -147,7 +137,7 @@
       "label": "Standalone apps (PKCE)",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L132",
+      "source_location": "L141",
       "_origin": "ast",
       "id": "docs_authentication_standalone_apps_pkce",
       "community": 23,
@@ -157,7 +147,7 @@
       "label": "Setup",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L145",
+      "source_location": "L154",
       "_origin": "ast",
       "id": "docs_authentication_setup",
       "community": 23,
@@ -167,7 +157,7 @@
       "label": "Wiring it up",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L171",
+      "source_location": "L180",
       "_origin": "ast",
       "id": "docs_authentication_wiring_it_up",
       "community": 23,
@@ -177,7 +167,7 @@
       "label": "Where tokens are stored",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L215",
+      "source_location": "L224",
       "_origin": "ast",
       "id": "docs_authentication_where_tokens_are_stored",
       "community": 23,
@@ -187,7 +177,7 @@
       "label": "Server-side rendering",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L227",
+      "source_location": "L236",
       "_origin": "ast",
       "id": "docs_authentication_server_side_rendering",
       "community": 23,
@@ -197,7 +187,7 @@
       "label": "Embedded apps",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L232",
+      "source_location": "L241",
       "_origin": "ast",
       "id": "docs_authentication_embedded_apps",
       "community": 23,
@@ -207,7 +197,7 @@
       "label": "Tokens and refresh",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L267",
+      "source_location": "L276",
       "_origin": "ast",
       "id": "docs_authentication_tokens_and_refresh",
       "community": 23,
@@ -217,7 +207,7 @@
       "label": "Static tokens (tests, scripts)",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L290",
+      "source_location": "L299",
       "_origin": "ast",
       "id": "docs_authentication_static_tokens_tests_scripts",
       "community": 23,
@@ -227,11 +217,21 @@
       "label": "Troubleshooting",
       "file_type": "document",
       "source_file": "docs/authentication.md",
-      "source_location": "L305",
+      "source_location": "L314",
       "_origin": "ast",
       "id": "docs_authentication_troubleshooting",
       "community": 23,
       "norm_label": "troubleshooting"
+    },
+    {
+      "label": "pkce-concurrent-flows.md",
+      "file_type": "document",
+      "source_file": ".changeset/pkce-concurrent-flows.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 17,
+      "norm_label": "pkce-concurrent-flows.md",
+      "id": "changeset_pkce_concurrent_flows"
     },
     {
       "label": "pkce-token-provider.test.ts",
@@ -239,9 +239,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test",
       "community": 15,
-      "norm_label": "pkce-token-provider.test.ts"
+      "norm_label": "pkce-token-provider.test.ts",
+      "id": "packages_core_src_auth_pkce_token_provider_test"
     },
     {
       "label": "fakeLocation()",
@@ -249,9 +249,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_fakelocation",
       "community": 15,
-      "norm_label": "fakelocation()"
+      "norm_label": "fakelocation()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_fakelocation"
     },
     {
       "label": "uniqueCrypto()",
@@ -259,9 +259,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L32",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_uniquecrypto",
       "community": 15,
-      "norm_label": "uniquecrypto()"
+      "norm_label": "uniquecrypto()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_uniquecrypto"
     },
     {
       "label": "manualClock()",
@@ -269,9 +269,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L44",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_manualclock",
       "community": 15,
-      "norm_label": "manualclock()"
+      "norm_label": "manualclock()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_manualclock"
     },
     {
       "label": "jwtWithEl()",
@@ -279,9 +279,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L49",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_jwtwithel",
       "community": 15,
-      "norm_label": "jwtwithel()"
+      "norm_label": "jwtwithel()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_jwtwithel"
     },
     {
       "label": "Recorded",
@@ -289,9 +289,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L54",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_recorded",
       "community": 15,
-      "norm_label": "recorded"
+      "norm_label": "recorded",
+      "id": "packages_core_src_auth_pkce_token_provider_test_recorded"
     },
     {
       "label": "fakeFetch()",
@@ -299,9 +299,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L60",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_fakefetch",
       "community": 15,
-      "norm_label": "fakefetch()"
+      "norm_label": "fakefetch()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_fakefetch"
     },
     {
       "label": "waitForRedirect()",
@@ -309,9 +309,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L84",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_waitforredirect",
       "community": 15,
-      "norm_label": "waitforredirect()"
+      "norm_label": "waitforredirect()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_waitforredirect"
     },
     {
       "label": "OK_TOKEN",
@@ -319,9 +319,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L92",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_ok_token",
       "community": 15,
-      "norm_label": "ok_token"
+      "norm_label": "ok_token",
+      "id": "packages_core_src_auth_pkce_token_provider_test_ok_token"
     },
     {
       "label": "makeProvider()",
@@ -329,9 +329,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L101",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_makeprovider",
       "community": 15,
-      "norm_label": "makeprovider()"
+      "norm_label": "makeprovider()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_makeprovider"
     },
     {
       "label": "primed()",
@@ -339,9 +339,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L210",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_primed",
       "community": 15,
-      "norm_label": "primed()"
+      "norm_label": "primed()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_primed"
     },
     {
       "label": "authed()",
@@ -349,9 +349,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L339",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_authed",
       "community": 15,
-      "norm_label": "authed()"
+      "norm_label": "authed()",
+      "id": "packages_core_src_auth_pkce_token_provider_test_authed"
     },
     {
       "label": "RFC-6749",
@@ -359,9 +359,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L372",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_test_ts_docref_rfc_6749",
       "community": 15,
-      "norm_label": "rfc-6749"
+      "norm_label": "rfc-6749",
+      "id": "packages_core_src_auth_pkce_token_provider_test_ts_docref_rfc_6749"
     },
     {
       "label": "pkce-token-provider.ts",
@@ -369,9 +369,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider",
       "community": 15,
-      "norm_label": "pkce-token-provider.ts"
+      "norm_label": "pkce-token-provider.ts",
+      "id": "packages_core_src_auth_pkce_token_provider"
     },
     {
       "label": "PendingTx",
@@ -379,9 +379,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L39",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pendingtx",
       "community": 15,
-      "norm_label": "pendingtx"
+      "norm_label": "pendingtx",
+      "id": "packages_core_src_auth_pkce_token_provider_pendingtx"
     },
     {
       "label": "PendingTxMap",
@@ -389,9 +389,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L64",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pendingtxmap",
       "community": 15,
-      "norm_label": "pendingtxmap"
+      "norm_label": "pendingtxmap",
+      "id": "packages_core_src_auth_pkce_token_provider_pendingtxmap"
     },
     {
       "label": "PkceTokenProviderOptions",
@@ -399,9 +399,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L66",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovideroptions",
       "community": 15,
-      "norm_label": "pkcetokenprovideroptions"
+      "norm_label": "pkcetokenprovideroptions",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovideroptions"
     },
     {
       "label": "PkceTokenProvider",
@@ -409,9 +409,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L106",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
       "community": 15,
-      "norm_label": "pkcetokenprovider"
+      "norm_label": "pkcetokenprovider",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider"
     },
     {
       "label": ".constructor()",
@@ -419,9 +419,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L119",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_constructor",
       "community": 15,
-      "norm_label": ".constructor()"
+      "norm_label": ".constructor()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_constructor"
     },
     {
       "label": ".crypto()",
@@ -429,9 +429,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L138",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_crypto",
       "community": 15,
-      "norm_label": ".crypto()"
+      "norm_label": ".crypto()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_crypto"
     },
     {
       "label": ".storage()",
@@ -439,9 +439,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L141",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_storage",
       "community": 15,
-      "norm_label": ".storage()"
+      "norm_label": ".storage()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_storage"
     },
     {
       "label": ".location()",
@@ -449,9 +449,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L144",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_location",
       "community": 15,
-      "norm_label": ".location()"
+      "norm_label": ".location()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_location"
     },
     {
       "label": ".readTxMap()",
@@ -459,9 +459,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L155",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_readtxmap",
       "community": 15,
-      "norm_label": ".readtxmap()"
+      "norm_label": ".readtxmap()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_readtxmap"
     },
     {
       "label": ".writeTxMap()",
@@ -469,9 +469,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L172",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_writetxmap",
       "community": 15,
-      "norm_label": ".writetxmap()"
+      "norm_label": ".writetxmap()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_writetxmap"
     },
     {
       "label": ".prune()",
@@ -479,9 +479,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L187",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_prune",
       "community": 15,
-      "norm_label": ".prune()"
+      "norm_label": ".prune()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_prune"
     },
     {
       "label": ".beginAuthorization()",
@@ -489,9 +489,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L203",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_beginauthorization",
       "community": 15,
-      "norm_label": ".beginauthorization()"
+      "norm_label": ".beginauthorization()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_beginauthorization"
     },
     {
       "label": ".completeAuthorization()",
@@ -499,9 +499,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L244",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_completeauthorization",
       "community": 15,
-      "norm_label": ".completeauthorization()"
+      "norm_label": ".completeauthorization()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_completeauthorization"
     },
     {
       "label": ".scrubUrl()",
@@ -509,9 +509,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L316",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_scruburl",
       "community": 15,
-      "norm_label": ".scruburl()"
+      "norm_label": ".scruburl()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_scruburl"
     },
     {
       "label": ".getToken()",
@@ -519,9 +519,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L333",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_gettoken",
       "community": 15,
-      "norm_label": ".gettoken()"
+      "norm_label": ".gettoken()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_gettoken"
     },
     {
       "label": ".refresh()",
@@ -529,9 +529,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L351",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_refresh",
       "community": 15,
-      "norm_label": ".refresh()"
+      "norm_label": ".refresh()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_refresh"
     },
     {
       "label": ".doRefresh()",
@@ -539,9 +539,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L359",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_dorefresh",
       "community": 15,
-      "norm_label": ".dorefresh()"
+      "norm_label": ".dorefresh()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_dorefresh"
     },
     {
       "label": ".isAuthenticated()",
@@ -549,9 +549,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L384",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_isauthenticated",
       "community": 15,
-      "norm_label": ".isauthenticated()"
+      "norm_label": ".isauthenticated()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_isauthenticated"
     },
     {
       "label": ".logout()",
@@ -559,9 +559,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L392",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_logout",
       "community": 15,
-      "norm_label": ".logout()"
+      "norm_label": ".logout()",
+      "id": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_logout"
     },
     {
       "label": "RFC-6749",
@@ -569,9 +569,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L367",
       "_origin": "ast",
-      "id": "packages_core_src_auth_pkce_token_provider_ts_docref_rfc_6749",
       "community": 15,
-      "norm_label": "rfc-6749"
+      "norm_label": "rfc-6749",
+      "id": "packages_core_src_auth_pkce_token_provider_ts_docref_rfc_6749"
     },
     {
       "label": "README.md",
@@ -10539,7 +10539,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L232",
+      "source_location": "L241",
       "weight": 1.0,
       "source": "docs_authentication_authentication",
       "target": "docs_authentication_embedded_apps",
@@ -10549,7 +10549,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L84",
+      "source_location": "L93",
       "weight": 1.0,
       "source": "docs_authentication_authentication",
       "target": "docs_authentication_scopes",
@@ -10559,7 +10559,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L132",
+      "source_location": "L141",
       "weight": 1.0,
       "source": "docs_authentication_authentication",
       "target": "docs_authentication_standalone_apps_pkce",
@@ -10569,7 +10569,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L267",
+      "source_location": "L276",
       "weight": 1.0,
       "source": "docs_authentication_authentication",
       "target": "docs_authentication_tokens_and_refresh",
@@ -10579,7 +10579,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L305",
+      "source_location": "L314",
       "weight": 1.0,
       "source": "docs_authentication_authentication",
       "target": "docs_authentication_troubleshooting",
@@ -10619,7 +10619,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L54",
+      "source_location": "L53",
       "weight": 1.0,
       "source": "docs_authentication_before_you_write_any_code",
       "target": "docs_authentication_3_your_redirect_uri_matches_exactly",
@@ -10629,7 +10629,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L65",
+      "source_location": "L64",
       "weight": 1.0,
       "source": "docs_authentication_before_you_write_any_code",
       "target": "docs_authentication_4_your_origin_is_allowlisted_for_cors",
@@ -10639,7 +10639,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L77",
+      "source_location": "L86",
       "weight": 1.0,
       "source": "docs_authentication_before_you_write_any_code",
       "target": "docs_authentication_and_one_more_the_app_must_be_installed",
@@ -10649,7 +10649,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L89",
+      "source_location": "L98",
       "weight": 1.0,
       "source": "docs_authentication_scopes",
       "target": "docs_authentication_available_scopes",
@@ -10659,7 +10659,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L117",
+      "source_location": "L126",
       "weight": 1.0,
       "source": "docs_authentication_scopes",
       "target": "docs_authentication_the_unverified_client_cap",
@@ -10669,7 +10669,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L109",
+      "source_location": "L118",
       "weight": 1.0,
       "source": "docs_authentication_scopes",
       "target": "docs_authentication_what_you_cannot_have",
@@ -10679,7 +10679,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L227",
+      "source_location": "L236",
       "weight": 1.0,
       "source": "docs_authentication_standalone_apps_pkce",
       "target": "docs_authentication_server_side_rendering",
@@ -10689,7 +10689,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L145",
+      "source_location": "L154",
       "weight": 1.0,
       "source": "docs_authentication_standalone_apps_pkce",
       "target": "docs_authentication_setup",
@@ -10699,7 +10699,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L215",
+      "source_location": "L224",
       "weight": 1.0,
       "source": "docs_authentication_standalone_apps_pkce",
       "target": "docs_authentication_where_tokens_are_stored",
@@ -10709,7 +10709,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L171",
+      "source_location": "L180",
       "weight": 1.0,
       "source": "docs_authentication_standalone_apps_pkce",
       "target": "docs_authentication_wiring_it_up",
@@ -10719,7 +10719,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/authentication.md",
-      "source_location": "L290",
+      "source_location": "L299",
       "weight": 1.0,
       "source": "docs_authentication_tokens_and_refresh",
       "target": "docs_authentication_static_tokens_tests_scripts",
@@ -10732,9 +10732,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider"
     },
     {
       "relation": "imports",
@@ -10743,9 +10743,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider"
     },
     {
       "relation": "contains",
@@ -10753,9 +10753,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L339",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_authed",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_authed"
     },
     {
       "relation": "contains",
@@ -10763,9 +10763,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_fakefetch",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_fakefetch"
     },
     {
       "relation": "contains",
@@ -10773,9 +10773,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_fakelocation",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_fakelocation"
     },
     {
       "relation": "contains",
@@ -10783,9 +10783,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_jwtwithel",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_jwtwithel"
     },
     {
       "relation": "contains",
@@ -10793,9 +10793,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L101",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_makeprovider",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_makeprovider"
     },
     {
       "relation": "contains",
@@ -10803,9 +10803,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_manualclock",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_manualclock"
     },
     {
       "relation": "contains",
@@ -10813,9 +10813,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_ok_token",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_ok_token"
     },
     {
       "relation": "contains",
@@ -10823,9 +10823,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L210",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_primed",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_primed"
     },
     {
       "relation": "contains",
@@ -10833,9 +10833,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_recorded",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_recorded"
     },
     {
       "relation": "cites",
@@ -10843,9 +10843,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L372",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_ts_docref_rfc_6749",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_ts_docref_rfc_6749"
     },
     {
       "relation": "contains",
@@ -10853,9 +10853,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_uniquecrypto",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_uniquecrypto"
     },
     {
       "relation": "contains",
@@ -10863,9 +10863,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test",
-      "target": "packages_core_src_auth_pkce_token_provider_test_waitforredirect",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_waitforredirect"
     },
     {
       "relation": "calls",
@@ -10874,9 +10874,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L111",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test_makeprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_test_fakelocation",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_fakelocation"
     },
     {
       "relation": "calls",
@@ -10885,9 +10885,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L342",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test_authed",
-      "target": "packages_core_src_auth_pkce_token_provider_test_waitforredirect",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_waitforredirect"
     },
     {
       "relation": "calls",
@@ -10896,9 +10896,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L213",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test_primed",
-      "target": "packages_core_src_auth_pkce_token_provider_test_waitforredirect",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_waitforredirect"
     },
     {
       "relation": "calls",
@@ -10907,9 +10907,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L340",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test_authed",
-      "target": "packages_core_src_auth_pkce_token_provider_test_makeprovider",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_makeprovider"
     },
     {
       "relation": "calls",
@@ -10918,9 +10918,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.test.ts",
       "source_location": "L211",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_test_primed",
-      "target": "packages_core_src_auth_pkce_token_provider_test_makeprovider",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_test_makeprovider"
     },
     {
       "relation": "contains",
@@ -10928,9 +10928,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider",
-      "target": "packages_core_src_auth_pkce_token_provider_pendingtx",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pendingtx"
     },
     {
       "relation": "contains",
@@ -10938,9 +10938,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider",
-      "target": "packages_core_src_auth_pkce_token_provider_pendingtxmap",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pendingtxmap"
     },
     {
       "relation": "contains",
@@ -10948,9 +10948,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L106",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider"
     },
     {
       "relation": "contains",
@@ -10958,9 +10958,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovideroptions",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovideroptions"
     },
     {
       "relation": "cites",
@@ -10968,9 +10968,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L367",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider",
-      "target": "packages_core_src_auth_pkce_token_provider_ts_docref_rfc_6749",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_ts_docref_rfc_6749"
     },
     {
       "relation": "method",
@@ -10978,9 +10978,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L203",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_beginauthorization",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_beginauthorization"
     },
     {
       "relation": "method",
@@ -10988,9 +10988,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L244",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_completeauthorization",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_completeauthorization"
     },
     {
       "relation": "method",
@@ -10998,9 +10998,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_constructor",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_constructor"
     },
     {
       "relation": "method",
@@ -11008,9 +11008,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L138",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_crypto",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_crypto"
     },
     {
       "relation": "method",
@@ -11018,9 +11018,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L359",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_dorefresh",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_dorefresh"
     },
     {
       "relation": "method",
@@ -11028,9 +11028,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L333",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_gettoken",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_gettoken"
     },
     {
       "relation": "method",
@@ -11038,9 +11038,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L384",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_isauthenticated",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_isauthenticated"
     },
     {
       "relation": "method",
@@ -11048,9 +11048,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_location",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_location"
     },
     {
       "relation": "method",
@@ -11058,9 +11058,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L392",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_logout",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_logout"
     },
     {
       "relation": "method",
@@ -11068,9 +11068,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L187",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_prune",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_prune"
     },
     {
       "relation": "method",
@@ -11078,9 +11078,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L155",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_readtxmap",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_readtxmap"
     },
     {
       "relation": "method",
@@ -11088,9 +11088,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L351",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_refresh",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_refresh"
     },
     {
       "relation": "method",
@@ -11098,9 +11098,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L316",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_scruburl",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_scruburl"
     },
     {
       "relation": "method",
@@ -11108,9 +11108,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L141",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_storage",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_storage"
     },
     {
       "relation": "method",
@@ -11118,9 +11118,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L172",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_writetxmap",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_writetxmap"
     },
     {
       "relation": "calls",
@@ -11129,9 +11129,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L215",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_beginauthorization",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_readtxmap",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_readtxmap"
     },
     {
       "relation": "calls",
@@ -11140,9 +11140,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L258",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_completeauthorization",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_readtxmap",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_readtxmap"
     },
     {
       "relation": "calls",
@@ -11151,9 +11151,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L219",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_beginauthorization",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_writetxmap",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_writetxmap"
     },
     {
       "relation": "calls",
@@ -11162,9 +11162,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L261",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_completeauthorization",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_writetxmap",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_writetxmap"
     },
     {
       "relation": "calls",
@@ -11173,9 +11173,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L219",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_beginauthorization",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_prune",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_prune"
     },
     {
       "relation": "calls",
@@ -11184,9 +11184,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L265",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_completeauthorization",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_scruburl",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_scruburl"
     },
     {
       "relation": "calls",
@@ -11195,9 +11195,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L337",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_gettoken",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_refresh",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_refresh"
     },
     {
       "relation": "calls",
@@ -11206,9 +11206,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L353",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_refresh",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_dorefresh",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_dorefresh"
     },
     {
       "relation": "calls",
@@ -11217,9 +11217,9 @@
       "source_file": "packages/core/src/auth/pkce-token-provider.ts",
       "source_location": "L378",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_dorefresh",
-      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_logout",
-      "confidence_score": 1.0
+      "target": "packages_core_src_auth_pkce_token_provider_pkcetokenprovider_logout"
     },
     {
       "relation": "contains",
@@ -22654,5 +22654,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b21879be3c472c6e14c5ac9e1893a15908d0590f"
+  "built_at_commit": "4e8abf2d70f63c357563ebb0f792bb32f7316b4a"
 }

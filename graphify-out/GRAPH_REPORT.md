@@ -1,7 +1,7 @@
 # Graph Report - urbanos-sdk  (2026-08-11)
 
 ## Corpus Check
-- 120 files · ~35,274 words
+- 120 files · ~35,351 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b21879be`
+- Built from commit: `4e8abf2d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
