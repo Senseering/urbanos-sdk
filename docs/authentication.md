@@ -273,6 +273,42 @@ package.
 
 Full protocol details: **[Embedding](embedding.md)**.
 
+## Mandates (tenant scoping)
+
+A **mandate** is a sub-tenant within an element (organisation) — a grouping of
+datasources with its own members. Datasources can be scoped to a mandate; the
+gateway then only returns them to a token **bound to that mandate** (the `mid`
+claim). There is **no bypass**: a third-party token with no mandate (`mid=0`,
+instance level) simply does not see mandate-scoped data. The `mid` claim is only
+ever minted from a mandate the user proved membership in (or is an element admin
+of), so naming a mandate you have no access to is denied, never silently granted.
+
+**Your app must select the active mandate — in both modes.**
+
+**Embedded:** the host bakes the shell's active mandate into the token it mints,
+and delivers it in the bridge context. When the user switches mandate in the
+shell, the host emits `CONTEXT_CHANGED` with the new `mandate.id` — re-read your
+data for the new tenant (a full reload is the safe default). Nothing else to do;
+the token is already bound.
+
+**Standalone (PKCE):** login yields an instance-level token (`mid=0`). Bind a
+mandate explicitly, then switch with the same call:
+
+```ts
+// After completeAuthorization(), pick the user's mandate (e.g. from /v1/me) and bind it.
+await auth.setActiveMandate(mandateId);   // re-mints a token bound to `mandateId`
+auth.activeMandate();                     // → mandateId
+
+// Switching tenant is another call; instance level is `null`.
+await auth.setActiveMandate(otherMandateId);
+await auth.setActiveMandate(null);        // back to instance level
+```
+
+`setActiveMandate()` requires a completed login (it re-mints through the refresh
+grant) and throws `AuthError` if the gateway denies the mandate. The binding
+rides along on every silent refresh afterwards, so you set it once per tenant
+selection, not per request.
+
 ## Tokens and refresh
 
 | Thing              | Lifetime   |

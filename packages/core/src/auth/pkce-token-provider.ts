@@ -27,6 +27,10 @@ import { OAuthHttp } from './oauth-http';
 
 const TX_KEY = 'urbanos.pkce.tx';
 const REFRESH_KEY = 'urbanos.pkce.refresh';
+// The active mandate lives alongside the refresh token: it survives a reload
+// exactly when the refresh token does, so the tenant scope a switcher picked is
+// re-applied on the next load instead of silently dropping to instance level.
+const MANDATE_KEY = 'urbanos.pkce.mandate';
 /** Matches the gateway's 10-minute authorization-code TTL. */
 const TX_MAX_AGE_MS = 10 * 60_000;
 /**
@@ -112,6 +116,13 @@ export class PkceTokenProvider implements TokenProvider {
   private cached: AccessToken | null = null;
   private inflight: Promise<AccessToken> | null = null;
 
+  // The mandate this provider binds tokens to. The standalone (PKCE) flow is not
+  // mandate-bound at login (the gateway issues mid=0), so mandate-scoped data is
+  // invisible until an app selects one. Once set, every refresh carries the
+  // `mandate_id` so the binding survives silent rotation; switching is another
+  // setActiveMandate(). null = instance-level (no mandate).
+  private activeMandateId: number | null = null;
+
   private crypto_?: CryptoLike;
   private storage_?: StorageLike;
   private location_?: LocationLike;
@@ -131,6 +142,12 @@ export class PkceTokenProvider implements TokenProvider {
       fetchImpl: opts.fetchImpl,
       clock: this.clock,
     });
+    // Re-apply a mandate a previous page load bound (persisted only when the
+    // refresh token is — i.e. same lifetime), so a reload keeps the tenant scope.
+    const storedMandate = Number(this.refreshStore.getItem(MANDATE_KEY));
+    if (Number.isFinite(storedMandate) && storedMandate > 0) {
+      this.activeMandateId = storedMandate;
+    }
   }
 
   // Seams are resolved lazily so constructing the provider during SSR (where
@@ -366,6 +383,9 @@ export class PkceTokenProvider implements TokenProvider {
         refresh_token: refreshToken,
         // RFC 6749 §6 requires client_id for public clients.
         client_id: this.opts.clientId,
+        // Bind (or re-bind) the active mandate. The gateway validates membership
+        // before baking `mid`; a non-member id is denied, never silently dropped.
+        ...(this.activeMandateId != null ? { mandate_id: this.activeMandateId } : {}),
       });
       this.cached = token;
       // Swap the rotated token in before resolving.
@@ -380,6 +400,32 @@ export class PkceTokenProvider implements TokenProvider {
     }
   }
 
+  /** The mandate this provider currently binds to (undefined = instance-level). */
+  activeMandate(): number | undefined {
+    return this.activeMandateId ?? undefined;
+  }
+
+  /**
+   * Select the active mandate (or `null` for instance-level) and re-mint a token
+   * bound to it. The standalone flow needs this because PKCE login yields a
+   * mid=0 token; mandate-scoped data stays invisible until a mandate is bound.
+   * Switching mandate is another call. Requires a refresh token (i.e. a
+   * completed login); the gateway denies a mandate the user is not a member of.
+   *
+   * Returns the freshly-bound token. A no-op (same mandate) still returns the
+   * current token without a network call.
+   */
+  async setActiveMandate(mandateId: number | null): Promise<AccessToken> {
+    const next = mandateId ?? null;
+    if (next === this.activeMandateId && this.cached) return this.cached;
+    this.activeMandateId = next;
+    if (next == null) this.refreshStore.removeItem(MANDATE_KEY);
+    else this.refreshStore.setItem(MANDATE_KEY, String(next));
+    // Force a refresh so the new binding takes effect immediately, not on the
+    // next skew-window expiry.
+    return this.refresh();
+  }
+
   /** True when a cached token or a refresh token exists. */
   isAuthenticated(): boolean {
     return !!this.cached || !!this.refreshStore.getItem(REFRESH_KEY);
@@ -391,7 +437,9 @@ export class PkceTokenProvider implements TokenProvider {
    */
   logout(): void {
     this.cached = null;
+    this.activeMandateId = null;
     this.refreshStore.removeItem(REFRESH_KEY);
+    this.refreshStore.removeItem(MANDATE_KEY);
     try {
       this.storage.removeItem(TX_KEY);
     } catch {
