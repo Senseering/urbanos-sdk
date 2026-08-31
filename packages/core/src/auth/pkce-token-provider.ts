@@ -27,6 +27,10 @@ import { OAuthHttp } from './oauth-http';
 
 const TX_KEY = 'urbanos.pkce.tx';
 const REFRESH_KEY = 'urbanos.pkce.refresh';
+// The active mandate lives alongside the refresh token: it survives a reload
+// exactly when the refresh token does, so the tenant scope a switcher picked is
+// re-applied on the next load instead of silently dropping to instance level.
+const MANDATE_KEY = 'urbanos.pkce.mandate';
 /** Matches the gateway's 10-minute authorization-code TTL. */
 const TX_MAX_AGE_MS = 10 * 60_000;
 /**
@@ -138,6 +142,12 @@ export class PkceTokenProvider implements TokenProvider {
       fetchImpl: opts.fetchImpl,
       clock: this.clock,
     });
+    // Re-apply a mandate a previous page load bound (persisted only when the
+    // refresh token is — i.e. same lifetime), so a reload keeps the tenant scope.
+    const storedMandate = Number(this.refreshStore.getItem(MANDATE_KEY));
+    if (Number.isFinite(storedMandate) && storedMandate > 0) {
+      this.activeMandateId = storedMandate;
+    }
   }
 
   // Seams are resolved lazily so constructing the provider during SSR (where
@@ -409,6 +419,8 @@ export class PkceTokenProvider implements TokenProvider {
     const next = mandateId ?? null;
     if (next === this.activeMandateId && this.cached) return this.cached;
     this.activeMandateId = next;
+    if (next == null) this.refreshStore.removeItem(MANDATE_KEY);
+    else this.refreshStore.setItem(MANDATE_KEY, String(next));
     // Force a refresh so the new binding takes effect immediately, not on the
     // next skew-window expiry.
     return this.refresh();
@@ -427,6 +439,7 @@ export class PkceTokenProvider implements TokenProvider {
     this.cached = null;
     this.activeMandateId = null;
     this.refreshStore.removeItem(REFRESH_KEY);
+    this.refreshStore.removeItem(MANDATE_KEY);
     try {
       this.storage.removeItem(TX_KEY);
     } catch {
