@@ -1,5 +1,14 @@
 # @urbanos-examples/minimal-vanilla
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [b21879b]
+- Updated dependencies [aea3f7e]
+  - @datamatters-gmbh/urbanos-core@0.4.0
+  - @datamatters-gmbh/urbanos-demo@0.2.2
+
 ## 0.0.3
 
 ### Patch Changes
