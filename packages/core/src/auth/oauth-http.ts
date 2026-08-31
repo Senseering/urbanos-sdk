@@ -34,7 +34,11 @@ export class OAuthHttp {
     this.clock = opts.clock ?? Date.now;
   }
 
-  async token(body: Record<string, string>): Promise<{ token: AccessToken; refresh?: string }> {
+  // `mandate_id` must reach the gateway as a JSON number (it unmarshals int64), so
+  // the body admits numbers, not only strings.
+  async token(
+    body: Record<string, string | number>,
+  ): Promise<{ token: AccessToken; refresh?: string }> {
     const res = await this.fetchImpl(`${this.opts.gatewayUrl}/oauth/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

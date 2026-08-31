@@ -415,6 +415,48 @@ describe('getToken / refresh', () => {
     expect(f.calls[2]!.body.refresh_token).toBe('refresh-2');
   });
 
+  test('setActiveMandate binds the mandate on refresh and re-binds on switch', async () => {
+    const f = fakeFetch([
+      { body: OK_TOKEN },
+      { body: { ...OK_TOKEN, refresh_token: 'refresh-2', mandate_id: 100 } },
+      { body: { ...OK_TOKEN, refresh_token: 'refresh-3', mandate_id: 200 } },
+    ]);
+    const clock = manualClock();
+    const { provider } = await authed(f.impl, clock);
+
+    const bound = await provider.setActiveMandate(100);
+    expect(f.calls[1]!.body.grant_type).toBe('refresh_token');
+    expect(f.calls[1]!.body.mandate_id).toBe(100);
+    expect(bound.mandateId).toBe(100);
+    expect(provider.activeMandate()).toBe(100);
+
+    // Same mandate → no network call.
+    await provider.setActiveMandate(100);
+    expect(f.calls).toHaveLength(2);
+
+    // Switch → another refresh carrying the new id.
+    await provider.setActiveMandate(200);
+    expect(f.calls[2]!.body.mandate_id).toBe(200);
+    expect(provider.activeMandate()).toBe(200);
+  });
+
+  test('a bound mandate rides along on a silent skew-window refresh', async () => {
+    const f = fakeFetch([
+      { body: OK_TOKEN },
+      { body: { ...OK_TOKEN, refresh_token: 'refresh-2', mandate_id: 100 } },
+      { body: { ...OK_TOKEN, refresh_token: 'refresh-3', mandate_id: 100 } },
+    ]);
+    const clock = manualClock();
+    const { provider } = await authed(f.impl, clock);
+
+    await provider.setActiveMandate(100);
+    clock.advance(900_000);
+    await provider.getToken();
+
+    expect(f.calls[2]!.body.grant_type).toBe('refresh_token');
+    expect(f.calls[2]!.body.mandate_id).toBe(100);
+  });
+
   test('invalid_grant clears the session and stops making requests', async () => {
     const f = fakeFetch([{ body: OK_TOKEN }, { status: 400, body: { error: 'invalid_grant' } }]);
     const clock = manualClock();
