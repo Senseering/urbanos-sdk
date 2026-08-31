@@ -1,5 +1,46 @@
 # @datamatters-gmbh/urbanos-core
 
+## 0.4.0
+
+### Minor Changes
+
+- aea3f7e: Add `PkceTokenProvider.setActiveMandate()` for standalone mandate scoping
+
+  The standalone (PKCE) login yields an instance-level token (`mid=0`), so a
+  standalone third-party app cannot see mandate-scoped datasources until it binds a
+  mandate. `setActiveMandate(id)` re-mints the token bound to that mandate via the
+  gateway's refresh grant (which now accepts `mandate_id` and validates
+  membership); the binding rides along on every subsequent silent refresh, and
+  switching mandate is another call. `activeMandate()` reads the current binding.
+  Embedded apps are unaffected — the host still delivers a mandate-bound token over
+  the bridge.
+
+  `OAuthHttp.token()` now accepts numeric body fields so `mandate_id` reaches the
+  gateway as a JSON number.
+
+### Patch Changes
+
+- b21879b: Fix `pkce: state mismatch` when more than one authorization is started
+
+  `PkceTokenProvider` kept the pending transaction in a single `sessionStorage`
+  slot, so every `beginAuthorization()` overwrote the previous one. Any second
+  start orphaned the first — two tabs, a double-clicked sign-in button, or simply
+  retrying after an error — and when that earlier callback came back it failed the
+  CSRF gate with `pkce: state mismatch`, which looked like an integration mistake
+  rather than the SDK discarding its own transaction.
+
+  Pending authorizations are now keyed by `state`, so concurrent flows coexist and
+  completing one leaves the others untouched. The security properties are
+  unchanged: a state is still only accepted if the SDK minted it, it is still
+  consumed exactly once, and the transaction is still loaded and deleted
+  synchronously before the first `await`, so a React StrictMode double-mount still
+  cannot produce two code exchanges.
+
+  Storage stays bounded — at most 10 pending authorizations, with expired ones
+  (older than the gateway's 10-minute code TTL) pruned on write. A transaction
+  written by an older version is migrated on read, so a redirect already in flight
+  during an upgrade still completes.
+
 ## 0.3.0
 
 ### Minor Changes
