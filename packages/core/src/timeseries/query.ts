@@ -1,8 +1,8 @@
 /** The typed timeseries query builder. It compiles to the gateway query DTO and
  * surfaces datacore's server-side aggregation, so apps stop downloading raw
  * samples. Identical over HTTP and demo transports. */
-import type { AggFunc, GapFill } from './aggregate';
-import type { QueryResult, TimeseriesQuery, Transport } from '../client/transport';
+import type { AggFunc, GapFill } from './aggregate.js';
+import type { QueryResult, TimeseriesQuery, Transport } from '../client/transport.js';
 
 export interface RangeSpec {
   from?: string | Date;

@@ -1,7 +1,7 @@
 /** UrbanOSClient is the app-facing entry point over any Transport. */
-import type { TokenProvider } from '../auth/token-provider';
-import { TimeseriesQueryBuilder } from '../timeseries/query';
-import type { DatasourceView, ElementView, Transport } from './transport';
+import type { TokenProvider } from '../auth/token-provider.js';
+import { TimeseriesQueryBuilder } from '../timeseries/query.js';
+import type { DatasourceView, ElementView, Transport } from './transport.js';
 
 export interface UrbanOSClientOptions {
   /**

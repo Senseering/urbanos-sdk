@@ -10,8 +10,8 @@
  *   app → shell /oauth/authorize?… → (consent) → app /callback?code&state
  *   app → gateway POST /oauth/token {code, code_verifier} → tokens
  */
-import { AuthError, TenantError } from '../errors/errors';
-import type { AccessToken, TokenProvider } from './token-provider';
+import { AuthError, TenantError } from '../errors/errors.js';
+import type { AccessToken, TokenProvider } from './token-provider.js';
 import {
   browserLocation,
   globalCrypto,
@@ -21,9 +21,9 @@ import {
   type CryptoLike,
   type LocationLike,
   type StorageLike,
-} from './env';
-import { createCodeChallenge, createCodeVerifier, createState, readElementClaim } from './pkce';
-import { OAuthHttp } from './oauth-http';
+} from './env.js';
+import { createCodeChallenge, createCodeVerifier, createState, readElementClaim } from './pkce.js';
+import { OAuthHttp } from './oauth-http.js';
 
 const TX_KEY = 'urbanos.pkce.tx';
 const REFRESH_KEY = 'urbanos.pkce.refresh';

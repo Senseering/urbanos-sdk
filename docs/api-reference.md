@@ -30,6 +30,39 @@ class UrbanOSClient {
 }
 ```
 
+### Server client (`@datamatters-gmbh/urbanos-core/server`)
+
+```ts
+class UrbanOSServiceClient {
+  constructor(opts: UrbanOSServiceClientOptions);
+  listTargets(): Promise<ServiceTarget[]>;
+  forElement(elementId: number): UrbanOSClient;
+}
+interface ServiceTarget {
+  elementId: number;
+  mandateIds: number[];
+}
+type UrbanOSServiceCredential =
+  | { type: 'shared_secret'; credentialId: string; clientSecret: string }
+  | {
+      type: 'private_key_jwt';
+      credentialId: string;
+      keyId: string;
+      privateKey: string;
+    };
+interface UrbanOSServiceClientOptions {
+  baseUrl: string;
+  credential: UrbanOSServiceCredential;
+  scopes: string[];
+  fetchImpl?: typeof fetch;
+  tokenEndpointAudience?: string;
+  tokenSkewMs?: number;
+}
+```
+
+Node 22+ and ESM only. This export rejects browser use. See
+[Server credentials](server-credentials.md).
+
 ### Transport
 
 ```ts

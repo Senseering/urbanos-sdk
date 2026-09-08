@@ -56,15 +56,16 @@ Going live is a one-line swap to `HttpTransport` — your app code doesn't chang
 
 ## Documentation
 
-| Guide                                      | Covers                                     |
-| ------------------------------------------ | ------------------------------------------ |
-| [Getting started](docs/getting-started.md) | Install → offline app → live data          |
-| [Querying data](docs/querying-data.md)     | Elements, datasources, timeseries, storage |
-| [Authentication](docs/authentication.md)   | Client registration, scopes, PKCE, tokens  |
-| [Demo mode](docs/demo-mode.md)             | Deterministic datasets, demo↔prod parity   |
-| [Embedding](docs/embedding.md)             | Embed protocol v2                          |
-| [Publishing](docs/publishing.md)           | App manifest + store checklist             |
-| [API reference](docs/api-reference.md)     | Every export                               |
+| Guide                                            | Covers                                        |
+| ------------------------------------------------ | --------------------------------------------- |
+| [Getting started](docs/getting-started.md)       | Install → offline app → live data             |
+| [Querying data](docs/querying-data.md)           | Elements, datasources, timeseries, storage    |
+| [Authentication](docs/authentication.md)         | Client registration, scopes, PKCE, tokens     |
+| [Server credentials](docs/server-credentials.md) | Login-free, organization-bound backend access |
+| [Demo mode](docs/demo-mode.md)                   | Deterministic datasets, demo↔prod parity      |
+| [Embedding](docs/embedding.md)                   | Embed protocol v2                             |
+| [Publishing](docs/publishing.md)                 | App manifest + store checklist                |
+| [API reference](docs/api-reference.md)           | Every export                                  |
 
 ## Packages
 

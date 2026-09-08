@@ -27,6 +27,14 @@
       "expected": { "category": "noise" }
     },
     {
+      "id": "weather-outdoor-air-temperature",
+      "input": {
+        "name": "Außenklima Innenstadt",
+        "streams": [{ "name": "outdoor air temperature", "unit": "°C" }]
+      },
+      "expected": { "category": "weather" }
+    },
+    {
       "id": "generic-unknown-fallback",
       "input": { "name": "Sensor XYZ", "streams": [{ "name": "value", "unit": "" }] },
       "expected": { "category": "generic" }

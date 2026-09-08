@@ -11,15 +11,16 @@ offline, so you can build and test the whole app before you have platform access
 
 ## Guides
 
-| Guide                                 | Read it when                                                |
-| ------------------------------------- | ----------------------------------------------------------- |
-| [Getting started](getting-started.md) | First time here. Install → demo app → live data.            |
-| [Querying data](querying-data.md)     | You want elements, datasources, timeseries, or app storage. |
-| [Authentication](authentication.md)   | You need real data: client registration, scopes, tokens.    |
-| [Demo mode](demo-mode.md)             | You're building the offline dataset your app ships with.    |
-| [Embedding](embedding.md)             | Your app runs inside the urbanOS shell in an iframe.        |
-| [Publishing](publishing.md)           | You're ready to list your app in the store.                 |
-| [API reference](api-reference.md)     | You want the full list of exports.                          |
+| Guide                                       | Read it when                                                |
+| ------------------------------------------- | ----------------------------------------------------------- |
+| [Getting started](getting-started.md)       | First time here. Install → demo app → live data.            |
+| [Querying data](querying-data.md)           | You want elements, datasources, timeseries, or app storage. |
+| [Authentication](authentication.md)         | You need real data: client registration, scopes, tokens.    |
+| [Server credentials](server-credentials.md) | A backend needs login-free, organization-bound access.      |
+| [Demo mode](demo-mode.md)                   | You're building the offline dataset your app ships with.    |
+| [Embedding](embedding.md)                   | Your app runs inside the urbanOS shell in an iframe.        |
+| [Publishing](publishing.md)                 | You're ready to list your app in the store.                 |
+| [API reference](api-reference.md)           | You want the full list of exports.                          |
 
 ## The one idea worth knowing up front
 

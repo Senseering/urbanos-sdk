@@ -1,0 +1,279 @@
+import { createPrivateKey, randomUUID, sign, type KeyObject } from 'node:crypto';
+
+import type { AccessToken, TokenProvider } from '../auth/token-provider.js';
+import { UrbanOSClient } from '../client/client.js';
+import { HttpTransport } from '../client/http-transport.js';
+import { AuthError, GatewayError } from '../errors/errors.js';
+
+const ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer';
+const DATA_AUDIENCE = 'urbanos-api';
+const DIRECTORY_AUDIENCE = 'urbanos-service-directory';
+const TOKEN_SKEW_MS = 30_000;
+
+export interface SharedSecretServiceCredential {
+  type: 'shared_secret';
+  credentialId: string;
+  clientSecret: string;
+}
+
+export interface PrivateKeyJwtServiceCredential {
+  type: 'private_key_jwt';
+  credentialId: string;
+  keyId: string;
+  /** PKCS#8 or SEC1 PEM. Keep this in a server-side secret manager. */
+  privateKey: string;
+}
+
+export type UrbanOSServiceCredential =
+  SharedSecretServiceCredential | PrivateKeyJwtServiceCredential;
+
+export interface ServiceTarget {
+  elementId: number;
+  mandateIds: number[];
+}
+
+export interface UrbanOSServiceClientOptions {
+  baseUrl: string;
+  credential: UrbanOSServiceCredential;
+  /** Data/storage scopes requested for each element-bound token. */
+  scopes: string[];
+  fetchImpl?: typeof fetch;
+  /**
+   * Exact audience placed in private_key_jwt assertions. Defaults to the
+   * configured baseUrl + /oauth/token.
+   */
+  tokenEndpointAudience?: string;
+  /** Refresh this many milliseconds before expiry. Default: 30 seconds. */
+  tokenSkewMs?: number;
+}
+
+interface TokenResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  scope: string;
+  element_id?: number;
+  mandate_ids?: number[];
+}
+
+interface CachedToken {
+  token: AccessToken;
+  mandateIds: number[];
+}
+
+interface DirectoryResponse {
+  targets: Array<{ element_id: number; mandate_ids?: number[] }>;
+}
+
+/**
+ * Server-only OAuth client for background services. It discovers eligible
+ * organizations and returns the ordinary UrbanOSClient bound to exactly one.
+ */
+export class UrbanOSServiceClient {
+  private readonly fetchImpl: typeof fetch;
+  private readonly baseUrl: string;
+  private readonly tokenAudience: string;
+  private readonly tokenSkewMs: number;
+  private readonly assertionKey?: KeyObject;
+  private readonly providers = new Map<number, ServiceTokenProvider>();
+  private directoryToken?: CachedToken;
+  private directoryInFlight?: Promise<CachedToken>;
+
+  constructor(private readonly opts: UrbanOSServiceClientOptions) {
+    assertServerRuntime();
+    if (!opts.baseUrl || !opts.credential.credentialId || opts.scopes.length === 0) {
+      throw new TypeError('baseUrl, credentialId, and at least one scope are required');
+    }
+    if (opts.credential.type === 'shared_secret' && !opts.credential.clientSecret) {
+      throw new TypeError('clientSecret is required for a shared-secret credential');
+    }
+    if (opts.credential.type === 'private_key_jwt') {
+      if (!/^[A-Za-z0-9._-]{8,128}$/.test(opts.credential.keyId)) {
+        throw new TypeError('keyId must be a valid OAuth credential key id');
+      }
+      const key = createPrivateKey(opts.credential.privateKey);
+      const curve = key.asymmetricKeyDetails?.namedCurve;
+      if (key.asymmetricKeyType !== 'ec' || (curve !== 'prime256v1' && curve !== 'P-256')) {
+        throw new TypeError('private_key_jwt requires an ES256 P-256 private key');
+      }
+      this.assertionKey = key;
+    }
+    this.baseUrl = opts.baseUrl.replace(/\/$/, '');
+    this.fetchImpl = opts.fetchImpl ?? fetch;
+    this.tokenAudience = opts.tokenEndpointAudience ?? `${this.baseUrl}/oauth/token`;
+    this.tokenSkewMs = opts.tokenSkewMs ?? TOKEN_SKEW_MS;
+  }
+
+  async listTargets(): Promise<ServiceTarget[]> {
+    let token = await this.getDirectoryToken(false);
+    let response = await this.sendDirectoryRequest(token.token.accessToken);
+    if (response.status === 401) {
+      token = await this.getDirectoryToken(true);
+      response = await this.sendDirectoryRequest(token.token.accessToken);
+    }
+    if (response.status === 401) throw new AuthError();
+    if (!response.ok) {
+      throw new GatewayError(`gateway responded ${response.status}`, response.status);
+    }
+    const body = (await response.json()) as DirectoryResponse;
+    return body.targets.map((target) => ({
+      elementId: target.element_id,
+      mandateIds: target.mandate_ids ?? [],
+    }));
+  }
+
+  forElement(elementId: number): UrbanOSClient {
+    if (!Number.isSafeInteger(elementId) || elementId <= 0) {
+      throw new TypeError('elementId must be a positive safe integer');
+    }
+    let provider = this.providers.get(elementId);
+    if (!provider) {
+      provider = new ServiceTokenProvider(this, elementId);
+      this.providers.set(elementId, provider);
+    }
+    return new UrbanOSClient(
+      new HttpTransport({ baseUrl: this.baseUrl, tokens: provider, fetchImpl: this.fetchImpl }),
+      { tokens: provider },
+    );
+  }
+
+  async acquireElementToken(elementId: number): Promise<CachedToken> {
+    return this.requestToken(DATA_AUDIENCE, elementId, this.opts.scopes);
+  }
+
+  isFresh(token: AccessToken): boolean {
+    return token.expiresAt - this.tokenSkewMs > Date.now();
+  }
+
+  private async getDirectoryToken(force: boolean): Promise<CachedToken> {
+    if (!force && this.directoryToken && this.isFresh(this.directoryToken.token)) {
+      return this.directoryToken;
+    }
+    if (this.directoryInFlight) return this.directoryInFlight;
+    this.directoryInFlight = this.requestToken(DIRECTORY_AUDIENCE, undefined, [])
+      .then((token) => {
+        this.directoryToken = token;
+        return token;
+      })
+      .finally(() => {
+        this.directoryInFlight = undefined;
+      });
+    return this.directoryInFlight;
+  }
+
+  private sendDirectoryRequest(accessToken: string): Promise<Response> {
+    return this.fetchImpl(`${this.baseUrl}/v1/service-targets`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  }
+
+  private async requestToken(
+    audience: string,
+    elementId: number | undefined,
+    scopes: string[],
+  ): Promise<CachedToken> {
+    const form = new URLSearchParams({ grant_type: 'client_credentials', audience });
+    if (elementId !== undefined) form.set('element_id', String(elementId));
+    if (scopes.length > 0) form.set('scope', scopes.join(' '));
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    const credential = this.opts.credential;
+    if (credential.type === 'shared_secret') {
+      headers.Authorization = `Basic ${Buffer.from(
+        `${credential.credentialId}:${credential.clientSecret}`,
+      ).toString('base64')}`;
+    } else {
+      form.set('client_id', credential.credentialId);
+      form.set('client_assertion_type', ASSERTION_TYPE);
+      form.set('client_assertion', this.createAssertion(credential));
+    }
+    const response = await this.fetchImpl(`${this.baseUrl}/oauth/token`, {
+      method: 'POST',
+      headers,
+      body: form,
+    });
+    if (response.status === 401) throw new AuthError();
+    if (!response.ok) {
+      throw new GatewayError(`token endpoint responded ${response.status}`, response.status);
+    }
+    const body = (await response.json()) as TokenResponse;
+    if (!body.access_token || !Number.isFinite(body.expires_in) || body.expires_in <= 0) {
+      throw new GatewayError('token endpoint returned an invalid response', 502);
+    }
+    return {
+      token: {
+        accessToken: body.access_token,
+        expiresAt: Date.now() + body.expires_in * 1000,
+        scopes: body.scope ? body.scope.split(/\s+/) : [],
+        tenantId: body.element_id ?? 0,
+      },
+      mandateIds: body.mandate_ids ?? [],
+    };
+  }
+
+  private createAssertion(credential: PrivateKeyJwtServiceCredential): string {
+    const now = Math.floor(Date.now() / 1000);
+    const header = encodeJSON({ alg: 'ES256', typ: 'JWT', kid: credential.keyId });
+    const claims = encodeJSON({
+      iss: credential.credentialId,
+      sub: credential.credentialId,
+      aud: this.tokenAudience,
+      iat: now,
+      exp: now + 120,
+      jti: randomUUID(),
+    });
+    const signingInput = `${header}.${claims}`;
+    const signature = sign('sha256', Buffer.from(signingInput), {
+      key: this.assertionKey!,
+      dsaEncoding: 'ieee-p1363',
+    }).toString('base64url');
+    return `${signingInput}.${signature}`;
+  }
+}
+
+class ServiceTokenProvider implements TokenProvider {
+  private cached?: CachedToken;
+  private inFlight?: Promise<CachedToken>;
+
+  constructor(
+    private readonly service: UrbanOSServiceClient,
+    private readonly elementId: number,
+  ) {}
+
+  async getToken(): Promise<AccessToken> {
+    if (this.cached && this.service.isFresh(this.cached.token)) return this.cached.token;
+    return (await this.acquire()).token;
+  }
+
+  async refresh(): Promise<AccessToken> {
+    this.cached = undefined;
+    return (await this.acquire()).token;
+  }
+
+  private acquire(): Promise<CachedToken> {
+    if (this.inFlight) return this.inFlight;
+    this.inFlight = this.service
+      .acquireElementToken(this.elementId)
+      .then((token) => {
+        this.cached = token;
+        return token;
+      })
+      .finally(() => {
+        this.inFlight = undefined;
+      });
+    return this.inFlight;
+  }
+}
+
+function encodeJSON(value: unknown): string {
+  return Buffer.from(JSON.stringify(value)).toString('base64url');
+}
+
+function assertServerRuntime(): void {
+  if (typeof window !== 'undefined') {
+    throw new Error(
+      '@datamatters-gmbh/urbanos-core/server contains server credentials and cannot run in a browser',
+    );
+  }
+}

@@ -44,4 +44,5 @@ Swap `HttpTransport` for `DemoTransport` to run offline — nothing else changes
 
 - [Querying data](https://github.com/Senseering/urbanos-sdk/blob/main/docs/querying-data.md) — the client API
 - [Authentication](https://github.com/Senseering/urbanos-sdk/blob/main/docs/authentication.md) — scopes, PKCE, embedded tokens
+- [Server credentials](https://github.com/Senseering/urbanos-sdk/blob/main/docs/server-credentials.md) — login-free backend access and target discovery
 - [API reference](https://github.com/Senseering/urbanos-sdk/blob/main/docs/api-reference.md#datamatters-gmbhurbanos-core) — every export

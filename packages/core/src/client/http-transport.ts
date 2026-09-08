@@ -1,14 +1,14 @@
 /** HttpTransport talks to the gateway /v1 REST API, attaching the scoped app
  * token from a TokenProvider. */
-import type { AccessToken, TokenProvider } from '../auth/token-provider';
-import { AuthError, GatewayError } from '../errors/errors';
+import type { AccessToken, TokenProvider } from '../auth/token-provider.js';
+import { AuthError, GatewayError } from '../errors/errors.js';
 import type {
   DatasourceView,
   ElementView,
   QueryResult,
   TimeseriesQuery,
   Transport,
-} from './transport';
+} from './transport.js';
 
 export interface HttpTransportOptions {
   baseUrl: string;

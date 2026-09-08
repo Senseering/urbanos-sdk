@@ -3,7 +3,7 @@
  * base64url(SHA-256(verifier)), unpadded. The gateway supports S256 only — there
  * is no `plain` fallback and `code_challenge_method` is never read server-side.
  */
-import type { CryptoLike } from './env';
+import type { CryptoLike } from './env.js';
 
 const B64URL_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 

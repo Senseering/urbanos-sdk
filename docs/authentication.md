@@ -7,6 +7,7 @@ How your app gets a token and keeps it fresh.
 - [Scopes](#scopes)
 - [Standalone apps (PKCE)](#standalone-apps-pkce)
 - [Embedded apps](#embedded-apps)
+- [Background services](#background-services)
 - [Tokens and refresh](#tokens-and-refresh)
 - [Troubleshooting](#troubleshooting)
 
@@ -20,10 +21,23 @@ How your app gets a token and keeps it fresh.
 Both implement the same `TokenProvider` interface, so `HttpTransport` doesn't care
 which one you hand it. You can support both from one codebase.
 
+## Background services
+
+A backend that must run without an interactive login uses a server credential
+attached to the same app-client registration. This also covers backends serving
+citizen apps, not just scheduled jobs. App users need no urbanOS account, even
+for first-time setup; an authorized operator grants the app access during onboarding.
+
+Server token requests use `client_credentials`, with no user session, PKCE, or
+redirect URI. A confidential client's user-login secret alone does not enable this
+flow. See [Server credentials](server-credentials.md) for the ExampleApp example,
+the current registration UI limitation, provisioning, and secret handling.
+
 ## Before you write any code
 
-Authentication will not work until four things are true. Each fails in a way that is
-hard to diagnose, so check them first.
+The checklist below covers browser-based user-login integrations. For server-only
+access, follow [Server credentials](server-credentials.md); the redirect and
+browser CORS requirements below do not apply to backend token requests.
 
 ### 1. Your organisation is approved as a developer
 
@@ -296,12 +310,12 @@ mandate explicitly, then switch with the same call:
 
 ```ts
 // After completeAuthorization(), pick the user's mandate (e.g. from /v1/me) and bind it.
-await auth.setActiveMandate(mandateId);   // re-mints a token bound to `mandateId`
-auth.activeMandate();                     // → mandateId
+await auth.setActiveMandate(mandateId); // re-mints a token bound to `mandateId`
+auth.activeMandate(); // → mandateId
 
 // Switching tenant is another call; instance level is `null`.
 await auth.setActiveMandate(otherMandateId);
-await auth.setActiveMandate(null);        // back to instance level
+await auth.setActiveMandate(null); // back to instance level
 ```
 
 `setActiveMandate()` requires a completed login (it re-mints through the refresh

@@ -1,7 +1,7 @@
 /** The transport abstraction: how the client talks to a data source. HTTP (the
  * gateway) and demo (local) implementations exist; app code is identical over
  * both. DTOs mirror the gateway /v1 surface. */
-import type { AggFunc, GapFill } from '../timeseries/aggregate';
+import type { AggFunc, GapFill } from '../timeseries/aggregate.js';
 
 export interface StreamView {
   id: number;

@@ -13,9 +13,9 @@
  *   const tokens = new HostTokenProvider(bridge);
  *   const client = new UrbanOSClient(new HttpTransport({ baseUrl, tokens }));
  */
-import { AuthError } from '../errors/errors';
-import type { AccessToken, TokenProvider } from './token-provider';
-import type { ClockLike } from './env';
+import { AuthError } from '../errors/errors.js';
+import type { AccessToken, TokenProvider } from './token-provider.js';
+import type { ClockLike } from './env.js';
 
 /** Structurally satisfied by `AppBridge` from @datamatters-gmbh/urbanos-bridge. */
 export interface HostTokenSource {

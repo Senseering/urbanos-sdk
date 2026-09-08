@@ -2,15 +2,15 @@
  * aggregation runs through the SAME local engine the conformance vectors pin, so
  * demo mode behaves exactly like the gateway. This is what lets one app codebase
  * serve real and demo modes with no branching. */
-import { aggregate, parseBucket } from '../timeseries/aggregate';
-import type { Category } from '../classify/classify';
+import { aggregate, parseBucket } from '../timeseries/aggregate.js';
+import type { Category } from '../classify/classify.js';
 import type {
   DatasourceView,
   ElementView,
   QueryResult,
   Transport,
   TimeseriesQuery,
-} from './transport';
+} from './transport.js';
 
 export interface DemoStream {
   id: number;

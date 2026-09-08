@@ -1,8 +1,8 @@
 /** Thin client for the gateway's POST /oauth/token endpoint. */
-import { AuthError, ConsentError, GatewayError } from '../errors/errors';
-import type { AccessToken } from './token-provider';
-import type { ClockLike } from './env';
-import { readElementClaim, readMandateClaim } from './pkce';
+import { AuthError, ConsentError, GatewayError } from '../errors/errors.js';
+import type { AccessToken } from './token-provider.js';
+import type { ClockLike } from './env.js';
+import { readElementClaim, readMandateClaim } from './pkce.js';
 
 /** The gateway's token response (api/oauth.go tokenOut). */
 export interface TokenResponseBody {
