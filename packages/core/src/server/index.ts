@@ -47,6 +47,25 @@ export interface UrbanOSServiceClientOptions {
   tokenSkewMs?: number;
 }
 
+/** One server-side secret copied from the app-client API-key dialog. */
+export interface UrbanOSApiKeyClientOptions {
+  baseUrl: string;
+  apiKey: string;
+  /** Omit to use the key's approved permissions; specify to narrow further. */
+  scopes?: string[];
+  fetchImpl?: typeof fetch;
+  tokenSkewMs?: number;
+}
+
+function decodeApiKey(apiKey: string): SharedSecretServiceCredential {
+  const match =
+    typeof apiKey === 'string'
+      ? /^uos_api_(uos_sc_[a-z0-9]{20,40})\.(uos_ss_[0-9a-f]{64})$/.exec(apiKey)
+      : null;
+  if (!match) throw new TypeError('Invalid urbanOS API key');
+  return { type: 'shared_secret', credentialId: match[1]!, clientSecret: match[2]! };
+}
+
 interface TokenResponse {
   access_token: string;
   token_type: string;
@@ -70,6 +89,7 @@ interface DirectoryResponse {
  * organizations and returns the ordinary UrbanOSClient bound to exactly one.
  */
 export class UrbanOSServiceClient {
+  private readonly opts: UrbanOSServiceClientOptions;
   private readonly fetchImpl: typeof fetch;
   private readonly baseUrl: string;
   private readonly tokenAudience: string;
@@ -79,10 +99,40 @@ export class UrbanOSServiceClient {
   private directoryToken?: CachedToken;
   private directoryInFlight?: Promise<CachedToken>;
 
-  constructor(private readonly opts: UrbanOSServiceClientOptions) {
+  constructor(options: UrbanOSServiceClientOptions | UrbanOSApiKeyClientOptions) {
     assertServerRuntime();
-    if (!opts.baseUrl || !opts.credential.credentialId || opts.scopes.length === 0) {
+    if ('apiKey' in options && 'credential' in options) {
+      throw new TypeError('Provide an API key or an advanced credential, not both');
+    }
+    const opts: UrbanOSServiceClientOptions =
+      'apiKey' in options
+        ? {
+            baseUrl: options.baseUrl,
+            credential: decodeApiKey(options.apiKey),
+            scopes: options.scopes ?? [],
+            fetchImpl: options.fetchImpl,
+            tokenSkewMs: options.tokenSkewMs,
+          }
+        : options;
+    if (
+      !opts.baseUrl ||
+      !opts.credential.credentialId ||
+      !Array.isArray(opts.scopes) ||
+      (!('apiKey' in options) && opts.scopes.length === 0)
+    ) {
       throw new TypeError('baseUrl, credentialId, and at least one scope are required');
+    }
+    this.opts = opts;
+    const url = new URL(opts.baseUrl);
+    if (
+      url.username ||
+      url.password ||
+      url.search ||
+      url.hash ||
+      (url.protocol !== 'https:' &&
+        !(url.protocol === 'http:' && ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname)))
+    ) {
+      throw new TypeError('Server credentials require HTTPS (HTTP is allowed only on loopback)');
     }
     if (opts.credential.type === 'shared_secret' && !opts.credential.clientSecret) {
       throw new TypeError('clientSecret is required for a shared-secret credential');
@@ -190,6 +240,7 @@ export class UrbanOSServiceClient {
     }
     const response = await this.fetchImpl(`${this.baseUrl}/oauth/token`, {
       method: 'POST',
+      redirect: 'error',
       headers,
       body: form,
     });

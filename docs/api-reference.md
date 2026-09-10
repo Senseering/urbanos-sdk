@@ -34,13 +34,20 @@ class UrbanOSClient {
 
 ```ts
 class UrbanOSServiceClient {
-  constructor(opts: UrbanOSServiceClientOptions);
+  constructor(opts: UrbanOSServiceClientOptions | UrbanOSApiKeyClientOptions);
   listTargets(): Promise<ServiceTarget[]>;
   forElement(elementId: number): UrbanOSClient;
 }
 interface ServiceTarget {
   elementId: number;
   mandateIds: number[];
+}
+interface UrbanOSApiKeyClientOptions {
+  baseUrl: string;
+  apiKey: string;
+  scopes?: string[]; // Omit to use the key's approved permissions.
+  fetchImpl?: typeof fetch;
+  tokenSkewMs?: number;
 }
 type UrbanOSServiceCredential =
   | { type: 'shared_secret'; credentialId: string; clientSecret: string }

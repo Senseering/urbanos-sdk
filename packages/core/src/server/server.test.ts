@@ -1,10 +1,114 @@
 import { generateKeyPairSync } from 'node:crypto';
 
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { UrbanOSServiceClient } from './index.js';
 
 describe('UrbanOSServiceClient', () => {
+  const apiKey = `uos_api_uos_sc_${'a'.repeat(24)}.uos_ss_${'b'.repeat(64)}`;
+
+  it('uses one API key without requiring scopes or exposing it to data endpoints', async () => {
+    const requests: Array<{ url: string; init?: RequestInit }> = [];
+    const service = new UrbanOSServiceClient({
+      baseUrl: 'https://api.udp.city',
+      apiKey,
+      fetchImpl: async (input, init) => {
+        await Promise.resolve();
+        const url = requestURL(input);
+        requests.push({ url, init });
+        if (url.endsWith('/oauth/token'))
+          return jsonResponse({
+            access_token: 'short-token',
+            expires_in: 900,
+            scope: 'element:read',
+            element_id: 42,
+          });
+        return jsonResponse({ id: 42 });
+      },
+    });
+    await Promise.all([service.forElement(42).element(), service.forElement(42).element()]);
+    expect(requests.filter((request) => request.url.endsWith('/oauth/token'))).toHaveLength(1);
+    expect(requests[0]?.init?.headers).toMatchObject({
+      Authorization: `Basic ${Buffer.from(`uos_sc_${'a'.repeat(24)}:uos_ss_${'b'.repeat(64)}`).toString('base64')}`,
+    });
+    expect((requests[0]?.init?.body as URLSearchParams).has('scope')).toBe(false);
+    expect(requests[0]?.init?.redirect).toBe('error');
+    expect(requests[1]?.init?.headers).toMatchObject({ Authorization: 'Bearer short-token' });
+  });
+
+  it.each([
+    'bad',
+    '',
+    apiKey + '.extra',
+    apiKey.replace('uos_api_', ''),
+    apiKey.replace('uos_ss_', ''),
+  ])('rejects malformed keys without echoing them', (key) => {
+    expect(
+      () => new UrbanOSServiceClient({ baseUrl: 'https://api.udp.city', apiKey: key }),
+    ).toThrow(/^Invalid urbanOS API key$/);
+  });
+
+  it('rejects insecure remote endpoints and ambiguous credentials before sending requests', () => {
+    expect(() => new UrbanOSServiceClient({ baseUrl: 'http://example.com', apiKey })).toThrow(
+      'HTTPS',
+    );
+    expect(
+      () => new UrbanOSServiceClient({ baseUrl: 'https://example.com?secret=value', apiKey }),
+    ).toThrow('HTTPS');
+    expect(
+      () =>
+        new UrbanOSServiceClient({
+          baseUrl: 'https://api.udp.city',
+          apiKey,
+          credential: { type: 'shared_secret', credentialId: 'other', clientSecret: 'other' },
+          scopes: [],
+        }),
+    ).toThrow('not both');
+  });
+
+  it('rejects API-key browser use', () => {
+    vi.stubGlobal('window', {});
+    try {
+      expect(() => new UrbanOSServiceClient({ baseUrl: 'https://api.udp.city', apiKey })).toThrow(
+        'browser',
+      );
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('renews API-key tokens before expiry and keeps explicit scope narrowing', async () => {
+    let now = Date.now();
+    const clock = vi.spyOn(Date, 'now').mockImplementation(() => now);
+    let tokenCalls = 0;
+    const service = new UrbanOSServiceClient({
+      baseUrl: 'https://api.udp.city',
+      apiKey,
+      scopes: ['element:read'],
+      fetchImpl: async (input, init) => {
+        await Promise.resolve();
+        if (requestURL(input).endsWith('/oauth/token')) {
+          tokenCalls++;
+          expect((init?.body as URLSearchParams).get('scope')).toBe('element:read');
+          return jsonResponse({
+            access_token: `token-${tokenCalls}`,
+            expires_in: 60,
+            scope: 'element:read',
+            element_id: 42,
+          });
+        }
+        return jsonResponse({ id: 42 });
+      },
+    });
+    try {
+      await service.forElement(42).element();
+      now += 31_000;
+      await Promise.all([service.forElement(42).element(), service.forElement(42).element()]);
+      expect(tokenCalls).toBe(2);
+    } finally {
+      clock.mockRestore();
+    }
+  });
   it('discovers identifier-only targets with a directory token', async () => {
     const requests: Array<{ url: string; init?: RequestInit }> = [];
     const fetchImpl: typeof fetch = async (input, init) => {

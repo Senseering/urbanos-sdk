@@ -70,13 +70,7 @@ import { UrbanOSServiceClient } from '@datamatters-gmbh/urbanos-core/server';
 
 const service = new UrbanOSServiceClient({
   baseUrl: process.env.URBANOS_GATEWAY_URL!,
-  credential: {
-    type: 'private_key_jwt',
-    credentialId: process.env.URBANOS_SERVICE_CREDENTIAL_ID!,
-    keyId: process.env.URBANOS_SERVICE_KEY_ID!,
-    privateKey: process.env.URBANOS_SERVICE_PRIVATE_KEY!,
-  },
-  scopes: ['datasources:read', 'data:read:ble'],
+  apiKey: process.env.URBANOS_API_KEY!,
 });
 
 for (const target of await service.listTargets()) {
@@ -86,15 +80,38 @@ for (const target of await service.listTargets()) {
 }
 ```
 
+Create the key under **App clients → your app → Credentials → Create API key**.
+Copy it once into `URBANOS_API_KEY` in your server's secret manager. No separate
+client ID, secret, public key or redirect URI is needed for the server connection.
+Use HTTPS; the SDK permits HTTP only for loopback development servers and rejects
+token-endpoint redirects. Do not send this long-lived key to data endpoints or
+to your app's browser. The SDK exchanges it for short-lived tokens.
+
+For a single organisation, use `service.forElement(42)` with that organisation's
+gateway ID; no directory call is needed. `listTargets()` is reserved for platform
+keys, which a platform admin can create only for first-party apps linked to a
+catalog entry. Those keys discover only organisations currently using that app.
+
+Omit `scopes` to use the key's approved permissions. To narrow a particular server
+job further, pass e.g. `scopes: ['datasources:read', 'data:read:ble']`. Omitting scopes
+does not add storage or other permissions that the key lacks.
+
 `listTargets()` uses a five-minute directory token. It returns only element and
 mandate IDs eligible for this app—not organization names and not data. Each
 `forElement()` client obtains its own 15-minute organization-bound token. Token
 requests are cached and coalesced per organization; a gateway `401` triggers one
 renewal and one retry.
 
-## Credential types
+## Advanced credential types (optional)
 
-Organization and mandate credentials use a rotating shared secret:
+The one-copy API key packages the credential ID and random secret together. The
+gateway checks the secret's SHA-256 hash; urbanOS never stores the plaintext key.
+It supports organisation, mandate and first-party platform access, with the same
+scope and tenant checks. A stolen key can authenticate until expiry or revocation,
+so keep it server-side. This convenience option replaces the earlier requirement
+that all platform credentials use asymmetric authentication.
+
+Existing separate shared-secret credentials remain supported:
 
 ```ts
 const service = new UrbanOSServiceClient({
@@ -108,7 +125,7 @@ const service = new UrbanOSServiceClient({
 });
 ```
 
-Highly privileged first-party platform credentials use `private_key_jwt`. The
+First-party platform credentials can still use `private_key_jwt` as an advanced option. The
 app holds the private ES256 key; urbanOS stores only the public JWK. Assertions
 use the exact token endpoint as their audience, expire after two minutes, and
 carry a unique replay-protected `jti`. Set `tokenEndpointAudience` only when the
@@ -147,7 +164,13 @@ server process. Never put them in:
 The `/server` constructor rejects browser use at runtime. That is a last guard,
 not a substitute for keeping the import out of client code.
 
-Shared-secret creation and rotation return plaintext once. Deploy the new secret
+API-key creation and replacement return plaintext once. **Replace API key** keeps
+the same app identity and storage namespace. Update `URBANOS_API_KEY` on the server
+and restart/recreate the service client. The previous secret expires after a
+24-hour overlap. Revoke the credential immediately if a key is compromised; this
+invalidates all its keys and already-issued tokens, rather than waiting for rotation.
+
+Legacy shared-secret creation and rotation also return plaintext once. Deploy the new secret
 during the 24-hour overlap, verify it, then remove the old secret. For ES256,
 register the new public JWK, deploy the matching private key, verify token minting,
 then let the previous public key expire. Revocation and policy narrowing are
