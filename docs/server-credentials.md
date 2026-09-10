@@ -89,8 +89,23 @@ to your app's browser. The SDK exchanges it for short-lived tokens.
 
 For a single organisation, use `service.forElement(42)` with that organisation's
 gateway ID; no directory call is needed. `listTargets()` is reserved for platform
-keys, which a platform admin can create only for first-party apps linked to a
-catalog entry. Those keys discover only organisations currently using that app.
+keys, which a platform admin can create for first-party client registrations.
+Choose **Selected organisations** or explicitly confirm **All organisations**
+(including future organisations). An external app or server integration does not
+need a shell listing or catalog entry. The key does not inherit global access
+merely because its app client is first-party.
+
+The optional **Only where a particular app is enabled** setting intersects that
+organisation choice with current app enablement. Use it for your app's
+app-participation policy. Existing app-restricted platform keys retain that
+restriction. Without it, selected/all keys include all mandates in each permitted
+organisation, regardless of catalog app enablement. Discovery still returns only
+IDs, and each data token still covers exactly one organisation.
+
+Use the gateway organisation ID displayed in urbanOS or returned by discovery,
+not the internal organisation-management ID. To change a credential's target
+boundary, provision a replacement credential and revoke the old one after
+deployment; rotating its API key does not change that boundary.
 
 Omit `scopes` to use the key's approved permissions. To narrow a particular server
 job further, pass e.g. `scopes: ['datasources:read', 'data:read:ble']`. Omitting scopes
