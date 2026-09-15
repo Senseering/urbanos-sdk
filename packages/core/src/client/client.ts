@@ -1,7 +1,7 @@
 /** UrbanOSClient is the app-facing entry point over any Transport. */
 import type { TokenProvider } from '../auth/token-provider.js';
 import { TimeseriesQueryBuilder } from '../timeseries/query.js';
-import type { DatasourceView, ElementView, Transport } from './transport.js';
+import type { DatasourceListOptions, DatasourceView, ElementView, Transport } from './transport.js';
 
 export interface UrbanOSClientOptions {
   /**
@@ -45,7 +45,7 @@ export class UrbanOSClient {
     return (await this.tokens.getToken()).mandateId;
   }
 
-  datasources(opts?: { category?: string }): Promise<DatasourceView[]> {
+  datasources(opts?: DatasourceListOptions): Promise<DatasourceView[]> {
     return this.transport.listDatasources(opts);
   }
 

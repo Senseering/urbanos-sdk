@@ -2,7 +2,9 @@
  * token from a TokenProvider. */
 import type { AccessToken, TokenProvider } from '../auth/token-provider.js';
 import { AuthError, GatewayError } from '../errors/errors.js';
+import { matchesDatasourceFilters, validateDatasourceFilters } from './datasource-filters.js';
 import type {
+  DatasourceListOptions,
   DatasourceView,
   ElementView,
   QueryResult,
@@ -80,10 +82,17 @@ export class HttpTransport implements Transport {
     return this.req<ElementView>('GET', '/v1/element');
   }
 
-  async listDatasources(opts?: { category?: string }): Promise<DatasourceView[]> {
-    const q = opts?.category ? `?category=${encodeURIComponent(opts.category)}` : '';
+  async listDatasources(opts?: DatasourceListOptions): Promise<DatasourceView[]> {
+    validateDatasourceFilters(opts);
+    const params = new URLSearchParams();
+    if (opts?.category) params.set('category', opts.category);
+    if (opts?.sensorType) params.set('sensor_type', opts.sensorType);
+    if (opts?.tagIds?.length) params.set('tag_ids', opts.tagIds.join(','));
+    const q = params.size ? `?${params}` : '';
     const r = await this.req<{ datasources: DatasourceView[] }>('GET', `/v1/datasources${q}`);
-    return r.datasources;
+    // Older gateways may ignore unknown query parameters. Never return broader
+    // results than requested; absent metadata cannot satisfy a metadata filter.
+    return r.datasources.filter((ds) => matchesDatasourceFilters(ds, opts));
   }
 
   async queryTimeseries(queries: TimeseriesQuery[]): Promise<QueryResult[]> {

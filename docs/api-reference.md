@@ -25,7 +25,7 @@ class UrbanOSClient {
     put(key: string, value: unknown): Promise<void>;
   };
   element(): Promise<ElementView>;
-  datasources(opts?: { category?: string }): Promise<DatasourceView[]>;
+  datasources(opts?: DatasourceListOptions): Promise<DatasourceView[]>;
   timeseries(streamId: number): TimeseriesQueryBuilder;
 }
 ```
@@ -83,7 +83,7 @@ empty array indicates no permitted mandates. Directory discovery stays ID-only.
 ```ts
 interface Transport {
   getElement(): Promise<ElementView>;
-  listDatasources(opts?: { category?: string }): Promise<DatasourceView[]>;
+  listDatasources(opts?: DatasourceListOptions): Promise<DatasourceView[]>;
   queryTimeseries(queries: TimeseriesQuery[]): Promise<QueryResult[]>;
   getStorage(key: string): Promise<unknown>;
   putStorage(key: string, value: unknown): Promise<void>;
@@ -102,6 +102,15 @@ interface StreamView {
   name: string;
   unit: string;
 }
+interface DatasourceListOptions {
+  category?: string;
+  sensorType?: string; // Exact match; first-party only.
+  tagIds?: number[]; // ALL selected IDs; at most 50; first-party only.
+}
+interface DatasourceTag {
+  id: number;
+  name: string;
+}
 interface DatasourceView {
   id: number;
   element_id: number;
@@ -110,6 +119,8 @@ interface DatasourceView {
   lat: number;
   long: number;
   streams: StreamView[];
+  sensor_type?: string;
+  tags?: DatasourceTag[];
 }
 interface AggregateSpec {
   function: AggFunc;

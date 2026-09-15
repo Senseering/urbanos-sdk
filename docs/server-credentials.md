@@ -202,6 +202,39 @@ before enabling the picker. This DTO change follows the SDK's major-release poli
 Keep names in your authorised setup interface. Avoid public caches or exposing
 peer names in citizen views and benchmark responses.
 
+### Sensor filter choices
+
+For a first-party key with `datasources:read`, load metadata in the configured
+organisation and mandate. Use it to populate ExampleApp's superadmin filters:
+
+```ts
+const city = service.forElement(elementId, { mandateId });
+const inventory = await city.datasources();
+const tags = [
+  ...new Map(
+    inventory.flatMap((sensor) => (sensor.tags ?? []).map((tag) => [tag.id, tag] as const)),
+  ).values(),
+];
+const sensorTypes = [
+  ...new Set(inventory.flatMap((sensor) => (sensor.sensor_type ? [sensor.sensor_type] : []))),
+];
+
+const filtered = await city.datasources({ sensorType: selectedType, tagIds: selectedTagIds });
+```
+
+Multiple selected tags require all tags to match. Sensor types use exact,
+case-sensitive values; they are device types, not the broader data categories.
+The gateway returns only metadata for permitted sensors. It excludes device
+credentials and internal property IDs from service-token responses.
+
+Protect this route with your app's superadmin authorization. Scope caches by
+organisation, mandate and credential permissions; include filters in result-cache
+keys and refresh choices after configuration changes. Treat tag names as display
+text, not HTML. Apply ExampleApp's publication rules on the server before returning
+anything to citizens: these filters narrow a query, not the API key's permissions.
+Keep the key and peer inventories out of browser code. See
+[filter semantics and migration notes](querying-data.md#sensor-types-and-tags).
+
 ## Advanced credential types (optional)
 
 The one-copy API key packages the credential ID and random secret together. The

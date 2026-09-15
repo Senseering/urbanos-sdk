@@ -4,7 +4,10 @@
  * serve real and demo modes with no branching. */
 import { aggregate, parseBucket } from '../timeseries/aggregate.js';
 import type { Category } from '../classify/classify.js';
+import { matchesDatasourceFilters, validateDatasourceFilters } from './datasource-filters.js';
 import type {
+  DatasourceListOptions,
+  DatasourceTag,
   DatasourceView,
   ElementView,
   QueryResult,
@@ -25,6 +28,8 @@ export interface DemoEntity {
   lat: number;
   long: number;
   streams: DemoStream[];
+  sensor_type?: string;
+  tags?: DatasourceTag[];
 }
 
 /** A deterministic demo dataset. `sample` returns the value for a stream at a
@@ -52,9 +57,9 @@ export class DemoTransport implements Transport {
     return Promise.resolve({ id: this.dataset.tenant.id, name: this.dataset.tenant.name });
   }
 
-  listDatasources(opts?: { category?: string }): Promise<DatasourceView[]> {
+  async listDatasources(opts?: DatasourceListOptions): Promise<DatasourceView[]> {
+    validateDatasourceFilters(opts);
     const views = this.dataset.entities
-      .filter((e) => !opts?.category || e.category === opts.category)
       .map((e) => ({
         id: e.id,
         element_id: this.dataset.tenant.id,
@@ -63,7 +68,10 @@ export class DemoTransport implements Transport {
         lat: e.lat,
         long: e.long,
         streams: e.streams,
-      }));
+        ...(e.sensor_type ? { sensor_type: e.sensor_type } : {}),
+        ...(e.tags ? { tags: e.tags.map((tag) => ({ ...tag })) } : {}),
+      }))
+      .filter((ds) => matchesDatasourceFilters(ds, opts));
     return Promise.resolve(views);
   }
 

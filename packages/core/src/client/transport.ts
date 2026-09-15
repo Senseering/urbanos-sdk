@@ -9,6 +9,19 @@ export interface StreamView {
   unit: string;
 }
 
+export interface DatasourceTag {
+  id: number;
+  name: string;
+}
+
+export interface DatasourceListOptions {
+  category?: string;
+  /** Exact, case-sensitive sensor type. First-party gateway clients only. */
+  sensorType?: string;
+  /** Match ALL selected tag IDs (at most 50). Empty means no tag filter. First-party only. */
+  tagIds?: number[];
+}
+
 export interface DatasourceView {
   id: number;
   element_id: number;
@@ -17,6 +30,9 @@ export interface DatasourceView {
   lat: number;
   long: number;
   streams: StreamView[];
+  /** First-party metadata; omitted if unavailable or not authorised. */
+  sensor_type?: string;
+  tags?: DatasourceTag[];
 }
 
 export interface AggregateSpec {
@@ -56,7 +72,7 @@ export interface ElementView {
 
 export interface Transport {
   getElement(): Promise<ElementView>;
-  listDatasources(opts?: { category?: string }): Promise<DatasourceView[]>;
+  listDatasources(opts?: DatasourceListOptions): Promise<DatasourceView[]>;
   queryTimeseries(queries: TimeseriesQuery[]): Promise<QueryResult[]>;
   getStorage(key: string): Promise<unknown>;
   putStorage(key: string, value: unknown): Promise<void>;

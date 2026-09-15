@@ -63,17 +63,57 @@ const parking = await client.datasources({ category: 'parking' });
 ```ts
 interface DatasourceView {
   id: number;
-  element_id: number; // note: snake_case, the only one in the public DTOs
+  element_id: number; // Wire metadata uses snake_case.
   name: string;
   category: string;
   lat: number;
   long: number; // "long", not "lng" or "lon"
   streams: { id: number; name: string; unit: string }[];
+  sensor_type?: string; // First-party metadata; may be absent.
+  tags?: { id: number; name: string }[];
 }
 ```
 
 Requires `datasources:read`. An unknown category is not an error — you get an empty
 list.
+
+### Sensor types and tags
+
+First-party clients can read sensor types and tags and filter by them:
+
+```ts
+const sensors = await client.datasources({
+  category: 'ble',
+  sensorType: 'ble-scanner', // Use an actual sensor_type from your inventory.
+  tagIds: [7, 8], // Use tag IDs from your inventory, not tag names.
+});
+```
+
+Filters combine with AND: a sensor must match the category, the exact
+case-sensitive sensor type, and **all** selected tags. Omit a filter or pass
+`tagIds: []` to leave that dimension unrestricted. Unknown types or IDs return
+an empty list. Types allow up to 256 characters; tag lists allow up to 50 positive
+safe integer IDs. Invalid SDK inputs reject with `RangeError`.
+
+The HTTP parameters are `category`, `sensor_type`, and comma-separated `tag_ids`.
+The gateway requires `datasources:read` and retains organisation, mandate and
+credential checks. Non-first-party clients receive HTTP 403 for metadata filters;
+their responses omit these metadata fields. Filters cannot grant access to
+measurements or replace your application's citizen-publication rules.
+
+Build filter choices from an unfiltered `client.datasources()` call in the
+selected organisation/mandate context. Deduplicate tags by ID and types by value;
+do not fetch a platform-wide taxonomy or infer labels from IDs. See the
+[server-side picker example](server-credentials.md#sensor-filter-choices).
+
+Migration note: custom transports should accept `DatasourceListOptions` and
+implement its AND semantics, or reject unsupported filters instead of ignoring
+them. Existing category-only calls and datasets remain valid. `DatasourceView`
+and `DemoEntity` now allow optional `sensor_type` and `tags`; handle absent fields.
+The SDK applies filters to HTTP results too, so older gateways cannot return a
+broader SDK list by ignoring new parameters. Sensors without the requested
+metadata do not match. Deploy gateway support before relying on direct HTTP
+filters. These contract changes follow the SDK's major-release policy.
 
 ### Categories
 
