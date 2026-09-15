@@ -47,6 +47,11 @@ export interface QueryResult {
 export interface ElementView {
   id: number;
   name: string;
+  /**
+   * Authorised mandate names for service tokens with element:read.
+   * Absent for user tokens or older gateways; [] means no authorised mandates.
+   */
+  mandates?: Array<{ id: number; name: string }>;
 }
 
 export interface Transport {

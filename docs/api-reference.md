@@ -73,6 +73,11 @@ interface UrbanOSServiceClientOptions {
 Node 22+ and ESM only. This export rejects browser use. See
 [Server credentials](server-credentials.md).
 
+With `element:read`, a service client's `element()` result can include
+`mandates?: Array<{ id: number; name: string }>` containing permitted mandate
+names. A missing field indicates an older gateway or user-token response; an
+empty array indicates no permitted mandates. Directory discovery stays ID-only.
+
 ### Transport
 
 ```ts

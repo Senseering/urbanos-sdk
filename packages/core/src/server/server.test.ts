@@ -7,6 +7,34 @@ import { UrbanOSServiceClient } from './index.js';
 describe('UrbanOSServiceClient', () => {
   const apiKey = `uos_api_uos_sc_${'a'.repeat(24)}.uos_ss_${'b'.repeat(64)}`;
 
+  it.each([
+    { id: 42, name: 'Test city', mandates: [{ id: 100, name: 'City park' }] },
+    { id: 42, name: 'Test city', mandates: [] },
+    { id: 42, name: 'Test city' },
+  ])('preserves named, empty and absent mandate metadata: %j', async (metadata) => {
+    const service = new UrbanOSServiceClient({
+      baseUrl: 'https://api.udp.city',
+      apiKey,
+      fetchImpl: async (input) => {
+        await Promise.resolve();
+        if (requestURL(input).endsWith('/oauth/token')) {
+          return jsonResponse({
+            access_token: 'token',
+            expires_in: 900,
+            scope: 'element:read',
+            element_id: 42,
+          });
+        }
+        return jsonResponse(metadata);
+      },
+    });
+    const element = await service.forElement(42).element();
+    expect(element).toEqual(metadata);
+    expect(element.mandates?.map((m) => ({ id: m.id, name: m.name }))).toEqual(
+      'mandates' in metadata ? metadata.mandates : undefined,
+    );
+  });
+
   it('caches by organisation and mandate and preserves selection on expiry/401 renewal', async () => {
     let now = Date.now();
     const clock = vi.spyOn(Date, 'now').mockImplementation(() => now);

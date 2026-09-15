@@ -168,6 +168,40 @@ For direct OAuth calls, add `mandate_id` alongside `element_id` to the
 form-encoded `client_credentials` request. Directory requests do not accept a
 mandate selection.
 
+### Load mandate names for an administrator's picker
+
+Directory discovery returns IDs. Resolve display names with a data token for
+each permitted organisation:
+
+```ts
+const targets = await service.listTargets();
+for (const target of targets) {
+  const organisation = await service.forElement(target.elementId).element();
+  if (organisation.mandates === undefined) {
+    throw new Error('This gateway does not provide service mandate names yet');
+  }
+  const permitted = new Set(target.mandateIds);
+  const choices = organisation.mandates.filter((mandate) => permitted.has(mandate.id));
+  // Each choice has { id, name }. Show it only in your authorised admin UI.
+}
+```
+
+The key needs `element:read`. Single-organisation keys can skip discovery and
+read `service.forElement(elementId).element()` using their configured organisation.
+A client created with `{ mandateId }` receives only that mandate's name. The
+gateway checks current permissions and any signed mandate restrictions; names
+do not grant membership or a user role. Do not call `/v1/me/mandates` with a server
+credential: it requires a user session and returns HTTP 403.
+
+Migration note: `ElementView.mandates` is optional. An absent field means an older
+gateway or a user-token response; `[]` means no authorised mandates. Existing
+`element()` calls and custom transports need no changes. Handle absence before
+offering a named picker, and avoid guessing names from IDs. Deploy gateway support
+before enabling the picker. This DTO change follows the SDK's major-release policy.
+
+Keep names in your authorised setup interface. Avoid public caches or exposing
+peer names in citizen views and benchmark responses.
+
 ## Advanced credential types (optional)
 
 The one-copy API key packages the credential ID and random secret together. The
