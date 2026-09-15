@@ -7,6 +7,93 @@ import { UrbanOSServiceClient } from './index.js';
 describe('UrbanOSServiceClient', () => {
   const apiKey = `uos_api_uos_sc_${'a'.repeat(24)}.uos_ss_${'b'.repeat(64)}`;
 
+  it('caches by organisation and mandate and preserves selection on expiry/401 renewal', async () => {
+    let now = Date.now();
+    const clock = vi.spyOn(Date, 'now').mockImplementation(() => now);
+    const acquisitions: string[] = [];
+    let unauthorized = false;
+    const service = new UrbanOSServiceClient({
+      baseUrl: 'https://api.udp.city',
+      apiKey,
+      fetchImpl: async (input, init) => {
+        await Promise.resolve();
+        if (requestURL(input).endsWith('/oauth/token')) {
+          const form = init?.body as URLSearchParams;
+          const elementId = Number(form.get('element_id'));
+          const mandateId = Number(form.get('mandate_id'));
+          acquisitions.push(`${elementId}:${mandateId}`);
+          return jsonResponse({
+            access_token: `token-${elementId}-${mandateId}-${acquisitions.length}`,
+            expires_in: 60,
+            scope: 'element:read',
+            element_id: elementId,
+            mandate_id: mandateId,
+            mandate_ids: mandateId ? [mandateId] : [],
+          });
+        }
+        if (unauthorized) {
+          unauthorized = false;
+          return new Response(null, { status: 401 });
+        }
+        return jsonResponse({ id: 42 });
+      },
+    });
+    try {
+      await Promise.all([
+        service.forElement(42, { mandateId: 100 }).element(),
+        service.forElement(42, { mandateId: 100 }).element(),
+        service.forElement(42, { mandateId: 101 }).element(),
+        service.forElement(84, { mandateId: 200 }).element(),
+        service.forElement(42).element(),
+      ]);
+      expect(acquisitions.sort()).toEqual(['42:0', '42:100', '42:101', '84:200']);
+      await expect(service.forElement(42, { mandateId: 100 }).mandateId()).resolves.toBe(100);
+      await expect(service.forElement(42).mandateId()).resolves.toBeUndefined();
+      now += 31_000;
+      await service.forElement(42, { mandateId: 100 }).element();
+      unauthorized = true;
+      await service.forElement(42, { mandateId: 100 }).element();
+      expect(acquisitions.slice(4)).toEqual(['42:100', '42:100']);
+    } finally {
+      clock.mockRestore();
+    }
+  });
+
+  it.each([
+    {},
+    { mandate_id: 101, mandate_ids: [101] },
+    { mandate_id: 100, mandate_ids: [100, 101] },
+    { element_id: 84, mandate_id: 100, mandate_ids: [100] },
+  ])('rejects ignored or inconsistent runtime binding before data access: %j', async (binding) => {
+    let calls = 0;
+    const service = new UrbanOSServiceClient({
+      baseUrl: 'https://api.udp.city',
+      apiKey,
+      fetchImpl: async () => {
+        await Promise.resolve();
+        calls++;
+        return jsonResponse({
+          access_token: 'too-broad',
+          expires_in: 900,
+          element_id: 42,
+          ...binding,
+        });
+      },
+    });
+    await expect(service.forElement(42, { mandateId: 100 }).element()).rejects.toThrow(
+      'mandate binding',
+    );
+    expect(calls).toBe(1);
+  });
+
+  it.each([0, -1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1])(
+    'rejects invalid mandate %s locally',
+    (mandateId) => {
+      const service = new UrbanOSServiceClient({ baseUrl: 'https://api.udp.city', apiKey });
+      expect(() => service.forElement(42, { mandateId })).toThrow('positive safe integer');
+    },
+  );
+
   it('uses one API key without requiring scopes or exposing it to data endpoints', async () => {
     const requests: Array<{ url: string; init?: RequestInit }> = [];
     const service = new UrbanOSServiceClient({

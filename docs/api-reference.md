@@ -36,7 +36,10 @@ class UrbanOSClient {
 class UrbanOSServiceClient {
   constructor(opts: UrbanOSServiceClientOptions | UrbanOSApiKeyClientOptions);
   listTargets(): Promise<ServiceTarget[]>;
-  forElement(elementId: number): UrbanOSClient;
+  forElement(elementId: number, options?: ServiceElementOptions): UrbanOSClient;
+}
+interface ServiceElementOptions {
+  mandateId?: number;
 }
 interface ServiceTarget {
   elementId: number;

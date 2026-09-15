@@ -32,6 +32,11 @@ export interface ServiceTarget {
   mandateIds: number[];
 }
 
+export interface ServiceElementOptions {
+  /** Narrow reads to this mandate plus organisation-level data. */
+  mandateId?: number;
+}
+
 export interface UrbanOSServiceClientOptions {
   baseUrl: string;
   credential: UrbanOSServiceCredential;
@@ -72,6 +77,7 @@ interface TokenResponse {
   expires_in: number;
   scope: string;
   element_id?: number;
+  mandate_id?: number;
   mandate_ids?: number[];
 }
 
@@ -95,7 +101,7 @@ export class UrbanOSServiceClient {
   private readonly tokenAudience: string;
   private readonly tokenSkewMs: number;
   private readonly assertionKey?: KeyObject;
-  private readonly providers = new Map<number, ServiceTokenProvider>();
+  private readonly providers = new Map<string, ServiceTokenProvider>();
   private directoryToken?: CachedToken;
   private directoryInFlight?: Promise<CachedToken>;
 
@@ -172,14 +178,19 @@ export class UrbanOSServiceClient {
     }));
   }
 
-  forElement(elementId: number): UrbanOSClient {
+  forElement(elementId: number, options: ServiceElementOptions = {}): UrbanOSClient {
     if (!Number.isSafeInteger(elementId) || elementId <= 0) {
       throw new TypeError('elementId must be a positive safe integer');
     }
-    let provider = this.providers.get(elementId);
+    const { mandateId } = options;
+    if (mandateId !== undefined && (!Number.isSafeInteger(mandateId) || mandateId <= 0)) {
+      throw new TypeError('mandateId must be a positive safe integer');
+    }
+    const cacheKey = `${elementId}:${mandateId ?? 0}`;
+    let provider = this.providers.get(cacheKey);
     if (!provider) {
-      provider = new ServiceTokenProvider(this, elementId);
-      this.providers.set(elementId, provider);
+      provider = new ServiceTokenProvider(this, elementId, mandateId);
+      this.providers.set(cacheKey, provider);
     }
     return new UrbanOSClient(
       new HttpTransport({ baseUrl: this.baseUrl, tokens: provider, fetchImpl: this.fetchImpl }),
@@ -187,8 +198,8 @@ export class UrbanOSServiceClient {
     );
   }
 
-  async acquireElementToken(elementId: number): Promise<CachedToken> {
-    return this.requestToken(DATA_AUDIENCE, elementId, this.opts.scopes);
+  async acquireElementToken(elementId: number, mandateId?: number): Promise<CachedToken> {
+    return this.requestToken(DATA_AUDIENCE, elementId, this.opts.scopes, mandateId);
   }
 
   isFresh(token: AccessToken): boolean {
@@ -221,9 +232,11 @@ export class UrbanOSServiceClient {
     audience: string,
     elementId: number | undefined,
     scopes: string[],
+    mandateId?: number,
   ): Promise<CachedToken> {
     const form = new URLSearchParams({ grant_type: 'client_credentials', audience });
     if (elementId !== undefined) form.set('element_id', String(elementId));
+    if (mandateId !== undefined) form.set('mandate_id', String(mandateId));
     if (scopes.length > 0) form.set('scope', scopes.join(' '));
     const headers: Record<string, string> = {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -252,12 +265,24 @@ export class UrbanOSServiceClient {
     if (!body.access_token || !Number.isFinite(body.expires_in) || body.expires_in <= 0) {
       throw new GatewayError('token endpoint returned an invalid response', 502);
     }
+    // Older gateways ignored machine mandate_id. Never silently use their
+    // broader token when the application explicitly requested a mandate.
+    if (
+      mandateId !== undefined &&
+      (body.element_id !== elementId ||
+        body.mandate_id !== mandateId ||
+        body.mandate_ids?.length !== 1 ||
+        body.mandate_ids[0] !== mandateId)
+    ) {
+      throw new GatewayError('token endpoint did not confirm the requested mandate binding', 502);
+    }
     return {
       token: {
         accessToken: body.access_token,
         expiresAt: Date.now() + body.expires_in * 1000,
         scopes: body.scope ? body.scope.split(/\s+/) : [],
         tenantId: body.element_id ?? 0,
+        mandateId: body.mandate_id || undefined,
       },
       mandateIds: body.mandate_ids ?? [],
     };
@@ -290,6 +315,7 @@ class ServiceTokenProvider implements TokenProvider {
   constructor(
     private readonly service: UrbanOSServiceClient,
     private readonly elementId: number,
+    private readonly mandateId?: number,
   ) {}
 
   async getToken(): Promise<AccessToken> {
@@ -305,7 +331,7 @@ class ServiceTokenProvider implements TokenProvider {
   private acquire(): Promise<CachedToken> {
     if (this.inFlight) return this.inFlight;
     this.inFlight = this.service
-      .acquireElementToken(this.elementId)
+      .acquireElementToken(this.elementId, this.mandateId)
       .then((token) => {
         this.cached = token;
         return token;

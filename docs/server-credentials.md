@@ -98,9 +98,19 @@ merely because its app client is first-party.
 The optional **Only where a particular app is enabled** setting intersects that
 organisation choice with current app enablement. Use it for your app's
 app-participation policy. Existing app-restricted platform keys retain that
-restriction. Without it, selected/all keys include all mandates in each permitted
-organisation, regardless of catalog app enablement. Discovery still returns only
-IDs, and each data token still covers exactly one organisation.
+restriction. Without it, selected/all keys do not depend on catalog app enablement.
+
+**Limit access to selected mandates** narrows the organisation choice to up to
+500 mandates. Discovery returns only organisations with a selected, eligible
+mandate, and only those mandate IDs. The key can read those mandates and their
+organisation-level data; new or unselected mandates remain inaccessible. An app
+restriction, if enabled, must also permit each selected mandate. Deleting the
+last selected mandate removes access. Storage remains shared per app and
+organisation, not per mandate.
+
+Without mandate selection, keys keep their current/future-mandate behaviour.
+Discovery returns only IDs, and each data token covers exactly one organisation.
+The existing SDK supports both choices without additional configuration.
 
 Use the gateway organisation ID displayed in urbanOS or returned by discovery,
 not the internal organisation-management ID. To change a credential's target
@@ -114,8 +124,49 @@ does not add storage or other permissions that the key lacks.
 `listTargets()` uses a five-minute directory token. It returns only element and
 mandate IDs eligible for this app—not organization names and not data. Each
 `forElement()` client obtains its own 15-minute organization-bound token. Token
-requests are cached and coalesced per organization; a gateway `401` triggers one
+requests are cached and coalesced per organization and selected mandate; a gateway `401` triggers one
 renewal and one retry.
+
+### Choose a mandate inside your application
+
+ExampleApp's superadmin can save an organisation and mandate in ExampleApp's own
+server-side configuration. Use that choice with the same API key:
+
+```ts
+// Read settings saved through your backend's superadmin-only setup route.
+const { elementId, mandateId } = appSettings;
+const city = service.forElement(elementId, { mandateId });
+const sensors = await city.datasources();
+```
+
+You do not need a new key or an urbanOS user login when changing this selection.
+The key must already permit the chosen organisation and mandate. The gateway
+checks mandate ownership and current permissions before issuing a token and on
+subsequent requests. Tokens include the selected mandate; requests cannot switch
+to another mandate by changing a sensor ID. Datasources owned by other mandates
+remain excluded, including those marked shared or visible to all. Organisation-level
+datasources remain available.
+
+Omit the options to keep `service.forElement(elementId)`'s existing behaviour.
+Separate clients have separate token caches for each organisation/mandate pair;
+renewal preserves the selection. IDs must be positive safe integers. Platform
+keys can use `listTargets()` to discover permitted mandate IDs. Single-organisation
+keys can use IDs supplied during onboarding without directory access.
+
+The optional mandate restriction when **creating a key** defines its maximum
+permissions. This runtime choice narrows a request within those permissions.
+ExampleApp must protect the setup route with its own superadmin authorization and
+resolve the saved choice on its backend. Do not let citizens choose arbitrary
+organisation or mandate IDs. Scope ExampleApp's data caches by both IDs and clear
+published results when changing the configuration. App storage remains shared
+per app and organisation, so namespace mandate-specific settings yourself.
+
+Deploy a gateway supporting runtime `mandate_id` before using this SDK option.
+The SDK rejects responses that omit or contradict the selected binding, including
+responses from older gateways that ignore it. It does not retry with broader access.
+For direct OAuth calls, add `mandate_id` alongside `element_id` to the
+form-encoded `client_credentials` request. Directory requests do not accept a
+mandate selection.
 
 ## Advanced credential types (optional)
 
