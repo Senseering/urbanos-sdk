@@ -137,6 +137,29 @@ You rarely need `classify()` — the server sends the category. It exists so dem
 classifies identically. Note `CATEGORIES` includes `'generic'`; you probably want to
 exclude it from a filter UI.
 
+### Legacy units and display conversions
+
+The gateway and `DemoTransport` reproduce the legacy app's exact-name lookup.
+They retain nonblank source units and fill blank units from the known stream-name
+table, without device-profile checks. Unknown names retain an empty unit.
+
+For returned measurement values, `pressure` and `pressure_hpa` multiply values
+below 10,000 by 100; `uv` divides by 227. Other names remain unchanged. These
+display conversions run once **after** aggregation, if requested, and regardless
+of the source unit. This preserves legacy quirks: an explicit `hPa` label stays
+unchanged even if the corresponding pressure number is multiplied by 100.
+The rules reproduce display behavior; they do not validate units or calibrate
+devices. The approximate UV scaling is not a verified UV index and must not
+support health or sun-exposure advice.
+
+**Migration:** remove client-side conversions for gateway responses and clear
+cached metadata/readings on rollout. In particular, applying `uv / 227` twice
+produces an incorrect value. `HttpTransport` does not convert responses again.
+Supply original, unconverted samples and source units to demo datasets. The SDK
+release includes a major changeset for these changed numeric semantics. Coordinate
+the gateway deployment with consumers; there is no raw-value opt-out parameter.
+Stored database/datacore samples remain unchanged.
+
 ## Timeseries
 
 `client.timeseries(streamId)` returns a chainable builder. Nothing happens until
@@ -170,7 +193,8 @@ If you pass both, `from`/`until` win over `last`.
 
 - **Functions:** `avg`, `min`, `max`, `sum`
 - **Gap fill:** `zero`, `last-value`, `linear-interpol`, or omit
-- Omit `.aggregate()` entirely for raw samples.
+- Omit `.aggregate()` for unaggregated samples. Values still include the
+  [legacy display conversions](#legacy-units-and-display-conversions).
 
 Buckets are aligned to the **UTC epoch**, and the result spans the bucket containing
 your first sample through the one containing your last — it is **not** padded out to

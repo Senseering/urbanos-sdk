@@ -5,6 +5,7 @@
 import { aggregate, parseBucket } from '../timeseries/aggregate.js';
 import type { Category } from '../classify/classify.js';
 import { matchesDatasourceFilters, validateDatasourceFilters } from './datasource-filters.js';
+import { streamDisplayUnit, streamDisplayValue } from './stream-display.js';
 import type {
   DatasourceListOptions,
   DatasourceTag,
@@ -67,7 +68,7 @@ export class DemoTransport implements Transport {
         category: e.category,
         lat: e.lat,
         long: e.long,
-        streams: e.streams,
+        streams: e.streams.map((s) => ({ ...s, unit: streamDisplayUnit(s.name, s.unit) })),
         ...(e.sensor_type ? { sensor_type: e.sensor_type } : {}),
         ...(e.tags ? { tags: e.tags.map((tag) => ({ ...tag })) } : {}),
       }))
@@ -77,7 +78,10 @@ export class DemoTransport implements Transport {
 
   queryTimeseries(queries: TimeseriesQuery[]): Promise<QueryResult[]> {
     const results = queries.map((q): QueryResult => {
-      if (!this.streamExists(q.streamId)) {
+      const stream = this.dataset.entities
+        .flatMap((e) => e.streams)
+        .find((s) => s.id === q.streamId);
+      if (!stream) {
         return { streamId: q.streamId, status: 404, error: 'not found', points: [] };
       }
       const until = q.until ? new Date(q.until) : new Date();
@@ -87,7 +91,10 @@ export class DemoTransport implements Transport {
         return {
           streamId: q.streamId,
           status: 200,
-          points: raw.map((s) => ({ t: s.t.toISOString(), v: s.v })),
+          points: raw.map((s) => ({
+            t: s.t.toISOString(),
+            v: streamDisplayValue(stream.name, s.v),
+          })),
         };
       }
       const buckets = aggregate(
@@ -99,7 +106,10 @@ export class DemoTransport implements Transport {
       return {
         streamId: q.streamId,
         status: 200,
-        points: buckets.map((b) => ({ t: b.t.toISOString(), v: b.v })),
+        points: buckets.map((b) => ({
+          t: b.t.toISOString(),
+          v: streamDisplayValue(stream.name, b.v),
+        })),
       };
     });
     return Promise.resolve(results);
@@ -112,10 +122,6 @@ export class DemoTransport implements Transport {
   putStorage(key: string, value: unknown): Promise<void> {
     this.storage.set(key, value);
     return Promise.resolve();
-  }
-
-  private streamExists(streamId: number): boolean {
-    return this.dataset.entities.some((e) => e.streams.some((s) => s.id === streamId));
   }
 
   private rawSamples(streamId: number, from: Date, until: Date): { t: Date; v: number }[] {

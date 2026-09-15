@@ -235,6 +235,15 @@ anything to citizens: these filters narrow a query, not the API key's permission
 Keep the key and peer inventories out of browser code. See
 [filter semantics and migration notes](querying-data.md#sensor-types-and-tags).
 
+### Reading units and values
+
+Sensor metadata includes stream-name unit fallbacks. Timeseries responses also
+include the legacy pressure and UV display conversions. See
+[conversion rules and migration requirements](querying-data.md#legacy-units-and-display-conversions).
+Remove duplicate conversion logic and clear ExampleApp's metadata/reading caches
+when deploying the gateway change. These are compatibility heuristics, not
+device calibration or a guarantee that source units are correct.
+
 ## Advanced credential types (optional)
 
 The one-copy API key packages the credential ID and random secret together. The

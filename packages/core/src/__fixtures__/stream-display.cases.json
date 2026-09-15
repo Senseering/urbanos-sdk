@@ -1,0 +1,726 @@
+{
+  "version": 1,
+  "description": "Legacy stream-name units and post-query display conversions; exact compatibility, not device calibration.",
+  "cases": [
+    {
+      "id": "unit-temperature",
+      "name": "temperature",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-temperature_c",
+      "name": "temperature_c",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-temp_avg_c",
+      "name": "temp_avg_c",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-temp_min_c",
+      "name": "temp_min_c",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-temp_max_c",
+      "name": "temp_max_c",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-internal_temperature_c",
+      "name": "internal_temperature_c",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-temp_SOIL1",
+      "name": "temp_SOIL1",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-temp_DS18B20",
+      "name": "temp_DS18B20",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-water_temperature_c",
+      "name": "water_temperature_c",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-Air_Temperature",
+      "name": "Air_Temperature",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-frost_point_c",
+      "name": "frost_point_c",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-dew_point_c",
+      "name": "dew_point_c",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-humidity",
+      "name": "humidity",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-humidity_percent",
+      "name": "humidity_percent",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-humidity_rh",
+      "name": "humidity_rh",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-internal_humidity",
+      "name": "internal_humidity",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-Air_Humidity",
+      "name": "Air_Humidity",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-pressure",
+      "name": "pressure",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "Pa",
+      "expectedValue": 2000
+    },
+    {
+      "id": "unit-pressure_hpa",
+      "name": "pressure_hpa",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "Pa",
+      "expectedValue": 2000
+    },
+    {
+      "id": "unit-Barometric_Pressure",
+      "name": "Barometric_Pressure",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "Pa",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-pressure_pa",
+      "name": "pressure_pa",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "Pa",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-battery",
+      "name": "battery",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "V",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-BatV",
+      "name": "BatV",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "V",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-battery_voltage",
+      "name": "battery_voltage",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "V",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-battery_voltage_v",
+      "name": "battery_voltage_v",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "V",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-battery_percent",
+      "name": "battery_percent",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-battery_level",
+      "name": "battery_level",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-battery_charging_status",
+      "name": "battery_charging_status",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-charging_type",
+      "name": "charging_type",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-co2",
+      "name": "co2",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "ppm",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-LAeq",
+      "name": "LAeq",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "dB(A)",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-LAImax",
+      "name": "LAImax",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "dB(A)",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-LAI",
+      "name": "LAI",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "dB(A)",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-pm1_ugm3",
+      "name": "pm1_ugm3",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "µg/m³",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-pm2_5_ugm3",
+      "name": "pm2_5_ugm3",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "µg/m³",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-pm10_ugm3",
+      "name": "pm10_ugm3",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "µg/m³",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-water_level",
+      "name": "water_level",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "cm",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-water_SOIL1",
+      "name": "water_SOIL1",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-conduct_SOIL1",
+      "name": "conduct_SOIL1",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "µS/cm",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-ph_value",
+      "name": "ph_value",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-electrical_conductivity",
+      "name": "electrical_conductivity",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "µS/cm",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-redox_potential",
+      "name": "redox_potential",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "mV",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-volumetric_moisture_0",
+      "name": "volumetric_moisture_0",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-volumetric_moisture_1",
+      "name": "volumetric_moisture_1",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-volumetric_moisture_2",
+      "name": "volumetric_moisture_2",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-volumetric_moisture_3",
+      "name": "volumetric_moisture_3",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-volumetric_moisture_4",
+      "name": "volumetric_moisture_4",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-volumetric_moisture_5",
+      "name": "volumetric_moisture_5",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "%",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-lux",
+      "name": "lux",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "lx",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-Light_Intensity",
+      "name": "Light_Intensity",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "lx",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-uv",
+      "name": "uv",
+      "storedUnit": "",
+      "value": 227,
+      "expectedUnit": "",
+      "expectedValue": 1
+    },
+    {
+      "id": "unit-UV_Index",
+      "name": "UV_Index",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-Wind_Speed",
+      "name": "Wind_Speed",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "m/s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-Peak_Wind_Gust",
+      "name": "Peak_Wind_Gust",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "m/s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-wind_ave",
+      "name": "wind_ave",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "m/s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-wind_stdev",
+      "name": "wind_stdev",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "m/s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-wind_3s_gust",
+      "name": "wind_3s_gust",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "m/s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-wind_3s_min",
+      "name": "wind_3s_min",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "m/s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-wind_1s_gust",
+      "name": "wind_1s_gust",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "m/s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-Wind_Direction_Sensor",
+      "name": "Wind_Direction_Sensor",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-dir_ave",
+      "name": "dir_ave",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-dir_1s_gust",
+      "name": "dir_1s_gust",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-dir_1s_stdev",
+      "name": "dir_1s_stdev",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-rain_mm",
+      "name": "rain_mm",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "mm",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-Rain_Accumulation",
+      "name": "Rain_Accumulation",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "mm",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-rain_intens",
+      "name": "rain_intens",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "mm/h",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-rain_clicks",
+      "name": "rain_clicks",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "clicks",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-rain_intensity_correction",
+      "name": "rain_intensity_correction",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "mm/h",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-rainfall_amount",
+      "name": "rainfall_amount",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "mm",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-irradiation_wm2",
+      "name": "irradiation_wm2",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "W/m²",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-irr_max_wm2",
+      "name": "irr_max_wm2",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "W/m²",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-irr_min_wm2",
+      "name": "irr_min_wm2",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "W/m²",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-resistance",
+      "name": "resistance",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "kΩ",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-solar",
+      "name": "solar",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "mV",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-gust_time",
+      "name": "gust_time",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-time_btwn",
+      "name": "time_btwn",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "s",
+      "expectedValue": 20
+    },
+    {
+      "id": "unit-temp above 2 deg",
+      "name": "temp above 2 deg",
+      "storedUnit": "",
+      "value": 20,
+      "expectedUnit": "°C",
+      "expectedValue": 20
+    },
+    {
+      "id": "pressure-at-threshold",
+      "name": "pressure",
+      "storedUnit": "",
+      "value": 10000,
+      "expectedUnit": "Pa",
+      "expectedValue": 10000
+    },
+    {
+      "id": "pressure-already-Pa",
+      "name": "pressure_hpa",
+      "storedUnit": "",
+      "value": 101300,
+      "expectedUnit": "Pa",
+      "expectedValue": 101300
+    },
+    {
+      "id": "pressure-hpa",
+      "name": "pressure_hpa",
+      "storedUnit": "",
+      "value": 1013,
+      "expectedUnit": "Pa",
+      "expectedValue": 101300
+    },
+    {
+      "id": "negative-pressure",
+      "name": "pressure",
+      "storedUnit": "",
+      "value": -2,
+      "expectedUnit": "Pa",
+      "expectedValue": -200
+    },
+    {
+      "id": "uv-double-conversion-guard",
+      "name": "uv",
+      "storedUnit": "",
+      "value": 454,
+      "expectedUnit": "",
+      "expectedValue": 2
+    },
+    {
+      "id": "uv-index-unchanged",
+      "name": "UV_Index",
+      "storedUnit": "",
+      "value": 4,
+      "expectedUnit": "",
+      "expectedValue": 4
+    },
+    {
+      "id": "explicit-unit",
+      "name": "temperature",
+      "storedUnit": "°F",
+      "value": 72,
+      "expectedUnit": "°F",
+      "expectedValue": 72
+    },
+    {
+      "id": "explicit-pressure-legacy",
+      "name": "pressure",
+      "storedUnit": "hPa",
+      "value": 1013,
+      "expectedUnit": "hPa",
+      "expectedValue": 101300
+    },
+    {
+      "id": "explicit-uv-legacy",
+      "name": "uv",
+      "storedUnit": "counts",
+      "value": 454,
+      "expectedUnit": "counts",
+      "expectedValue": 2
+    },
+    {
+      "id": "whitespace-unit",
+      "name": "co2",
+      "storedUnit": " \t",
+      "value": 800,
+      "expectedUnit": "ppm",
+      "expectedValue": 800
+    },
+    {
+      "id": "explicit-verbatim",
+      "name": "co2",
+      "storedUnit": " ppm ",
+      "value": 800,
+      "expectedUnit": " ppm ",
+      "expectedValue": 800
+    },
+    {
+      "id": "unknown",
+      "name": "unknown",
+      "storedUnit": "",
+      "value": 12,
+      "expectedUnit": "",
+      "expectedValue": 12
+    },
+    {
+      "id": "case-sensitive",
+      "name": "CO2",
+      "storedUnit": "",
+      "value": 800,
+      "expectedUnit": "",
+      "expectedValue": 800
+    }
+  ]
+}
