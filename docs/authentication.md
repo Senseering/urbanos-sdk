@@ -39,17 +39,17 @@ The checklist below covers browser-based user-login integrations. For server-onl
 access, follow [Server credentials](server-credentials.md); the redirect and
 browser CORS requirements below do not apply to backend token requests.
 
-### 1. Your organisation is approved as a developer
+### 1. An organisation administrator can register the app
 
-App clients can only be created by organisations that have been enabled for
-development. That's a platform-admin action.
-
-**Email mail@datamatters.io** to get your organisation approved.
+Every organisation can register app clients without separate developer approval.
+Registration requires an organisation administrator and allows five clients by
+default. Custom quotas and explicit platform suspensions still apply. Registering
+a client does not grant it access to another organisation's data.
 
 ### 2. You have a registered client
 
-Once approved, an admin of your organisation registers the app in the urbanOS shell
-under **Settings → Organization → App clients**. You get back a client id shaped like
+An admin of your organisation registers the app in the urbanOS shell under
+**Settings → Organization → API & SDK → App clients**. You get back a client id shaped like
 `uos_c_abc123…`.
 
 At registration you set:

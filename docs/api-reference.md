@@ -603,3 +603,19 @@ These packages exist and publish, but export only a version constant:
 Workarounds: wire the Vue plugin manually on Nuxt; read theme values from the bridge
 context; validate manifests with `validateAppManifest()`; copy
 [`examples/minimal-vanilla`](../examples/minimal-vanilla) to start a project.
+
+## Next core release: bounded reads
+
+The release containing these changes adds:
+
+- `createReadFetch(options?)`: 15-second requests, 8 MiB responses before JSON
+  decoding, at most four simultaneous reads and a bounded cancellable queue.
+- `ReadRequestError`: a `GatewayError` subclass that preserves the existing
+  `name`, `code` and `status`; `retryAfter` contains retry guidance when present.
+- `HttpTransport.historyPages(streamId, options)`: an async iterator over explicit
+  OAuth history pages. It does not prefetch, accumulate or automatically retry.
+- `HistoryRequest`, `HistoryPage`, `ReadFetchOptions`: additive types. Existing
+  `Transport`, `QueryResult` and storage contracts are unchanged.
+
+Use the package version containing this changeset. Published core 0.4.0 does
+not contain these exports. See [bounded reads](querying-data.md#bounded-reads-and-history-pages).

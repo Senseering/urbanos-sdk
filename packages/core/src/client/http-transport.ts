@@ -1,6 +1,8 @@
 /** HttpTransport talks to the gateway /v1 REST API, attaching the scoped app
  * token from a TokenProvider. */
 import type { AccessToken, TokenProvider } from '../auth/token-provider.js';
+import { walkHistory, type HistoryPage, type HistoryRequest } from './history.js';
+import { createReadFetch } from './read-fetch.js';
 import { AuthError, GatewayError } from '../errors/errors.js';
 import { matchesDatasourceFilters, validateDatasourceFilters } from './datasource-filters.js';
 import type {
@@ -34,7 +36,7 @@ export class HttpTransport implements Transport {
   private readonly fetchImpl: typeof fetch;
 
   constructor(private readonly opts: HttpTransportOptions) {
-    this.fetchImpl = opts.fetchImpl ?? fetch;
+    this.fetchImpl = createReadFetch({ fetchImpl: opts.fetchImpl });
   }
 
   /**
@@ -75,6 +77,7 @@ export class HttpTransport implements Transport {
     const res = await this.authedFetch(path, { method, body });
     if (res.status === 401) throw new AuthError();
     if (!res.ok) throw new GatewayError(`gateway responded ${res.status}`, res.status);
+    if (res.status === 204) return undefined as T;
     return (await res.json()) as T;
   }
 
@@ -117,6 +120,15 @@ export class HttpTransport implements Transport {
       error: x.error,
       points: x.points ?? [],
     }));
+  }
+
+  historyPages(
+    streamId: number,
+    options: HistoryRequest,
+  ): AsyncGenerator<HistoryPage, void, unknown> {
+    return walkHistory(this.opts.baseUrl, streamId, options, (path) =>
+      this.req<HistoryPage>('GET', path),
+    );
   }
 
   async getStorage(key: string): Promise<unknown> {

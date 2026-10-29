@@ -225,7 +225,7 @@ Before you get in touch:
 
 **Registration** (see [Authentication](authentication.md#before-you-write-any-code))
 
-- [ ] Organisation approved as a developer
+- [ ] An organisation administrator can register the client within its quota
 - [ ] Client registered; `clientId` in hand
 - [ ] Redirect URIs registered — exact strings, no trailing-slash drift
 - [ ] Browser origins registered for CORS (production _and_ dev)

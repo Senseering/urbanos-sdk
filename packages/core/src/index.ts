@@ -23,3 +23,6 @@ export * from './client/transport.js';
 export * from './client/demo-transport.js';
 export * from './client/http-transport.js';
 export * from './client/client.js';
+
+export * from './client/read-fetch.js';
+export type { HistoryPage, HistoryRequest } from './client/history.js';

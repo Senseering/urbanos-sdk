@@ -303,5 +303,47 @@ lack `data:read:<category>` for it. **Always check `status` before reading
 | Storage value size             | 16 KiB                      |
 | Access token lifetime          | 15 minutes (auto-refreshed) |
 
-There is no pagination and no maximum time range on timeseries queries today, and no
-rate limiting on `/v1` — don't take that as licence to hammer it.
+The legacy batch method returns one bounded response. For longer ranges, use
+the explicit history iterator described below. Gateway rate and response limits
+apply to both methods.
+
+## Bounded reads and history pages
+
+The gateway protects OAuth data reads and API-key data reads through the same
+upstream service. Existing `/v1` routes and `Transport` DTOs remain compatible.
+Normal batches accept up to 50 queries. A request may return at most 10,000
+points and consume at most 8 MiB of upstream data; the request deadline is 15
+seconds. Explicit legacy ranges may span at most 366 days. Oversized responses
+return 413 without truncation. Throttling returns 429 and `Retry-After`.
+
+The next core release adds built-in bounded fetching and an explicit history
+iterator. It retains `GatewayError` identity/status checks and adds
+`ReadRequestError.retryAfter`. It does not automatically retry 429 responses.
+These additions require the release containing this change; they are absent
+from the published core 0.4.0 tarball.
+
+```ts
+for await (const page of transport.historyPages(streamId, {
+  from: '2026-01-01T00:00:00Z',
+  until: '2026-01-02T00:00:00Z',
+  pageDuration: '1h',
+})) {
+  await savePage(page.points);
+  // Empty pages still cover an interval. Breaking stops further requests.
+}
+```
+
+History pages use `timestamp` and `value` (number or text), plus `covered_from`,
+`covered_until` and `next`. Their intervals include the start and exclude the
+end. The iterator validates continuation origin, stream, options and progress
+before sending another bearer token, including nanosecond timestamp boundaries.
+It requests one page at a time and never accumulates the whole history.
+
+OAuth history uses GET `/v1/streams/{streamId}/observations`. API-key reads use
+`/read/v1/organisations/{organisationId}/streams/{streamId}/observations`.
+Both use the same page validator, query service and projection. OAuth retains
+its current user/mandate/sharing policy; API keys retain their ownership and
+resource selections. API keys cannot replace OAuth tokens in the SDK.
+
+Browser and embedded apps keep OAuth. Keep long-lived API keys on trusted
+servers. App storage operations retain their existing routes and permissions.
