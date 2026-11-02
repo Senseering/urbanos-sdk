@@ -1,5 +1,11 @@
 # @datamatters-gmbh/urbanos-nuxt
 
+## 0.2.3
+
+### Patch Changes
+
+- @datamatters-gmbh/urbanos-vue@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes
