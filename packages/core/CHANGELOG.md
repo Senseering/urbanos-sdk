@@ -1,5 +1,63 @@
 # @datamatters-gmbh/urbanos-core
 
+## 1.0.0
+
+### Major Changes
+
+- 0803236: Match the gateway's legacy stream-name unit fallbacks and display-value
+  conversions in DemoTransport. Pressure values below 10,000 multiply by 100 for
+  `pressure` and `pressure_hpa`; `uv` values divide by 227. Conversions run once
+  after aggregation. Existing nonblank units stay unchanged, including legacy
+  cases where the label conflicts with a converted value.
+
+  Migration: supply original source units and unconverted samples to demo datasets.
+  Remove client-side conversions from gateway response handling and clear metadata
+  and reading caches at rollout. HttpTransport passes through gateway values without
+  converting them again. These rules reproduce legacy heuristics rather than
+  calibrating devices. See `docs/querying-data.md` for the compatibility limitations.
+
+- 853835e: Expose optional `ElementView.mandates` display metadata for server credentials.
+  Each entry contains an authorised mandate's `id` and `name`. Directory discovery
+  remains identifier-only. This major changeset follows the SDK's policy for
+  published Transport DTO changes.
+
+  Migration: existing `element()` calls and custom transports need no changes.
+  Handle a missing `mandates` field as an older gateway or user-token response;
+  an empty array means no authorised mandates. Resolve names using an
+  organisation-bound service client with `element:read`, not `/v1/me/mandates`,
+  which now rejects service credentials with HTTP 403. See the server-credentials
+  guide for named-picker examples and permission boundaries.
+
+- 7157560: Add typed sensor metadata and datasource filters for first-party clients.
+  `DatasourceView` and `DemoEntity` accept optional `sensor_type` and `tags`.
+  `DatasourceListOptions` adds exact `sensorType` and all-of `tagIds` filters to
+  `UrbanOSClient`, `HttpTransport` and `DemoTransport`.
+
+  Migration: custom transports must implement the new filter semantics or reject
+  unsupported filters. Existing category-only calls remain valid. Handle absent
+  metadata and build filter choices from the authorised inventory. See
+  `docs/querying-data.md` for limits and gateway rollout requirements.
+
+### Minor Changes
+
+- 3c85782: Bound live HTTP reads to 15 seconds and 8 MiB before decoding. Preserve OAuth
+  refresh and existing Transport methods, expose actionable errors and Retry-After,
+  and add explicit OAuth history pagination without changing legacy batch results.
+- 00aad9a: Add `service.forElement(elementId, { mandateId })` for backend applications that
+  choose a mandate with an existing server credential. Cache tokens per
+  organisation and mandate, preserve the selection during renewal, and reject
+  gateway responses that do not confirm the requested binding. Existing calls
+  without a mandate retain their behaviour.
+- 61d7f49: Add the server-only `UrbanOSServiceClient` with shared-secret and `private_key_jwt` authentication, target discovery, and coalesced per-organization token caching.
+- 8c4b2fc: Accept one server API key in UrbanOSServiceClient. The SDK handles token acquisition,
+  renewal and per-organisation caching; scopes can be omitted to use the key's approved
+  permissions. Existing credential types remain supported. Reject non-HTTPS remote
+  endpoints and token-endpoint redirects to protect server credentials.
+
+### Patch Changes
+
+- 61d7f49: Add the shared conformance case for outdoor air-temperature streams used by the Stadtwetter app.
+
 ## 0.4.0
 
 ### Minor Changes
